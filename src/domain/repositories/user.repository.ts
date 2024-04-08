@@ -1,6 +1,8 @@
-import { CreateUserDto } from "../dto/create-user.dto";
+
+import { CreateUserDTO } from "@/application/dto/user/create-user.dto";
 import { UserM } from "../modal/user.modal";
 
 export interface IUserRepository{
-    createUser(createUserDto: CreateUserDto): Promise<UserM>;
+    createUser(createUserDto: CreateUserDTO): Promise<UserM>;
+    getUserByEmail(email:string) : Promise<UserM>
 }

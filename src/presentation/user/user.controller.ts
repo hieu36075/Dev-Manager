@@ -1,6 +1,7 @@
-import { CreateAccountCommand } from "@/application/use-case/user/command/create-account.command";
-import { CreateUserDto } from "@/domain/dto/create-user.dto";
-import { UserRepositoryOrm } from "@/infrastructures/repositories/user.repository";
+import { CreateUserDTO } from "@/application/dto/user/create-user.dto";
+import { CreateAccountCommand } from "@/application/use-case/auth/command/createUser/create-account.command";
+
+import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
 import { Body, Controller, Post } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import { ApiTags } from "@nestjs/swagger";
@@ -15,7 +16,7 @@ export class UserController{
     }
 
     @Post()
-   async register(@Body()createUserDTO : CreateUserDto) : Promise<any>{
+   async register(@Body()createUserDTO : CreateUserDTO) : Promise<any>{
         return await this.commandBus.execute(new CreateAccountCommand(createUserDTO.email, createUserDTO.name, createUserDTO.password))
     }
 

@@ -1,5 +1,6 @@
-import { Tokens } from "../common/types/tokens.types";
-import { LoginDTO } from "../dto/auth/login.dto";
+import { LoginDTO } from "@/application/dto/auth/login.dto";
+import { Tokens } from "../../application/common/types/tokens.types";
+
 
 
 export interface IAuthRepository{

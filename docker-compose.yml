@@ -1,15 +1,35 @@
-version: '3'
+version: '3.9'
+
+networks:
+  backend:
+
 services:
   postgres:
-    image: postgres:15-alpine
-    volumes:
-      - postgresqldata:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+    container_name: postgres
+    image: postgres:latest
     environment:
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=teams1
-    restart: unless-stopped
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      PGADMIN_DEFAULT_SERVER: postgres
+    ports:
+      - '44072:5432'
+    networks:
+     - backend
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+     - backend
 
 volumes:
-  postgresqldata:
+  local_pgdata:
+  pgadmin-data:
