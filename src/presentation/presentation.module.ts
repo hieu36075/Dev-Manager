@@ -13,17 +13,32 @@ import { LoginHandler } from "@/application/use-case/auth/command/login/login.ha
 import { AuthController } from "./auth/auth.controller";
 import { GetAllUserQuery } from "@/application/use-case/user/queries/getAllUser/get-all-user.command";
 import { GetAllUserHandler } from "@/application/use-case/user/queries/getAllUser/get-all-user.handler";
+import { CreateProjectCommand } from "@/application/use-case/project/command/create-project/create-project.command";
+import { CreateProjectHandler } from "@/application/use-case/project/command/create-project/create-project.handler";
+import { ProjectController } from "./project/project.controller";
+import { JwtStrategy } from "@/application/common/strategies/jwt.strategy";
+import { UpdateProjectCommand } from "@/application/use-case/project/command/update-project/update-project.command";
+import { UpdateProjectHandler } from "@/application/use-case/project/command/update-project/update-project.handler";
+import { GetAllProjectQuery } from "@/application/use-case/project/queries/get-all-project/get-all-project.handler";
+import { GetAllProjectQueryHandler } from "@/application/use-case/project/queries/get-all-project/get-all-project.command";
+
 
 const CommandHandler = [
     CreateAccountCommand,
     CreateAccountHandler,
     LoginCommand,
-    LoginHandler
+    LoginHandler,
+    CreateProjectCommand,
+    CreateProjectHandler,
+    UpdateProjectCommand,
+    UpdateProjectHandler
   ]
 
 const QueryHandler = [
     GetAllUserQuery,
-    GetAllUserHandler
+    GetAllUserHandler,
+    GetAllProjectQuery,
+    GetAllProjectQueryHandler
 ]
 
 @Module({
@@ -35,11 +50,13 @@ const QueryHandler = [
     ],
     controllers: [
         UserController,
-        AuthController
+        AuthController,
+        ProjectController
     ],
     providers: [
         ...CommandHandler,
-        ...QueryHandler
+        ...QueryHandler,
+        JwtStrategy
     ],
 })
 export class PresentationModule { }

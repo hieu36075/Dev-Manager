@@ -28,7 +28,7 @@ export class Profile {
     email: string;
 
     @Column('varchar')
-    dayOrBirth: string;
+    dayOfBirth: string;
 
     @Column({
         type: 'enum',
@@ -44,13 +44,12 @@ export class Profile {
     })
     status: ProfileStatusEnum;
 
-    
 
-    @OneToMany(() => Skill, (skill) => skill.profile)
-    skills: Skill
+    @OneToMany(() => Skill, skill => skill.profile)
+    skills: Skill[];
 
-    @OneToMany(() => Position, (postion) => postion.profile)
-    postions: Position
+    @OneToMany(() => Position, position => position.profile)
+    positions: Position[];
 
     @Column('varchar')
     description: string

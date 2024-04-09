@@ -1,4 +1,4 @@
-import { UserM } from "./user.modal";
+import { UserM } from "./user.model";
 
 export class RoleM{
     id: string;

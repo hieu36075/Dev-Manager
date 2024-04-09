@@ -1,4 +1,4 @@
-import { RoleM } from "@/domain/modal/role.modal";
+import { RoleM } from "@/domain/model/role.model";
 import { IRoleRepository } from "@/domain/repositories/role.repository";
 import { Role } from "@/infrastructures/entities/role.entity";
 import { InjectRepository } from "@nestjs/typeorm";

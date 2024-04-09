@@ -20,6 +20,6 @@ import { Profile } from './profile.entity';
     @Column('varchar')
     description: string;
   
-    @ManyToOne(()=>Profile,(profile) => profile.postions)
+    @ManyToOne(()=>Profile,(profile) => profile.positions)
     profile: Profile
   }

@@ -32,8 +32,8 @@ import { ProjectStatusEnum } from '@/application/common/enums/project-status.enu
     @UpdateDateColumn({ name: 'end_date' })
     endDate: Date;
 
-    // @OneToMany(() => ProjectMember, projectMember => projectMember.project)
-    // projectMembers: ProjectMember[];
+    @OneToMany(() => ProjectMember, projectMember => projectMember.project)
+    projectMembers: ProjectMember[];
     
     @Column({
         type: 'enum',

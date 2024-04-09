@@ -1,4 +1,4 @@
-import { UserM } from "@/domain/modal/user.modal";
+import { UserM } from "@/domain/model/user.model";
 
 export class GetAllUserResponse {
   users: UserM[];

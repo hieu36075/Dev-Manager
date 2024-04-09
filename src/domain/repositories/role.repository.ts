@@ -1,4 +1,4 @@
-import { RoleM } from "../modal/role.modal";
+import { RoleM } from "../model/role.model";
 
 export interface IRoleRepository{
     // findAll():Promise<RoleM[]>

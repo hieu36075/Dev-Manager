@@ -1,6 +1,6 @@
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
-import { UserM } from "@/domain/modal/user.modal";
+import { UserM } from "@/domain/model/user.model";
 import { IJwtServicePayload } from "@/domain/adapter/token-service.repository";
 import { JwtTokenService } from "@/infrastructures/service/jwt/jwt.service";
 import { BcryptService } from "@/infrastructures/service/bcrypt/bcrypt.service";
@@ -22,14 +22,17 @@ export class LoginHandler implements ICommandHandler<LoginCommand>{
         const {email, password} = command
         try{   
             const user = await this.userRepository.getUserByEmail(email)
+            if(!user.role){
+                throw new ForbiddenException("Please check account")
+            }
             const verifyPassword = await this.bcryptService.compare(password,user.password )
-            
             if(!verifyPassword){
                 throw new ForbiddenException("Please check again")
             }
-            return await this.jwtService.createToken({id: user.id, username: user.userName, role: user.role.name})
+            return  await this.jwtService.createToken({id: user.id, username: user.userName, role: user.role.name})
         }catch(error){
-            throw new ForbiddenException()
+
+            throw new ForbiddenException(error)
         }
  
     }

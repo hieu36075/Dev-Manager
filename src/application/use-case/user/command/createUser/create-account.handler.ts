@@ -1,7 +1,7 @@
 import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { CreateAccountCommand } from "./create-account.command";
 import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
-import { UserM } from "@/domain/modal/user.modal";
+import { UserM } from "@/domain/model/user.model";
 import { IJwtServicePayload } from "@/domain/adapter/token-service.repository";
 import { JwtTokenService } from "@/infrastructures/service/jwt/jwt.service";
 import { BcryptService } from "@/infrastructures/service/bcrypt/bcrypt.service";
@@ -26,7 +26,6 @@ export class CreateAccountHandler implements ICommandHandler<CreateAccountComman
             const hashedPassword = await this.bcryptService.hash(password)
             const role = await this.roleRepository.findByName(Role.EMPLOYEE)
             const newUser = await this.userRepository.createUser({email: email, userName: userName, password: hashedPassword},role);
-            console.log(newUser)
             return newUser;
         }catch(error){
             throw new ForbiddenException("Invalid error")

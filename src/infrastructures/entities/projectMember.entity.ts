@@ -8,9 +8,9 @@ export class ProjectMember {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-//   @ManyToOne(() => Project, project => project.projectMembers)
-//   project: Project;
+  @ManyToOne(() => Project, project => project.projectMembers)
+  project: Project;
 
-//   @ManyToOne(() => User, user => user.projectMembers)
-//   user: User;
+  @ManyToOne(() => User, user => user.projectMembers)
+  user: User;
 }

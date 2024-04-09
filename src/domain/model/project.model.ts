@@ -1,11 +1,8 @@
-// project.modal.ts
-
-
 import { ProjectStatusEnum } from '@/application/common/enums/project-status.enum';
-import { ProjectMemberM } from './projectMember.modal';
+import { ProjectMemberM } from './projectMember.model';
 
-export class Project {
-    id:string;
+export class ProjectM {
+  id:string;
   name: string;
   description: string;
   startDate: Date;

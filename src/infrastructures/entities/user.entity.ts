@@ -39,10 +39,10 @@ export class User {
   role: Role;
 
 
-  // @OneToMany(() => ProjectMember, projectMember => projectMember.user)
-  // projectMembers: ProjectMember[];
+  @OneToMany(() => ProjectMember, projectMember => projectMember.user)
+  projectMembers: ProjectMember[];
 
-  // @OneToOne(() => Profile)
-  // @JoinColumn()
-  // profile: Profile
+  @OneToOne(() => Profile)
+  @JoinColumn()
+  profile: Profile
 }

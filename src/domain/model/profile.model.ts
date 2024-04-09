@@ -3,18 +3,20 @@
 
 import { GenderEnum } from '@/application/common/enums/gender.enum';
 import { ProfileStatusEnum } from '@/application/common/enums/profile-status.enum';
-import { Skill } from './skill.modal';
-import { Position } from './position.modal';
+import { SkillM } from './skill.model';
+import { Skill } from '@/infrastructures/entities/skill.entity';
+import { PositionM } from './position.model';
 
-export class Profile {
-    id:string;
+
+export class ProfileM {
+  id: string;
   fullName: string;
   phoneNumber: string;
   email: string;
   dayOfBirth: string;
   gender: GenderEnum;
   status: ProfileStatusEnum;
-  skills: Skill[];
-  positions: Position[];
+  skills: SkillM[]
+  positions: PositionM[];
   description: string;
 }

@@ -1,16 +1,20 @@
+import { Roles } from "@/application/common/decorator/roles.decorator";
+import { Role } from "@/application/common/enums/role.enum";
+import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
+import { RolesGuard } from "@/application/common/guards/role.guard";
 import { CreateUserDTO } from "@/application/dto/user/create-user.dto";
 import { CreateAccountCommand } from "@/application/use-case/user/command/createUser/create-account.command";
 import { GetAllUserQuery } from "@/application/use-case/user/queries/getAllUser/get-all-user.command";
-import { GetAllUserHandler } from "@/application/use-case/user/queries/getAllUser/get-all-user.handler";
-import { UserM } from "@/domain/modal/user.modal";
-
-import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { UserM } from "@/domain/model/user.model";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @Controller('user')
 @ApiTags('User')
+@ApiBearerAuth('JWT-auth')
+@Roles(Role.EMPLOYEE)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UserController{
     constructor(
         private readonly commandBus: CommandBus,
