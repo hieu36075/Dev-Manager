@@ -20,15 +20,17 @@ export class LoginHandler implements ICommandHandler<LoginCommand>{
     }
     async execute(command: LoginCommand): Promise<Tokens>{
         const {email, password} = command
-  
-        const user = await this.userRepository.getUserByEmail(email)
-
-        const verifyPassword = await this.bcryptService.compare(password,user.password )
-
-        if(!verifyPassword){
-            throw new ForbiddenException("Please check again")
+        try{   
+            const user = await this.userRepository.getUserByEmail(email)
+            const verifyPassword = await this.bcryptService.compare(password,user.password )
+            
+            if(!verifyPassword){
+                throw new ForbiddenException("Please check again")
+            }
+            return await this.jwtService.createToken({id: user.id, username: user.userName, role: user.role.name})
+        }catch(error){
+            throw new ForbiddenException()
         }
-        return await this.jwtService.createToken({id: user.id, username: user.name})
  
     }
 }

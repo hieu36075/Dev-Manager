@@ -14,7 +14,7 @@ export class AuthController{
 
     }
 
-    @Post()
+    @Post('login')
    async login(@Body() loginDTO: LoginDTO) : Promise<Tokens>{
         return await this.commandBus.execute(new LoginCommand(loginDTO.email, loginDTO.password))
     }

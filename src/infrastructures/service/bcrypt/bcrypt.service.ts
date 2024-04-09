@@ -12,7 +12,6 @@ export class BcryptService implements IBcrypRepository {
   }
 
   async compare(password: string, hashPassword: string): Promise<boolean> {
-    console.log('as', password)
     return await bcrypt.compare(password, hashPassword);
   }
 }
