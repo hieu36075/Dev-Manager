@@ -1,33 +1,32 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
-import { TypeOrmConfigModule } from '../typeorm/typeorm.config';
-import { UserRepositoryOrm } from './user/user.repository';
-import { Role } from '../entities/role.entity';
-import { RoleRepositoryOrm } from './role/role.repository';
-import { ProjectRepositoryOrm } from './project/project.repository';
-import { Project } from '../entities/project.enity';
-import { ProjectM } from '@/domain/model/project.model';
-import { ProjectMemberRepositoryOrm } from './projectMember/projectMember.repository';
-import { ProjectMemberM } from '@/domain/model/projectMember.model';
-import { ProjectMember } from '../entities/projectMember.entity';
-import { PositionRepositoryOrm } from './position/position.repository';
 import { Position } from '../entities/position.entity';
+import { Project } from '../entities/project.enity';
+import { ProjectMember } from '../entities/projectMember.entity';
+import { Role } from '../entities/role.entity';
+import { User } from '../entities/user.entity';
+import { PositionRepositoryOrm } from './position/position.repository';
+import { ProjectRepositoryOrm } from './project/project.repository';
+import { ProjectMemberRepositoryOrm } from './projectMember/projectMember.repository';
+import { RoleRepositoryOrm } from './role/role.repository';
+import { UserRepositoryOrm } from './user/user.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User,Role,Project, ProjectMember,Position])],
+  imports: [
+    TypeOrmModule.forFeature([User, Role, Project, ProjectMember, Position]),
+  ],
   providers: [
     UserRepositoryOrm,
     RoleRepositoryOrm,
     ProjectRepositoryOrm,
     ProjectMemberRepositoryOrm,
-    PositionRepositoryOrm
+    PositionRepositoryOrm,
   ],
   exports: [
-    UserRepositoryOrm, 
+    UserRepositoryOrm,
     RoleRepositoryOrm,
     ProjectRepositoryOrm,
-    ProjectMemberRepositoryOrm
+    ProjectMemberRepositoryOrm,
   ],
 })
 export class RepositoriesModule {}
