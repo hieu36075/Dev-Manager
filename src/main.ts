@@ -1,13 +1,16 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { configSwagger } from './application/configs/api-docs.config';
-import { ValidationPipe } from '@nestjs/common';
-
+import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const appOptions = { cors: true };
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    appOptions,
+  );
   app.useGlobalPipes(new ValidationPipe());
-  configSwagger(app)
+  configSwagger(app);
   await app.listen(3000);
 }
 bootstrap();

@@ -29,18 +29,16 @@ export class UserRepositoryOrm implements IUserRepository{
                 id:id
             }
         })
-        if(!User){
-            throw new ForbiddenException("Error User")
-        }
         return user
 
     }
-    async createUser(createUserDTO : CreateUserDTO, role: RoleM): Promise<UserM>{
+    async createUser(createUserDTO : Partial<UserM>): Promise<UserM>{
         const user = new User()
         user.email = createUserDTO.email;
         user.userName = createUserDTO.userName;
         user.password = createUserDTO.password;
-        user.role = role
+        user.role = createUserDTO.role
+        user.profile = createUserDTO.profile
         return await this.userRepository.save(user)
     }
 
@@ -56,4 +54,7 @@ export class UserRepositoryOrm implements IUserRepository{
         })
         return user
     }
+
+
+
 }

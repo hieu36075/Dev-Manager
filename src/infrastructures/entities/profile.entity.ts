@@ -17,18 +17,20 @@ export class Profile {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Index({ unique: true })
     @Column('varchar')
     fullName: string;
 
-    @Column('varchar')
-    phoneNumber: string;
+    @Column({ type: 'varchar', nullable: true })
+    phoneNumber: string | null;
 
     @Column('varchar')
     email: string;
 
     @Column('varchar')
-    dayOfBirth: string;
+    dayOfBirth: Date;
+
+    @Column('varchar')
+    avatarUrl: string;
 
     @Column({
         type: 'enum',

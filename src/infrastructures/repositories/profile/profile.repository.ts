@@ -1,24 +1,61 @@
-import { ProfileM } from "@/domain/model/profile.model";
-import { IProfileRepository } from "@/domain/repositories/profile.repository";
+import { AVATARDEFAULT } from '@/application/common/constants/constants';
+import { PositionM } from '@/domain/model/position.model';
+import { ProfileM } from '@/domain/model/profile.model';
+import { SkillM } from '@/domain/model/skill.model';
+import { IProfileRepository } from '@/domain/repositories/profile.repository';
+import { Profile } from '@/infrastructures/entities/profile.entity';
+import { Skill } from '@/infrastructures/entities/skill.entity';
+import { ForbiddenException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-export class ProfileRepositoryOrm implements IProfileRepository{
-    constructor(){
-        
+export class ProfileRepositoryOrm implements IProfileRepository {
+  constructor(
+    @InjectRepository(Profile)
+    private readonly profileRepository: Repository<Profile>,
+  ) {}
+
+  async findAll(): Promise<ProfileM[]> {
+    return await this.profileRepository.find();
+  }
+  async findById(id: string): Promise<ProfileM> {
+    if (!id) {
+      throw new ForbiddenException({ message: 'Error Data' });
     }
-    
-    findAll(): Promise<ProfileM[]> {
-        throw new Error("Method not implemented.");
+    return await this.profileRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+  }
+  async create(entity: Partial<ProfileM>): Promise<ProfileM> {
+    const profile = new ProfileM();
+    profile.fullName = entity.fullName;
+    profile.email = entity.email;
+    profile.dayOfBirth = entity.dayOfBirth;
+    profile.description = entity.description;
+    profile.avatarUrl = entity.avatarUrl || AVATARDEFAULT;
+    return await this.profileRepository.save(profile);
+  }
+  update(id: string, entity: Partial<ProfileM>): Promise<ProfileM> {
+    throw new Error('Method not implemented.');
+  }
+  delete(id: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  async addSkillsAndPositonToProfile(
+    profileId: string,
+    skills: SkillM[],
+    position: PositionM[],
+  ): Promise<void> {
+    const profile = await this.findById(profileId);
+    if (!profile) {
+      throw new Error('Profile not found');
     }
-    findById(id: string): Promise<ProfileM> {
-        throw new Error("Method not implemented.");
-    }
-    async create(entity: ProfileM): Promise<ProfileM> {
-        throw new Error("Method not implemented.");
-    }
-    update(id: string, entity: Partial<ProfileM>): Promise<ProfileM> {
-        throw new Error("Method not implemented.");
-    }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
+
+    profile.skills = skills;
+    profile.positions = position;
+    await this.profileRepository.save(profile);
+  }
 }

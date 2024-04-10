@@ -21,6 +21,18 @@ import { UpdateProjectCommand } from "@/application/use-case/project/command/upd
 import { UpdateProjectHandler } from "@/application/use-case/project/command/update-project/update-project.handler";
 import { GetAllProjectQuery } from "@/application/use-case/project/queries/get-all-project/get-all-project.handler";
 import { GetAllProjectQueryHandler } from "@/application/use-case/project/queries/get-all-project/get-all-project.command";
+import { FileController } from "./file/file.controller";
+import { CloudinaryModule } from "@/infrastructures/service/cloudinary/cloudinary.module";
+import { GetAllPostionQuery } from "@/application/use-case/position/queries/get-all-position/get-all-position.command";
+import { GetAllPositionHandler } from "@/application/use-case/position/queries/get-all-position/get-all-position.handler";
+import { CreatePositionCommand } from "@/application/use-case/position/command/create-position/create-position.command";
+import { CreatePositionHandler } from "@/application/use-case/position/command/create-position/create-position.handler";
+import { PositionController } from "./position/position.controller";
+import { CreateSkillCommand } from "@/application/use-case/skill/command/create-skill/create-skill.command";
+import { CreateSkillHandler } from "@/application/use-case/skill/command/create-skill/create-skill.handler";
+import { GetAllSkillQuery } from "@/application/use-case/skill/queries/get-all-skill/get-all-skill.command";
+import { GetAllSkillHandler } from "@/application/use-case/skill/queries/get-all-skill/get-all-skill.handler";
+import { SkillController } from "./skill/skill.controller";
 
 
 const CommandHandler = [
@@ -31,14 +43,22 @@ const CommandHandler = [
     CreateProjectCommand,
     CreateProjectHandler,
     UpdateProjectCommand,
-    UpdateProjectHandler
+    UpdateProjectHandler,
+    CreatePositionCommand,
+    CreatePositionHandler,
+    CreateSkillCommand,
+    CreateSkillHandler
   ]
 
 const QueryHandler = [
     GetAllUserQuery,
     GetAllUserHandler,
     GetAllProjectQuery,
-    GetAllProjectQueryHandler
+    GetAllProjectQueryHandler,
+    GetAllPostionQuery,
+    GetAllPositionHandler,
+    GetAllSkillQuery,
+    GetAllSkillHandler
 ]
 
 @Module({
@@ -47,16 +67,20 @@ const QueryHandler = [
         RepositoriesModule,
         BcryptModule,
         JwtModule,
+        CloudinaryModule,
     ],
     controllers: [
         UserController,
         AuthController,
-        ProjectController
+        ProjectController,
+        FileController,
+        PositionController,
+        SkillController
     ],
     providers: [
         ...CommandHandler,
         ...QueryHandler,
-        JwtStrategy
+        JwtStrategy,
     ],
 })
 export class PresentationModule { }

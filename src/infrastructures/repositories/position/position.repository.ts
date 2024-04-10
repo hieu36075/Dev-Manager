@@ -26,16 +26,23 @@ export class PositionRepositoryOrm implements IPositionRepository{
         })
         return position
     }
-    async create(entity: PositionM): Promise<PositionM> {
+    async create(entity: Partial<PositionM>): Promise<PositionM> {
         const position = new PositionM
-        position.name = entity.id
+        position.name = entity.name
         position.description = entity.description
 
         return await this.positionRepository.save(position)
 
     }
-    update(id: string, entity: Partial<PositionM>): Promise<PositionM> {
-        throw new Error("Method not implemented.");
+    async update(id: string, entity: Partial<PositionM>): Promise<PositionM> {
+        const position = await this.findById(id)
+        if(!position){
+            throw new ForbiddenException({message: 'Not Found Id'})
+        }
+        position.name = entity.name
+        position.profile = entity.profile
+
+        return await this.positionRepository.save(position) 
     }
     delete(id: string): Promise<void> {
         throw new Error("Method not implemented.");

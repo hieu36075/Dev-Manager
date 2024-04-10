@@ -41,7 +41,7 @@ export class CreateProjectDTO{
     @ArrayNotEmpty()
     @ApiProperty({
         description: 'Techical using for project',
-        example: '[C#, java]',
+        example: '["C#", "java"]',
     })
     technical: string[];
 

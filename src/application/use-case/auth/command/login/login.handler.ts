@@ -27,7 +27,7 @@ export class LoginHandler implements ICommandHandler<LoginCommand>{
             }
             const verifyPassword = await this.bcryptService.compare(password,user.password )
             if(!verifyPassword){
-                throw new ForbiddenException("Please check again")
+                throw new ForbiddenException("Please check password again")
             }
             return  await this.jwtService.createToken({id: user.id, username: user.userName, role: user.role.name})
         }catch(error){
