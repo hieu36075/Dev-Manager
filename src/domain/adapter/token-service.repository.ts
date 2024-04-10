@@ -1,10 +1,9 @@
-import { Tokens } from "../../application/common/types/tokens.types";
+import { Tokens } from '../../application/common/types/tokens.types';
 
 export interface IJwtServicePayload {
   id: string;
   username: string;
   role: string;
-
 }
 
 export interface IJwtService {

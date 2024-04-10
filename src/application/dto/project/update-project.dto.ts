@@ -1,6 +1,4 @@
-import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { CreateProjectDTO } from "./create-project.dto";
-import { IsNotEmpty, IsString } from "class-validator";
+import { PartialType } from '@nestjs/swagger';
+import { CreateProjectDTO } from './create-project.dto';
 
-export class UpdateProjectDTO extends PartialType(CreateProjectDTO){
-}
+export class UpdateProjectDTO extends PartialType(CreateProjectDTO) {}
