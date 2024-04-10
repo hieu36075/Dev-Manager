@@ -1,15 +1,10 @@
-import { UserM } from "@/domain/model/user.model";
+import { ProfileM } from "@/domain/model/profile.model";
+
 
 export class GetAllUserResponse {
-  users: UserM[];
+  users: ProfileM[];
 
-  constructor(users: UserM[]) {
-    this.users = users.map(user => {
-      const { password, ...userWithoutPassword } = user;
-      return {
-        ...userWithoutPassword,
-        password: '', 
-      };
-    });
+  constructor(users: ProfileM[]) {
+    this.users = users
   }
 }

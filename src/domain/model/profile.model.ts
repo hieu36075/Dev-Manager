@@ -13,7 +13,8 @@ export class ProfileM {
   fullName: string;
   phoneNumber: string;
   email: string;
-  dayOfBirth: string;
+  dayOfBirth: Date;
+  avatarUrl: string;
   gender: GenderEnum;
   status: ProfileStatusEnum;
   skills: SkillM[]
