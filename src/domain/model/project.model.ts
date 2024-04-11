@@ -1,5 +1,6 @@
 import { ProjectStatusEnum } from '@/application/common/enums/project-status.enum';
 import { ProjectMemberM } from './projectMember.model';
+import { UserM } from './user.model';
 
 export class ProjectM {
   id:string;
@@ -10,4 +11,6 @@ export class ProjectM {
   projectMembers: ProjectMemberM[];
   status: ProjectStatusEnum;
   technical: string[];
+  manager:UserM
+  managerId: string
 }

@@ -13,4 +13,5 @@ export class ProjectMember {
 
   @ManyToOne(() => User, user => user.projectMembers)
   user: User;
+  
 }

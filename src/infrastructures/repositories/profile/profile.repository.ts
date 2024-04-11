@@ -7,7 +7,7 @@ import { Profile } from '@/infrastructures/entities/profile.entity';
 import { Skill } from '@/infrastructures/entities/skill.entity';
 import { ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
 export class ProfileRepositoryOrm implements IProfileRepository {
   constructor(
@@ -28,14 +28,14 @@ export class ProfileRepositoryOrm implements IProfileRepository {
       },
     });
   }
-  async create(entity: Partial<ProfileM>): Promise<ProfileM> {
-    const profile = new ProfileM();
+  async create(entity: Partial<ProfileM>,manager:EntityManager): Promise<ProfileM> {
+    const profile = new Profile();
     profile.fullName = entity.fullName;
     profile.email = entity.email;
     profile.dayOfBirth = entity.dayOfBirth;
     profile.description = entity.description;
     profile.avatarUrl = entity.avatarUrl || AVATARDEFAULT;
-    return await this.profileRepository.save(profile);
+    return await manager.save(profile);
   }
   update(id: string, entity: Partial<ProfileM>): Promise<ProfileM> {
     throw new Error('Method not implemented.');
@@ -48,14 +48,15 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     profileId: string,
     skills: SkillM[],
     position: PositionM[],
+    manager: EntityManager
   ): Promise<void> {
-    const profile = await this.findById(profileId);
-    if (!profile) {
+    if (!profileId) {
       throw new Error('Profile not found');
     }
-
+    const profile = new Profile()
+    profile.id = profileId
     profile.skills = skills;
     profile.positions = position;
-    await this.profileRepository.save(profile);
+    await manager.save(profile);
   }
 }
