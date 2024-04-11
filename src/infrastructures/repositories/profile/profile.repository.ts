@@ -16,7 +16,12 @@ export class ProfileRepositoryOrm implements IProfileRepository {
   ) {}
 
   async findAll(): Promise<ProfileM[]> {
-    return await this.profileRepository.find();
+    return await this.profileRepository.find({
+      relations:{
+        positions:true,
+        skills:true
+      }
+    });
   }
   async findById(id: string): Promise<ProfileM> {
     if (!id) {

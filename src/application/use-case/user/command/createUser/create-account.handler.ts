@@ -15,10 +15,8 @@ import { SkillM } from '@/domain/model/skill.model';
 import { PositionM } from '@/domain/model/position.model';
 import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/position.repository';
 import { Connection } from 'typeorm';
-import { TransactionInterceptor } from '@/application/common/types/transaction.interceptor';
 import { ProfileM } from '@/domain/model/profile.model';
 
-@UseInterceptors(TransactionInterceptor)
 @CommandHandler(CreateAccountCommand)
 export class CreateAccountHandler
   implements ICommandHandler<CreateAccountCommand>
@@ -88,17 +86,17 @@ export class CreateAccountHandler
             listPositioin.push(currentPosition);
           }
         }
-  
+
         await this.profileRepository.addSkillsAndPositonToProfile(
           profile.id,
           listSkill,
           listPositioin,
           manager,
         );
-        return profile; 
+        return profile;
       } catch (error) {
-        console.log(error)
-        throw new ForbiddenException({message: error.driverError.detail});
+        console.log(error);
+        throw new ForbiddenException({ message: error.driverError.detail });
       }
     });
   }

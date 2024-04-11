@@ -2,9 +2,9 @@ import { ProfileM } from "@/domain/model/profile.model";
 
 
 export class GetAllUserResponse {
-  users: ProfileM[];
+  profiles: ProfileM[];
 
-  constructor(users: ProfileM[]) {
-    this.users = users
+  constructor(profile: ProfileM[]) {
+    this.profiles = profile
   }
 }

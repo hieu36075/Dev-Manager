@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { TransactionInterceptor } from '@/application/common/types/transaction.interceptor';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 @Module({
@@ -24,10 +22,6 @@ import { join } from 'path';
     }),
   ],
   providers:[
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: TransactionInterceptor,
-    },
   ]
 })
 export class TypeOrmConfigModule {}
