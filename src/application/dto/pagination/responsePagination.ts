@@ -1,17 +1,21 @@
-// import { IsArray } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsArray } from "class-validator";
+import { PageMetaDto } from "./pageMeta.dto";
 
 
-// export class ResponsePaginate<T> {
-//   @IsArray()
-//   readonly data: T[];
+export class PageDto<T> {
+  @IsArray()
+  @ApiProperty({ isArray: true })
+  readonly data: T[];
 
-//   readonly meta: PageMetaDto;
+  @ApiProperty({ type: () => PageMetaDto })
+  readonly meta: PageMetaDto;
 
-//   readonly message: string;
+  readonly message: string;
 
-//   constructor(data: T[], meta: PageMetaDto, message: string) {
-//     this.data = data;
-//     this.meta = meta;
-//     this.message = message;
-//   }
-// }
+  constructor(data: T[], meta: PageMetaDto,message:string) {
+    this.data = data;
+    this.meta = meta;
+    this.message = message;
+  }
+}

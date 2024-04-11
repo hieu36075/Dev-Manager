@@ -2,14 +2,18 @@ import { Roles } from '@/application/common/decorator/roles.decorator';
 import { Role } from '@/application/common/enums/role.enum';
 import { JwtAuthGuard } from '@/application/common/guards/jwtAuth.guard';
 import { RolesGuard } from '@/application/common/guards/role.guard';
+import { PageOptionsDto } from '@/application/dto/pagination/paginationOptions';
 import { CreateUserDTO } from '@/application/dto/user/create-user.dto';
+import { GetEmployeeDTO } from '@/application/dto/user/get-employee.dto';
 import { CreateAccountCommand } from '@/application/use-case/user/command/createUser/create-account.command';
+import { GetAllProfileEmployeeQuery } from '@/application/use-case/user/queries/getAllEmployee/get-all-employee.command';
 import { GetAllUserQuery } from '@/application/use-case/user/queries/getAllUser/get-all-user.command';
 import { ProfileM } from '@/domain/model/profile.model';
 import { UserM } from '@/domain/model/user.model';
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { plainToClass } from 'class-transformer';
 
 @Controller('user')
 @ApiTags('User')
@@ -23,8 +27,13 @@ export class UserController {
   ) {}
 
   @Get()
-  async getAll(): Promise<ProfileM> {
-    return await this.queryBus.execute(new GetAllUserQuery());
+  async getAll(@Query() pageOptionsDto: PageOptionsDto): Promise<ProfileM> {
+    return await this.queryBus.execute(new GetAllUserQuery(pageOptionsDto));
+  }
+  @Get('get-employee')
+  async getEmployee(@Query() getEmployeeDto: GetEmployeeDTO): Promise<ProfileM>{
+    const query = plainToClass(GetAllProfileEmployeeQuery, getEmployeeDto)
+    return await this.queryBus.execute(query)
   }
   @Post()
   async create(@Body() createUserDTO: CreateUserDTO): Promise<any> {

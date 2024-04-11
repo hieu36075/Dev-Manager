@@ -39,17 +39,14 @@ import { User } from './user.entity';
     @Column({
         type: 'enum',
         enum: ProjectStatusEnum,
-        default: ProjectStatusEnum.InProgress
+        default: ProjectStatusEnum.Pending
     })
     status: ProjectStatusEnum;
 
     @Column('varchar', { array: true })
     technical: string[];
 
-    @ManyToOne(() => User, { nullable: true })
+    @ManyToOne(()=> User, {nullable:true})
     @JoinColumn({ name: 'managerId' })
-    manager: User;
-  
-    @Column({ nullable: true })
-    managerId: string;
+    user: User
   }

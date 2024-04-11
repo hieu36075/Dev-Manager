@@ -47,22 +47,25 @@ export class CreateAccountHandler
       try {
         const hashedPassword = await this.bcryptService.hash(password);
         const role = await this.roleRepository.findByName(Role.EMPLOYEE);
+
+        const newUser = await this.userRepository.create(
+          {
+            email: email,
+            userName: userName,
+            password: hashedPassword,
+            role: role,
+            // profile: profile,
+          },
+          manager,
+        );
+
         const profile = await this.profileRepository.create(
           {
             fullName,
             dayOfBirth: parseISO(dayOfBirth),
             description: description,
             email: email,
-          },
-          manager,
-        );
-        const newUser = await this.userRepository.createUser(
-          {
-            email: email,
-            userName: userName,
-            password: hashedPassword,
-            role: role,
-            profile: profile,
+            user: newUser
           },
           manager,
         );
@@ -95,7 +98,7 @@ export class CreateAccountHandler
         );
         return profile;
       } catch (error) {
-        console.log(error);
+    
         throw new ForbiddenException({ message: error.driverError.detail });
       }
     });

@@ -19,8 +19,7 @@ import { ProjectController } from "./project/project.controller";
 import { JwtStrategy } from "@/application/common/strategies/jwt.strategy";
 import { UpdateProjectCommand } from "@/application/use-case/project/command/update-project/update-project.command";
 import { UpdateProjectHandler } from "@/application/use-case/project/command/update-project/update-project.handler";
-import { GetAllProjectQuery } from "@/application/use-case/project/queries/get-all-project/get-all-project.handler";
-import { GetAllProjectQueryHandler } from "@/application/use-case/project/queries/get-all-project/get-all-project.command";
+
 import { FileController } from "./file/file.controller";
 import { CloudinaryModule } from "@/infrastructures/service/cloudinary/cloudinary.module";
 import { GetAllPostionQuery } from "@/application/use-case/position/queries/get-all-position/get-all-position.command";
@@ -33,6 +32,12 @@ import { CreateSkillHandler } from "@/application/use-case/skill/command/create-
 import { GetAllSkillQuery } from "@/application/use-case/skill/queries/get-all-skill/get-all-skill.command";
 import { GetAllSkillHandler } from "@/application/use-case/skill/queries/get-all-skill/get-all-skill.handler";
 import { SkillController } from "./skill/skill.controller";
+import { GetAllProjectQuery } from "@/application/use-case/project/queries/get-all-project/get-all-project.command";
+import { GetAllProjectQueryHandler } from "@/application/use-case/project/queries/get-all-project/get-all-project.handler";
+import { AddUserProjectCommand } from "@/application/use-case/project/command/add-user-project/add-user-project.command";
+import { AddUserProjectHandler } from "@/application/use-case/project/command/add-user-project/add-user-project.handler";
+import { GetAllProfileEmployeeHandler } from "@/application/use-case/user/queries/getAllEmployee/get-all-employee.handler";
+import { GetAllProfileEmployeeQuery } from "@/application/use-case/user/queries/getAllEmployee/get-all-employee.command";
 
 
 const CommandHandler = [
@@ -47,7 +52,9 @@ const CommandHandler = [
     CreatePositionCommand,
     CreatePositionHandler,
     CreateSkillCommand,
-    CreateSkillHandler
+    CreateSkillHandler,
+    AddUserProjectCommand,
+    AddUserProjectHandler
   ]
 
 const QueryHandler = [
@@ -58,7 +65,9 @@ const QueryHandler = [
     GetAllPostionQuery,
     GetAllPositionHandler,
     GetAllSkillQuery,
-    GetAllSkillHandler
+    GetAllSkillHandler,
+    GetAllProfileEmployeeHandler,
+    GetAllProfileEmployeeQuery
 ]
 
 @Module({

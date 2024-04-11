@@ -4,13 +4,16 @@ import {
     CreateDateColumn,
     Entity,
     Index,
+    JoinColumn,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { Skill } from './skill.entity';
 import { Position } from './position.entity';
 import { ProfileStatusEnum } from '@/application/common/enums/profile-status.enum';
+import { User } from './user.entity';
 
 @Entity('profile')
 export class Profile {
@@ -46,6 +49,10 @@ export class Profile {
     })
     status: ProfileStatusEnum;
 
+
+    @OneToOne(() => User)
+    @JoinColumn()
+    user: User
 
     @OneToMany(() => Skill, skill => skill.profile)
     skills: Skill[];

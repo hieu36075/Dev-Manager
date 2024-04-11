@@ -7,7 +7,7 @@ export class CreateProjectCommand implements ICommand{
         public readonly startDate:string,
         public readonly endDate:string,
         public readonly technical: string[],
-        public readonly userId : string
+        public readonly userId : string,
     ){
 
     }

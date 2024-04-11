@@ -1,10 +1,9 @@
 
 import { UserM } from "../model/user.model";
 import { RoleM } from "../model/role.model";
+import { GenericRepository } from "./generic-repository";
 
-export interface IUserRepository{
-    findAll():Promise<UserM[]>;
-    createUser(createUserDto: Partial<UserM>, manager? : any): Promise<UserM>;
+export interface IUserRepository extends GenericRepository<UserM>{
     getUserByEmail(email:string) : Promise<UserM>
-    findById(id: string): Promise<UserM | undefined>;
+    getEmployee(id:string) : Promise<UserM[]>
 }

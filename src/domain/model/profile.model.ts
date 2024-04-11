@@ -6,6 +6,7 @@ import { ProfileStatusEnum } from '@/application/common/enums/profile-status.enu
 import { SkillM } from './skill.model';
 import { Skill } from '@/infrastructures/entities/skill.entity';
 import { PositionM } from './position.model';
+import { UserM } from './user.model';
 
 
 export class ProfileM {
@@ -20,4 +21,5 @@ export class ProfileM {
   skills: SkillM[]
   positions: PositionM[];
   description: string;
+  user: UserM
 }

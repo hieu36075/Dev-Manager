@@ -13,6 +13,7 @@ import {
 import { Role } from './role.entity';
 import { Profile } from './profile.entity';
 import { ProjectMember } from './projectMember.entity';
+import { Project } from './project.enity';
 
 @Entity('users')
 export class User {
@@ -42,7 +43,17 @@ export class User {
   @OneToMany(() => ProjectMember, projectMember => projectMember.user)
   projectMembers: ProjectMember[];
 
-  @OneToOne(() => Profile)
-  @JoinColumn()
-  profile: Profile
+
+  @Column({ type: 'boolean', default: false })
+  isManager: boolean;
+
+  @ManyToOne(() => User, { nullable: true })
+  @JoinColumn({ name: 'managerId' })
+  manager: User;
+
+  @Column({ nullable: true })
+  managerId: string;
+
+  @OneToMany(() => Project, project => project.user)
+  project: Project[]
 }

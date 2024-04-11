@@ -4,6 +4,7 @@ import { GetAllUserQuery } from "./get-all-user.command";
 import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
 import { GetAllUserResponse } from "./get-all-user.response";
 import { ProfileRepositoryOrm } from "@/infrastructures/repositories/profile/profile.repository";
+import { ForbiddenException } from "@nestjs/common";
 
 // import { Event } from "@/domain/entities/event";
 
@@ -14,8 +15,14 @@ export class GetAllUserHandler implements IQueryHandler<GetAllUserQuery> {
     ) {}
 
   async execute(query: GetAllUserQuery): Promise<any> {
-    const users = await this.profileRepository.findAll();
+    const { pageOptionsDto } = query
+    try{
+      const users = await this.profileRepository.findAll(pageOptionsDto);
+      return users
+
+    }catch(error){
+      throw new ForbiddenException();
+    }
     // return new GetAllUserResponse(users);
-    return users
   }
 }

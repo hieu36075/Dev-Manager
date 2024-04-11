@@ -9,38 +9,46 @@ import { CreateUserDTO } from "@/application/dto/user/create-user.dto";
 import { RoleM } from "@/domain/model/role.model";
 
 @Injectable()
-export class UserRepositoryOrm implements IUserRepository{
+export class UserRepositoryOrm implements IUserRepository {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-    ){
+    ) {
 
     }
-
     async findAll(): Promise<UserM[]> {
         return await this.userRepository.find()
     }
     async findById(id: string): Promise<UserM> {
-        if(!id){
+        if (!id) {
             throw new ForbiddenException("error id")
         }
         const user = await this.userRepository.findOne({
-            where:{
-                id:id
+            where: {
+                id: id
             }
         })
         return user
+    }
+    async create(entity: Partial<UserM>, manager: EntityManager): Promise<UserM> {
+        const user = new User()
+        user.email = entity.email;
+        user.userName = entity.userName;
+        user.password = entity.password;
+        user.role = entity.role
+        // user.profile = entity.profile
+        return await manager.save(user)
 
     }
-    async createUser(createUserDTO : Partial<UserM>, manager: EntityManager): Promise<UserM>{
-        const user = new User()
-        user.email = createUserDTO.email;
-        user.userName = createUserDTO.userName;
-        user.password = createUserDTO.password;
-        user.role = createUserDTO.role
-        user.profile = createUserDTO.profile
+
+    async update(id: string, entity: Partial<UserM>, manager?: EntityManager): Promise<UserM> {
+        const user = await this.findById(id)
+        user.isManager = entity.isManager || user.isManager
+        user.managerId = entity.managerId 
         return await manager.save(user)
-  
+    }
+    delete(id: string): Promise<void> {
+        throw new Error("Method not implemented.");
     }
 
     async getUserByEmail(email:string) : Promise<UserM>{
@@ -56,6 +64,13 @@ export class UserRepositoryOrm implements IUserRepository{
         return user
     }
 
+    async  getEmployee(id: string): Promise<UserM[]> {
+        return await this.userRepository.find({
+            where:{
+                id: id
+            }
+        })
+    }
 
 
 }
