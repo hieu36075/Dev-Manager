@@ -13,9 +13,9 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('User')
-@ApiBearerAuth('JWT-auth')
-@Roles(Role.MANAGER)
-@UseGuards(JwtAuthGuard, RolesGuard)
+// @ApiBearerAuth('JWT-auth')
+// @Roles(Role.EMPLOYEE)
+// @UseGuards(JwtAuthGuard, RolesGuard)
 export class UserController {
   constructor(
     private readonly commandBus: CommandBus,

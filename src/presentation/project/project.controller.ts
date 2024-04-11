@@ -14,9 +14,9 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
 
 @Controller('project')
 @ApiTags('Project')
-@Roles(Role.MANAGER)
-@ApiBearerAuth('JWT-auth')
-@UseGuards(JwtAuthGuard, RolesGuard)
+// @Roles(Role.MANAGER)
+// @ApiBearerAuth('JWT-auth')
+// @UseGuards(JwtAuthGuard, RolesGuard)
 export class ProjectController{
     constructor(
         private readonly commandBus: CommandBus,

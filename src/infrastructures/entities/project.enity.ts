@@ -12,6 +12,7 @@ import {
   } from 'typeorm';
 import { ProjectMember } from './projectMember.entity';
 import { ProjectStatusEnum } from '@/application/common/enums/project-status.enum';
+import { User } from './user.entity';
 
   
   @Entity('project')
@@ -44,4 +45,11 @@ import { ProjectStatusEnum } from '@/application/common/enums/project-status.enu
 
     @Column('varchar', { array: true })
     technical: string[];
+
+    @ManyToOne(() => User, { nullable: true })
+    @JoinColumn({ name: 'managerId' })
+    manager: User;
+  
+    @Column({ nullable: true })
+    managerId: string;
   }

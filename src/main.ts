@@ -10,7 +10,9 @@ async function bootstrap() {
     AppModule,
     appOptions,
   );
+
   app.useGlobalPipes(new ValidationPipe());
+
   configSwagger(app);
   await app.listen(3000);
 }

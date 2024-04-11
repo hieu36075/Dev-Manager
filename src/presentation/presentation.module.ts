@@ -81,6 +81,7 @@ const QueryHandler = [
         ...CommandHandler,
         ...QueryHandler,
         JwtStrategy,
+
     ],
 })
 export class PresentationModule { }

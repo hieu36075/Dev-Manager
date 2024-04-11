@@ -25,7 +25,7 @@ export class CreateProjectHandler implements ICommandHandler<CreateProjectComman
             
             const projectMember = await this.projectMemberRepository.create({project: project, user: user})
 
-            return projectMember
+            return project
         }catch(error){
             throw new ForbiddenException({message:'Create failed', error})
         }
