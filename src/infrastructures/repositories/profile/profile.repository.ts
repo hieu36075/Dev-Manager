@@ -10,7 +10,7 @@ import { Profile } from '@/infrastructures/entities/profile.entity';
 import { Skill } from '@/infrastructures/entities/skill.entity';
 import { ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, Like, Repository } from 'typeorm';
 
 export class ProfileRepositoryOrm implements IProfileRepository {
   constructor(
@@ -18,13 +18,13 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     private readonly profileRepository: Repository<Profile>,
   ) {}
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<any>{
+  async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<any>{
     const { name, page, take } = pageOptionsDto;
         const skip = (page - 1) * take;
         const count = await this.profileRepository.count();
         const profile = await this.profileRepository.find({
           where:{
-              fullName: name
+              fullName: name? Like(`%${name}%`) : Like(`%%`)
           },
           relations:{
             positions:true,
@@ -38,6 +38,19 @@ export class ProfileRepositoryOrm implements IProfileRepository {
 
       return new PageDto<ProfileM>(profile, pageMetaDto, "Success")
 
+  }
+
+  async findAll():Promise<ProfileM[]>{
+    return await this.profileRepository.find({
+      relations:{
+        user:true
+      }, 
+      select: { 
+        user: {
+          id: true, 
+        },
+      },
+    });
   }
   async findById(id: string): Promise<ProfileM> {
     if (!id) {
@@ -86,8 +99,6 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     return await this.profileRepository.find({
       where:{
         user:{
-          managerId:managerId,
-          isManager:false,
           projectMembers:{
             project:{
               id: projectId

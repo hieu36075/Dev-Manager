@@ -8,6 +8,7 @@ import { GetEmployeeDTO } from '@/application/dto/user/get-employee.dto';
 import { CreateAccountCommand } from '@/application/use-case/user/command/createUser/create-account.command';
 import { GetAllProfileEmployeeQuery } from '@/application/use-case/user/queries/getAllEmployee/get-all-employee.command';
 import { GetAllUserQuery } from '@/application/use-case/user/queries/getAllUser/get-all-user.command';
+import { GetAllUserOptionQuery } from '@/application/use-case/user/queries/getAllUserOption/get-all-user-option.command';
 import { ProfileM } from '@/domain/model/profile.model';
 import { UserM } from '@/domain/model/user.model';
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
@@ -28,8 +29,20 @@ export class UserController {
 
   @Get()
   async getAll(@Query() pageOptionsDto: PageOptionsDto): Promise<ProfileM> {
-    return await this.queryBus.execute(new GetAllUserQuery(pageOptionsDto));
+    return await this.queryBus.execute(new GetAllUserOptionQuery(pageOptionsDto));
   }
+
+  @Get('get-user')
+  async getAllUser(): Promise<ProfileM> {
+    return await this.queryBus.execute(new GetAllUserQuery());
+  }
+
+  // @Get('get-user')
+  // async getAllProfile(): Promise:<ProfileM[]>{
+  //   return await this.queryBus.execute(new)
+  // }
+
+
   @Get('get-employee')
   async getEmployee(@Query() getEmployeeDto: GetEmployeeDTO): Promise<ProfileM>{
     const query = plainToClass(GetAllProfileEmployeeQuery, getEmployeeDto)

@@ -42,7 +42,8 @@ export class ProjectController{
             createProjectDTO.startDate,
             createProjectDTO.endDate,
             createProjectDTO.technical,
-            createProjectDTO.userId
+            createProjectDTO.managerId,
+            createProjectDTO.employeeId
         ))
     }
     @Post('add-employee')
@@ -60,7 +61,7 @@ export class ProjectController{
             updateProjectDTO.startDate,
             updateProjectDTO.endDate,
             updateProjectDTO.technical,
-            updateProjectDTO.userId,    
+            updateProjectDTO.managerId,    
         ))
     }
 

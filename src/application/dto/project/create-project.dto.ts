@@ -51,8 +51,19 @@ export class CreateProjectDTO{
         description: 'User id create Project',
         example: 'string',
     })
-    userId?: string
+    managerId?: string
+
+    @IsArray()
+    @IsNotEmpty()
+    @ApiProperty({
+        description: 'Array of position IDs associated with the user',
+        example: ['position1', 'position2'],
+        type: [String],
+    })
+    employeeId: string[]
     
+    // @IsArray()
+    // @ApiProperty
 
 
 }

@@ -38,6 +38,8 @@ import { AddUserProjectCommand } from "@/application/use-case/project/command/ad
 import { AddUserProjectHandler } from "@/application/use-case/project/command/add-user-project/add-user-project.handler";
 import { GetAllProfileEmployeeHandler } from "@/application/use-case/user/queries/getAllEmployee/get-all-employee.handler";
 import { GetAllProfileEmployeeQuery } from "@/application/use-case/user/queries/getAllEmployee/get-all-employee.command";
+import { GetAllUserOptionQuery } from "@/application/use-case/user/queries/getAllUserOption/get-all-user-option.command";
+import { GetAllUserOptionsHandler } from "@/application/use-case/user/queries/getAllUserOption/get-all-user-option.handler";
 
 
 const CommandHandler = [
@@ -67,7 +69,9 @@ const QueryHandler = [
     GetAllSkillQuery,
     GetAllSkillHandler,
     GetAllProfileEmployeeHandler,
-    GetAllProfileEmployeeQuery
+    GetAllProfileEmployeeQuery,
+    GetAllUserOptionQuery, 
+    GetAllUserOptionsHandler
 ]
 
 @Module({
