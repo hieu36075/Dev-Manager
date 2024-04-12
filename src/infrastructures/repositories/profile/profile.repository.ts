@@ -18,36 +18,35 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     private readonly profileRepository: Repository<Profile>,
   ) {}
 
-  async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<any>{
+  async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<any> {
     const { name, page, take } = pageOptionsDto;
-      const takeData = take || 10;
-      const skip = (page - 1) * take;
-      const [result, total] = await this.profileRepository.findAndCount({
-          where:{
-              fullName: name? Like(`%${name}%`) : Like(`%%`)
-          },
-          relations:{
-            positions:true,
-            skills:true,
-          },
-          skip,
-          take:takeData
-      });
+    const takeData = take || 10;
+    const skip = (page - 1) * take;
+    const [result, total] = await this.profileRepository.findAndCount({
+      where: {
+        fullName: name ? Like(`%${name}%`) : Like(`%%`),
+      },
+      relations: {
+        positions: true,
+        skills: true,
+      },
+      skip,
+      take: takeData,
+    });
 
-      const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
+    const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
 
-      return new PageDto<ProfileM>(result, pageMetaDto, "Success")
-
+    return new PageDto<ProfileM>(result, pageMetaDto, 'Success');
   }
 
-  async findAll():Promise<ProfileM[]>{
+  async findAll(): Promise<ProfileM[]> {
     return await this.profileRepository.find({
-      relations:{
-        user:true
-      }, 
-      select: { 
+      relations: {
+        user: true,
+      },
+      select: {
         user: {
-          id: true, 
+          id: true,
         },
       },
     });
@@ -62,14 +61,17 @@ export class ProfileRepositoryOrm implements IProfileRepository {
       },
     });
   }
-  async create(entity: Partial<ProfileM>,manager:EntityManager): Promise<ProfileM> {
+  async create(
+    entity: Partial<ProfileM>,
+    manager: EntityManager,
+  ): Promise<ProfileM> {
     const profile = new Profile();
     profile.fullName = entity.fullName;
     profile.email = entity.email;
     profile.dayOfBirth = entity.dayOfBirth;
     profile.description = entity.description;
     profile.avatarUrl = entity.avatarUrl || AVATARDEFAULT;
-    profile.user = entity.user
+    profile.user = entity.user;
     return await manager.save(profile);
   }
   update(id: string, entity: Partial<ProfileM>): Promise<ProfileM> {
@@ -83,31 +85,29 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     profileId: string,
     skills: SkillM[],
     position: PositionM[],
-    manager: EntityManager
+    manager: EntityManager,
   ): Promise<void> {
     if (!profileId) {
       throw new Error('Profile not found');
     }
-    const profile = new Profile()
-    profile.id = profileId
+    const profile = new Profile();
+    profile.id = profileId;
     profile.skills = skills;
     profile.positions = position;
     await manager.save(profile);
   }
 
-  async getEmployee(projectId:string, managerId:string) : Promise<ProfileM[]>{
+  async getEmployee(projectId: string): Promise<ProfileM[]> {
     return await this.profileRepository.find({
-      where:{
-        user:{
-          projectMembers:{
-            project:{
-              id: projectId
-            }
+      where: {
+        user: {
+          projectMembers: {
+            project: {
+              id: projectId,
+            },
           },
-          
         },
-        
-      }
-    })
+      },
+    });
   }
 }

@@ -10,8 +10,8 @@ export class GetAllProfileEmployeeHandler implements IQueryHandler<GetAllProfile
 
     }
     async execute(query: GetAllProfileEmployeeQuery): Promise<any> {
-        const {projectId, managerId } = query
-        const profile = await this.profileRepositoryOrm.getEmployee(projectId, managerId)
+        const {projectId } = query
+        const profile = await this.profileRepositoryOrm.getEmployee(projectId)
         return profile
     }
 }
