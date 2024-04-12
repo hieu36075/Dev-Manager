@@ -9,7 +9,7 @@ import { Project } from "@/infrastructures/entities/project.enity";
 import { ForbiddenException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { parseISO } from "date-fns";
-import { EntityManager, Repository } from "typeorm";
+import { EntityManager, Like, Repository } from "typeorm";
 
 export class ProjectRepositoryOrm implements IProjectRepository {
     constructor(
@@ -19,27 +19,22 @@ export class ProjectRepositoryOrm implements IProjectRepository {
 
     }
     async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<ProjectM>> {
-     
         const { name, page, take, orderBy } = pageOptionsDto;
+        const takeData = take || 10;
         const skip = (page - 1) * take;
-    
-
-        const count = await this.projectRepository.count()
-        const projects = await this.projectRepository.find({
-            where:{
-                name: name
-            },
-            order:{
-                startDate: orderBy
-            },
-            skip,
-            take
+        const [result, total] = await this.projectRepository.findAndCount({
+          where: {
+            name: name ? Like(`%${name}%`) : Like(`%%`),
+          },
+          order: {
+            startDate: orderBy,
+          },
+          skip: skip,
+          take: takeData,
         });
-
-        const pageMetaDto = new PageMetaDto(pageOptionsDto, count);
-
-        return new PageDto<ProjectM>(projects, pageMetaDto, 'Success');
-    }
+        const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
+        return new PageDto<ProjectM>(result, pageMetaDto, 'Success');
+      }
     
     async findById(id: string): Promise<ProjectM> {
         if (!id) {

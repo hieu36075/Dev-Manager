@@ -20,9 +20,9 @@ export class ProfileRepositoryOrm implements IProfileRepository {
 
   async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<any>{
     const { name, page, take } = pageOptionsDto;
-        const skip = (page - 1) * take;
-        const count = await this.profileRepository.count();
-        const profile = await this.profileRepository.find({
+      const takeData = take || 10;
+      const skip = (page - 1) * take;
+      const [result, total] = await this.profileRepository.findAndCount({
           where:{
               fullName: name? Like(`%${name}%`) : Like(`%%`)
           },
@@ -31,12 +31,12 @@ export class ProfileRepositoryOrm implements IProfileRepository {
             skills:true,
           },
           skip,
-          take
+          take:takeData
       });
 
-      const pageMetaDto = new PageMetaDto(pageOptionsDto, count);
+      const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
 
-      return new PageDto<ProfileM>(profile, pageMetaDto, "Success")
+      return new PageDto<ProfileM>(result, pageMetaDto, "Success")
 
   }
 

@@ -3,7 +3,7 @@ import { CreateProjectCommand } from './create-project.command';
 import { ProjectRepositoryOrm } from '@/infrastructures/repositories/project/project.repository';
 import { ProjectMemberRepositoryOrm } from '@/infrastructures/repositories/projectMember/projectMember.repository';
 import { UserRepositoryOrm } from '@/infrastructures/repositories/user/user.repository';
-import { ForbiddenException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { ProfileM } from '@/domain/model/profile.model';
 import { UserM } from '@/domain/model/user.model';
@@ -47,6 +47,9 @@ export class CreateProjectHandler
         }
         return project;
       } catch (error) {
+        if (error.driverError.code === '23505') {
+          throw new BadRequestException({ message: 'NAME_ALREADY_EXIST' });
+        }
         throw new ForbiddenException({ message: 'Create failed', error });
       }
     });
