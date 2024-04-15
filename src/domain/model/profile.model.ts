@@ -3,10 +3,11 @@
 
 import { GenderEnum } from '@/application/common/enums/gender.enum';
 import { ProfileStatusEnum } from '@/application/common/enums/profile-status.enum';
-import { SkillM } from './skill.model';
-import { Skill } from '@/infrastructures/entities/skill.entity';
 import { PositionM } from './position.model';
 import { UserM } from './user.model';
+import { TechnicalM } from './skill.model';
+import { TechnicalMemberM } from './technicalMember.model';
+
 
 
 export class ProfileM {
@@ -18,7 +19,7 @@ export class ProfileM {
   avatarUrl: string;
   gender: GenderEnum;
   status: ProfileStatusEnum;
-  skills: SkillM[]
+  technicalMember: TechnicalMemberM[]
   positions: PositionM[];
   description: string;
   user: UserM

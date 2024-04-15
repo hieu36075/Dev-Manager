@@ -4,10 +4,9 @@ import { PageOptionsDto } from '@/application/dto/pagination/paginationOptions';
 import { PageDto } from '@/application/dto/pagination/responsePagination';
 import { PositionM } from '@/domain/model/position.model';
 import { ProfileM } from '@/domain/model/profile.model';
-import { SkillM } from '@/domain/model/skill.model';
+import {TechnicalM } from '@/domain/model/skill.model';
 import { IProfileRepository } from '@/domain/repositories/profile.repository';
 import { Profile } from '@/infrastructures/entities/profile.entity';
-import { Skill } from '@/infrastructures/entities/skill.entity';
 import { ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Like, Repository } from 'typeorm';
@@ -28,7 +27,14 @@ export class ProfileRepositoryOrm implements IProfileRepository {
           },
           relations:{
             positions:true,
-            skills:true,
+            technicalMember:true,
+            user:true
+          },
+          select:{
+            user:{
+              isManager:true,
+              managerId:true
+            }
           },
           skip,
           take:takeData
@@ -40,14 +46,20 @@ export class ProfileRepositoryOrm implements IProfileRepository {
 
   }
 
-  async findAll():Promise<ProfileM[]>{
+  async findAll(isManager?: boolean):Promise<ProfileM[]>{
     return await this.profileRepository.find({
       relations:{
         user:true
       }, 
+      // where:{
+      //   user:{
+      //     isManager: isManager 
+      //   }
+      // },
       select: { 
         user: {
           id: true, 
+          isManager:true
         },
       },
     });
@@ -79,9 +91,8 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     throw new Error('Method not implemented.');
   }
 
-  async addSkillsAndPositonToProfile(
+  async addPositonToProfile(
     profileId: string,
-    skills: SkillM[],
     position: PositionM[],
     manager: EntityManager
   ): Promise<void> {
@@ -90,12 +101,11 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     }
     const profile = new Profile()
     profile.id = profileId
-    profile.skills = skills;
     profile.positions = position;
     await manager.save(profile);
   }
 
-  async getEmployee(projectId:string, managerId:string) : Promise<ProfileM[]>{
+  async getEmployee(projectId:string) : Promise<ProfileM[]>{
     return await this.profileRepository.find({
       where:{
         user:{

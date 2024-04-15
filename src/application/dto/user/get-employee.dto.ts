@@ -8,12 +8,5 @@ export class GetEmployeeDTO{
     })
     projectId: string;
 
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({
-        description: 'ManagerId(Uuid)',
-    })
-    managerId: string;
-
     
 }

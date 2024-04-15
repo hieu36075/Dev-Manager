@@ -18,9 +18,9 @@ export class JwtTokenService implements IJwtService {
   }
 
   async createToken(payload: IJwtServicePayload): Promise<Tokens> {
-    const at=  this.jwtService.sign(payload, {
+    const at= this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_SECRET'),
-      expiresIn: '7d ',
+      expiresIn: '7d',
     });
     return {
       access_token: at,

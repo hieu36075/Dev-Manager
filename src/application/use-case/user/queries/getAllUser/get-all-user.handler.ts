@@ -12,6 +12,7 @@ export class GetAllUserHandler implements IQueryHandler<GetAllUserQuery> {
     ) {}
 
   async execute(query: GetAllUserQuery): Promise<any> {
+    // const {isManager} = query
     try{
       const users = await this.profileRepository.findAll();
       console.log(users)

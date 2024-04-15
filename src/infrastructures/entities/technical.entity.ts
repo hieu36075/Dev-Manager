@@ -9,15 +9,16 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Profile } from './profile.entity';
+import { TechnicalMember } from './technicalMember.entity';
 
-@Entity('skill')
-export class Skill {
+@Entity('technical')
+export class Technical {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('varchar')
   name: string;
 
-  @ManyToOne(() => Profile, profile => profile.skills)
-  profile: Profile;
+  @OneToMany(() => TechnicalMember, technicalMember => technicalMember.technical)
+  technicalMember: TechnicalMember[];
 }

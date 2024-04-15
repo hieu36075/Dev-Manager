@@ -51,10 +51,10 @@ export class CreateUserDTO{
     @IsNotEmpty()
     @ApiProperty({
         description: 'Array of skill IDs associated with the user',
-        example: ['skill1', 'skill2'],
+        example: ['technical1', 'technical2'],
         type: [String],
     })
-    skills : string[];
+    technical : string[];
 
     @IsArray()
     @IsNotEmpty()

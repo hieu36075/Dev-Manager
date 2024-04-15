@@ -10,10 +10,12 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { Skill } from './skill.entity';
+import { Technical } from './technical.entity';
 import { Position } from './position.entity';
 import { ProfileStatusEnum } from '@/application/common/enums/profile-status.enum';
 import { User } from './user.entity';
+import { Language } from './language.entity';
+import { TechnicalMember } from './technicalMember.entity';
 
 @Entity('profile')
 export class Profile {
@@ -54,11 +56,13 @@ export class Profile {
     @JoinColumn()
     user: User
 
-    @OneToMany(() => Skill, skill => skill.profile)
-    skills: Skill[];
+    @OneToMany(() => TechnicalMember, technical => technical.profile)
+    technicalMember: TechnicalMember[];
 
     @OneToMany(() => Position, position => position.profile)
     positions: Position[];
+
+
 
     @Column('varchar')
     description: string

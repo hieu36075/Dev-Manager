@@ -17,6 +17,11 @@ import { join } from 'path';
 
         synchronize: true,
         ssl:false
+        // extra: {
+        //   ssl: {
+        //     rejectUnauthorized: false,
+        //   },
+        // },
       }),
       inject: [ConfigService],
     }),

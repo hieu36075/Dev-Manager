@@ -13,6 +13,7 @@ import {
 import { ProjectMember } from './projectMember.entity';
 import { ProjectStatusEnum } from '@/application/common/enums/project-status.enum';
 import { User } from './user.entity';
+import { LanguageProject } from './languageProject.entity';
 
   
   @Entity('project')
@@ -33,9 +34,19 @@ import { User } from './user.entity';
     @UpdateDateColumn({ name: 'end_date' })
     endDate: Date;
 
+    @Column({
+      type: 'varchar',
+      array: true,
+      default:[]
+  })
+  language: string[];
+
     @OneToMany(() => ProjectMember, projectMember => projectMember.project)
     projectMembers: ProjectMember[];
     
+    @OneToMany(()=> LanguageProject, languageProject => languageProject.project)
+    languageProject: LanguageProject[];
+
     @Column({
         type: 'enum',
         enum: ProjectStatusEnum,

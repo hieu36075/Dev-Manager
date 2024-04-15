@@ -13,22 +13,29 @@ import { ProjectMemberM } from '@/domain/model/projectMember.model';
 import { ProjectMember } from '../entities/projectMember.entity';
 import { PositionRepositoryOrm } from './position/position.repository';
 import { Position } from '../entities/position.entity';
-import { Skill } from '../entities/skill.entity';
-import { SkillRepositoryOrm } from './skill/skill.repository';
+import { Technical } from '../entities/technical.entity';
+import { TechnicalRepositoryOrm } from './technical/technical.repository';
 import { ProfileRepositoryOrm } from './profile/profile.repository';
 import { Profile } from '../entities/profile.entity';
+import { TechnicalMemberRepositoryOrm } from './technicalMember/technicalMember.repository';
+import { TechnicalMember } from '../entities/technicalMember.entity';
+import { Language } from '../entities/language.entity';
+import { LanguageRepositoryOrm } from './language/language.repository';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User,Role,Project, ProjectMember,Position, Skill, Profile])],
+  imports: [TypeOrmModule.forFeature([User,Role,Project, ProjectMember,Position, Technical, Profile, TechnicalMember, Language])],
   providers: [
     UserRepositoryOrm,
     RoleRepositoryOrm,
     ProjectRepositoryOrm,
     ProjectMemberRepositoryOrm,
     PositionRepositoryOrm,
-    SkillRepositoryOrm,
-    ProfileRepositoryOrm
-  
+    TechnicalRepositoryOrm,
+    ProfileRepositoryOrm,
+    TechnicalMemberRepositoryOrm,
+    LanguageRepositoryOrm
+    
   ],
   exports: [
     UserRepositoryOrm, 
@@ -36,8 +43,10 @@ import { Profile } from '../entities/profile.entity';
     ProjectRepositoryOrm,
     ProjectMemberRepositoryOrm,
     PositionRepositoryOrm,
-    SkillRepositoryOrm,
-    ProfileRepositoryOrm
+    TechnicalRepositoryOrm,
+    ProfileRepositoryOrm,
+    TechnicalMemberRepositoryOrm,
+    LanguageRepositoryOrm
   ],
 })
 export class RepositoriesModule {}

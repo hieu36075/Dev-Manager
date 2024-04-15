@@ -8,7 +8,7 @@ export class CreateAccountCommand implements ICommand{
         public readonly fullName: string,
         public readonly dayOfBirth: string,
         public readonly description: string,
-        public readonly skills: string[],
+        public readonly technical: string[],
         public readonly positions: string[],
     ){}
 }

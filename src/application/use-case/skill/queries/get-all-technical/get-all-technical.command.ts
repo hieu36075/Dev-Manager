@@ -1,6 +1,6 @@
 import {  IQuery } from "@nestjs/cqrs";
 
-export class GetAllSkillQuery implements IQuery {
+export class GetAllTechnicalQuery implements IQuery {
     constructor(
 
     ) {}

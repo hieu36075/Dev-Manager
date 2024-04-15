@@ -1,7 +1,9 @@
 import { ProfileM } from "./profile.model";
+import { TechnicalMemberM } from "./technicalMember.model";
 
-export class SkillM {
+export class TechnicalM {
   id: string;
   name: string;
-  profile: ProfileM;
+  // profile: ProfileM;
+  technicalMember: TechnicalMemberM[];
 }

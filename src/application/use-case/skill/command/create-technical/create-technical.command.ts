@@ -1,6 +1,6 @@
 import { ICommand } from "@nestjs/cqrs";
 
-export class CreateSkillCommand implements ICommand{
+export class CreateTechnicalCommand implements ICommand{
     constructor(
         public readonly name: string,
     ){

@@ -58,7 +58,7 @@ export class UserController {
         createUserDTO.fullName,
         createUserDTO.dayOfBirth,
         createUserDTO.description,
-        createUserDTO.skills,
+        createUserDTO.technical,
         createUserDTO.positions,
       ),
     );

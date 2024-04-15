@@ -10,12 +10,14 @@ import { RoleRepositoryOrm } from '@/infrastructures/repositories/role/role.repo
 import { Role } from '@/application/common/enums/role.enum';
 import { ProfileRepositoryOrm } from '@/infrastructures/repositories/profile/profile.repository';
 import { parseISO } from 'date-fns';
-import { SkillRepositoryOrm } from '@/infrastructures/repositories/skill/skill.repository';
-import { SkillM } from '@/domain/model/skill.model';
+import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical/technical.repository';
+import { TechnicalM } from '@/domain/model/skill.model';
 import { PositionM } from '@/domain/model/position.model';
 import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/position.repository';
 import { Connection } from 'typeorm';
 import { ProfileM } from '@/domain/model/profile.model';
+import { TechnicalMemberRepositoryOrm } from '@/infrastructures/repositories/technicalMember/technicalMember.repository';
+import { TechnicalMemberM } from '@/domain/model/technicalMember.model';
 
 @CommandHandler(CreateAccountCommand)
 export class CreateAccountHandler
@@ -27,9 +29,10 @@ export class CreateAccountHandler
     private readonly roleRepository: RoleRepositoryOrm,
     private readonly bcryptService: BcryptService,
     private readonly profileRepository: ProfileRepositoryOrm,
-    private readonly skillRepository: SkillRepositoryOrm,
+    private readonly skillRepository: TechnicalRepositoryOrm,
     private readonly positionRepository: PositionRepositoryOrm,
     private readonly connection: Connection,
+    private readonly technicalMemberRepository: TechnicalMemberRepositoryOrm
   ) {}
 
   async execute(command: CreateAccountCommand): Promise<ProfileM> {
@@ -40,7 +43,7 @@ export class CreateAccountHandler
       fullName,
       dayOfBirth,
       description,
-      skills,
+      technical,
       positions,
     } = command;
     return await this.connection.transaction(async (manager) => {
@@ -54,7 +57,6 @@ export class CreateAccountHandler
             userName: userName,
             password: hashedPassword,
             role: role,
-            // profile: profile,
           },
           manager,
         );
@@ -69,14 +71,20 @@ export class CreateAccountHandler
           },
           manager,
         );
-        let listSkill: SkillM[] = [];
-        if (skills && skills.length > 0) {
-          for (const id of skills) {
-            const currentSkill = await this.skillRepository.findById(id);
-            if (!currentSkill) {
-              throw new ForbiddenException({ message: 'invalid skill' });
+        if (technical && technical.length > 0) {
+          // let technicalMember: TechnicalMemberM[] = []
+          for (const id of technical) {
+            const currentTechnical = await this.skillRepository.findById(id);
+            if (!currentTechnical) {
+              throw new ForbiddenException({ message: 'invalid technical' });
             }
-            listSkill.push(currentSkill);
+            await this.technicalMemberRepository.create({
+              technical: currentTechnical,
+              profile:profile
+            },manager)
+            // technicalMember.push(newMember)
+            // await this.skillRepository.update(currentTechnical.id, {technicalMember:technicalMember},manager)
+            // await this.skillRepository.update
           }
         }
         let listPositioin: PositionM[] = [];
@@ -89,10 +97,9 @@ export class CreateAccountHandler
             listPositioin.push(currentPosition);
           }
         }
-
-        await this.profileRepository.addSkillsAndPositonToProfile(
+        
+        await this.profileRepository.addPositonToProfile(
           profile.id,
-          listSkill,
           listPositioin,
           manager,
         );

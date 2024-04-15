@@ -3,18 +3,18 @@ import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { PositionRepositoryOrm } from "@/infrastructures/repositories/position/position.repository";
 import { ForbiddenException } from "@nestjs/common";
 import { PositionM } from "@/domain/model/position.model";
-import { CreateSkillCommand } from "./create-skill.command";
-import { SkillM } from "@/domain/model/skill.model";
-import { SkillRepositoryOrm } from "@/infrastructures/repositories/skill/skill.repository";
+import { CreateTechnicalCommand } from "./create-technical.command";
+import { TechnicalM } from "@/domain/model/skill.model";
+import { TechnicalRepositoryOrm } from "@/infrastructures/repositories/technical/technical.repository";
 
-@CommandHandler(CreateSkillCommand)
-export class CreateSkillHandler implements ICommandHandler<CreateSkillCommand>{
+@CommandHandler(CreateTechnicalCommand)
+export class CreateTechnicalHandler implements ICommandHandler<CreateTechnicalCommand>{
     constructor(
-        private readonly skillRepository : SkillRepositoryOrm
+        private readonly skillRepository : TechnicalRepositoryOrm
     ){
 
     }
-    async execute(command: CreateSkillCommand): Promise<SkillM> {
+    async execute(command: CreateTechnicalCommand): Promise<TechnicalM> {
         const {name} = command
         if(name.trim() === '' ){
             throw new ForbiddenException("Error data")

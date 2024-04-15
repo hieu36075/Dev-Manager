@@ -19,7 +19,6 @@ import { ProjectController } from "./project/project.controller";
 import { JwtStrategy } from "@/application/common/strategies/jwt.strategy";
 import { UpdateProjectCommand } from "@/application/use-case/project/command/update-project/update-project.command";
 import { UpdateProjectHandler } from "@/application/use-case/project/command/update-project/update-project.handler";
-
 import { FileController } from "./file/file.controller";
 import { CloudinaryModule } from "@/infrastructures/service/cloudinary/cloudinary.module";
 import { GetAllPostionQuery } from "@/application/use-case/position/queries/get-all-position/get-all-position.command";
@@ -27,11 +26,10 @@ import { GetAllPositionHandler } from "@/application/use-case/position/queries/g
 import { CreatePositionCommand } from "@/application/use-case/position/command/create-position/create-position.command";
 import { CreatePositionHandler } from "@/application/use-case/position/command/create-position/create-position.handler";
 import { PositionController } from "./position/position.controller";
-import { CreateSkillCommand } from "@/application/use-case/skill/command/create-skill/create-skill.command";
-import { CreateSkillHandler } from "@/application/use-case/skill/command/create-skill/create-skill.handler";
-import { GetAllSkillQuery } from "@/application/use-case/skill/queries/get-all-skill/get-all-skill.command";
-import { GetAllSkillHandler } from "@/application/use-case/skill/queries/get-all-skill/get-all-skill.handler";
-import { SkillController } from "./skill/skill.controller";
+import { CreateTechnicalCommand } from "@/application/use-case/skill/command/create-technical/create-technical.command";
+import { CreateTechnicalHandler } from "@/application/use-case/skill/command/create-technical/create-technical.handler";
+import { GetAllTechnicalQuery } from "@/application/use-case/skill/queries/get-all-technical/get-all-technical.command";
+import { GetAllTechnicalHandler } from "@/application/use-case/skill/queries/get-all-technical/get-all-technical.handler";
 import { GetAllProjectQuery } from "@/application/use-case/project/queries/get-all-project/get-all-project.command";
 import { GetAllProjectQueryHandler } from "@/application/use-case/project/queries/get-all-project/get-all-project.handler";
 import { AddUserProjectCommand } from "@/application/use-case/project/command/add-user-project/add-user-project.command";
@@ -40,6 +38,7 @@ import { GetAllProfileEmployeeHandler } from "@/application/use-case/user/querie
 import { GetAllProfileEmployeeQuery } from "@/application/use-case/user/queries/getAllEmployee/get-all-employee.command";
 import { GetAllUserOptionQuery } from "@/application/use-case/user/queries/getAllUserOption/get-all-user-option.command";
 import { GetAllUserOptionsHandler } from "@/application/use-case/user/queries/getAllUserOption/get-all-user-option.handler";
+import { TechnicalController } from "./technical/skill.controller";
 
 
 const CommandHandler = [
@@ -53,8 +52,8 @@ const CommandHandler = [
     UpdateProjectHandler,
     CreatePositionCommand,
     CreatePositionHandler,
-    CreateSkillCommand,
-    CreateSkillHandler,
+    CreateTechnicalCommand,
+    CreateTechnicalHandler,
     AddUserProjectCommand,
     AddUserProjectHandler
   ]
@@ -66,13 +65,15 @@ const QueryHandler = [
     GetAllProjectQueryHandler,
     GetAllPostionQuery,
     GetAllPositionHandler,
-    GetAllSkillQuery,
-    GetAllSkillHandler,
+    GetAllTechnicalQuery,
+    GetAllTechnicalHandler,
     GetAllProfileEmployeeHandler,
     GetAllProfileEmployeeQuery,
     GetAllUserOptionQuery, 
     GetAllUserOptionsHandler
 ]
+
+
 
 @Module({
     imports: [
@@ -88,7 +89,7 @@ const QueryHandler = [
         ProjectController,
         FileController,
         PositionController,
-        SkillController
+        TechnicalController
     ],
     providers: [
         ...CommandHandler,

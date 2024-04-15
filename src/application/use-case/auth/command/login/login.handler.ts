@@ -6,7 +6,7 @@ import { JwtTokenService } from "@/infrastructures/service/jwt/jwt.service";
 import { BcryptService } from "@/infrastructures/service/bcrypt/bcrypt.service";
 import { LoginCommand } from "./login.command";
 import { Tokens } from "@/application/common/types/tokens.types";
-import { ForbiddenException, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, Inject, NotFoundException } from "@nestjs/common";
 
 
 @CommandHandler(LoginCommand)
@@ -20,18 +20,19 @@ export class LoginHandler implements ICommandHandler<LoginCommand>{
     }
     async execute(command: LoginCommand): Promise<Tokens>{
         const {email, password} = command
+        const user = await this.userRepository.getUserByEmail(email)
+        
+        if(!user?.role ===null || !user){
+            throw new ForbiddenException({message:"Please check account"})
+        }
+        
+        const verifyPassword = await this.bcryptService.compare(password,user.password )
+        if(!verifyPassword){
+            throw new ForbiddenException({message:"Please check password again"})
+        }
+        
         try{   
-            const user = await this.userRepository.getUserByEmail(email)
-   
-            if(!user?.role ===null || !user){
-                throw new ForbiddenException({message:"Please check account"})
-            }
-    
-            const verifyPassword = await this.bcryptService.compare(password,user.password )
-            if(!verifyPassword){
-                throw new ForbiddenException({message:"Please check password again"})
-            }
-            return  await this.jwtService.createToken({id: user.id, username: user.userName, role: user.role.name})
+            return await this.jwtService.createToken({id: user.id, username: user.userName, role: user.role.name})
         }catch(error){
             throw new ForbiddenException(error)
         }
