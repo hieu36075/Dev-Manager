@@ -11,10 +11,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Role } from './role.entity';
-import { Profile } from './profile.entity';
 import { ProjectMember } from './projectMember.entity';
 import { Project } from './project.enity';
 import { LanguageMember } from './languageMember.entity';
+import { Profile } from './profile.entity';
+import { TechnicalMember } from './technicalMember.entity';
 
 @Entity('users')
 export class User {
@@ -60,4 +61,11 @@ export class User {
 
   @OneToMany(() => Project, project => project.user)
   project: Project[]
+
+  @OneToMany(() => TechnicalMember, technical => technical.user)
+  technicalMember: TechnicalMember[];
+
+  @OneToOne(() => Profile )
+  @JoinColumn()
+  profile: Profile
 }

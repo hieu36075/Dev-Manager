@@ -1,8 +1,12 @@
+import { PageMetaDto } from "@/application/dto/pagination/pageMeta.dto";
+import { PageOptionsDto } from "@/application/dto/pagination/paginationOptions";
+import { PageDto } from "@/application/dto/pagination/responsePagination";
 import { LanguageM } from "@/domain/model/language.model";
 import { ILanguageRepository } from "@/domain/repositories/language.repository";
 import { Language } from "@/infrastructures/entities/language.entity";
+import { BadRequestException, ForbiddenException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 
 export class LanguageRepositoryOrm implements ILanguageRepository{
     constructor(
@@ -11,17 +15,63 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
     ){
 
     }
-    findAll(option?: any): Promise<LanguageM[]> {
-        throw new Error("Method not implemented.");
+    async findAll(pageOptionsDto: PageOptionsDto): Promise<any> {
+        // throw new Error("Method not implemented.");
+        const { name, page, take, orderBy } = pageOptionsDto;
+        const takeData = take || 10;
+        const skip = (page - 1) * take;
+        const [result, total] = await this.languageRepository.findAndCount({
+          where: {
+            name: name ? Like(`%${name}%`) : Like(`%%`),
+          },
+          relations:{
+            // user:{
+            //     profile:true
+            // }
+          },
+          select:{
+            // user:{
+            // }
+          },
+          skip: skip,
+          take: takeData,
+        });
+
+        
+        const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
+        return new PageDto<LanguageM>(result, pageMetaDto, 'Success');
     }
-    findById(id: string): Promise<LanguageM> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<LanguageM> {
+        if(!id){
+            throw new ForbiddenException({message:"Please Check Data Again"})
+        }
+        try {
+            
+            const language = await this.languageRepository.findOne({
+                where:{
+                    id:id
+                }
+            })
+            if(!language){
+                throw new BadRequestException({message: "khong co"})
+            }
+            return language
+        } catch (error) {
+            console.log(error)
+        }
     }
-    create(entity: LanguageM, manager?: any): Promise<LanguageM> {
-        throw new Error("Method not implemented.");
+    async create(entity: Partial<LanguageM>, manager?: any): Promise<LanguageM> {
+        const language = new LanguageM
+        language.name = entity.name
+        return await this.languageRepository.save(language)
     }
-    update(id: string, entity: Partial<LanguageM>, manager?: any): Promise<LanguageM> {
-        throw new Error("Method not implemented.");
+    async update(id: string, entity: Partial<LanguageM>, manager?: any): Promise<LanguageM> {
+        const language = await this.findById(id)
+        if(!language){
+            throw new ForbiddenException({message: 'Not Found Id'})
+        }
+        language.name = entity.name
+        return await this.languageRepository.save(language)
     }
     delete(id: string): Promise<void> {
         throw new Error("Method not implemented.");

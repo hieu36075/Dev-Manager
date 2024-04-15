@@ -4,9 +4,10 @@ import { ProjectM } from './project.model';
 import { TechnicalM } from './technical.model';
 import { UserM } from './user.model';
 
-export class TechnicalMemberM {
+export class TechnicalProjectM {
   id: string;
-  user: UserM;
+  project: ProjectM;
   technical: TechnicalM;
-
+  level: string;
+  experience: string;
 }

@@ -12,13 +12,14 @@ import { GetAllUserOptionQuery } from "./get-all-user-option.command";
 @QueryHandler(GetAllUserOptionQuery)
 export class GetAllUserOptionsHandler implements IQueryHandler<GetAllUserOptionQuery> {
   constructor(
-    private readonly profileRepository: ProfileRepositoryOrm,
+    private readonly userRepository: UserRepositoryOrm,
     ) {}
 
   async execute(query: GetAllUserOptionQuery): Promise<any> {
     const { pageOptionsDto } = query
     try{
-      const users = await this.profileRepository.findAllOptions(pageOptionsDto);
+      const users = await this.userRepository.findAll(pageOptionsDto);
+      console.log(users)
       return users
 
     }catch(error){

@@ -26,12 +26,37 @@ export class ProjectRepositoryOrm implements IProjectRepository {
           where: {
             name: name ? Like(`%${name}%`) : Like(`%%`),
           },
+          relations: ['projectMembers', 'projectMembers.user', 'projectMembers.user.profile', 'projectMembers.user.manager'],
+          select:{
+            projectMembers:{
+              id:true,
+              user:{
+                isManager:true,
+                managerId:true,
+                profile:{
+                  fullName:true,
+                  phoneNumber:true,
+                  email:true,
+                  dayOfBirth:true,
+                  avatarUrl:true,
+                  gender:true,
+                  status:true
+                },
+                manager:{
+                  userName:true
+                },
+           
+              }
+            }
+          },
           order: {
             startDate: orderBy,
           },
           skip: skip,
           take: takeData,
         });
+
+        
         const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
         return new PageDto<ProjectM>(result, pageMetaDto, 'Success');
       }
@@ -54,7 +79,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         project.description = createProjectDTO.description
         project.startDate = parseISO(createProjectDTO.startDate);
         project.endDate = parseISO(createProjectDTO.endDate);
-        project.technical = createProjectDTO.technical
+        // project.technical = createProjectDTO.technical
         return await manager.save(project)
     }
 
@@ -69,7 +94,6 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         projectToUpdate.description = updateProjectDTO.description;
         projectToUpdate.startDate = parseISO(updateProjectDTO.startDate); 
         projectToUpdate.endDate = parseISO(updateProjectDTO.endDate);
-        projectToUpdate.technical = updateProjectDTO.technical;
         return await this.projectRepository.save(projectToUpdate)
     }
 

@@ -33,14 +33,9 @@ export class UserController {
   }
 
   @Get('get-user')
-  async getAllUser(): Promise<ProfileM> {
-    return await this.queryBus.execute(new GetAllUserQuery());
+  async getAllUser(@Query('isManager') isManager: boolean): Promise<ProfileM> {
+    return await this.queryBus.execute(new GetAllUserQuery(isManager));
   }
-
-  // @Get('get-user')
-  // async getAllProfile(): Promise:<ProfileM[]>{
-  //   return await this.queryBus.execute(new)
-  // }
 
 
   @Get('get-employee')

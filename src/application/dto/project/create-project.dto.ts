@@ -44,6 +44,13 @@ export class CreateProjectDTO{
         example: '["C#", "java"]',
     })
     technical: string[];
+    @IsArray()
+    @ArrayNotEmpty()
+    @ApiProperty({
+        description: 'language using for project',
+        example: '["Docker", "Aws"]',
+    })
+    language: string[];
 
     @IsString()
     @IsNotEmpty()

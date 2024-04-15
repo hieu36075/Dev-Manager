@@ -15,7 +15,7 @@ export class TechnicalMember {
   @ManyToOne(() => Technical, technical => technical.technicalMember)
   technical: Technical;
 
-  @ManyToOne(() => Profile, profile => profile.technicalMember)
-  profile: Profile;
+  @ManyToOne(() => User, user => user.technicalMember)
+  user: User;
 
 }

@@ -4,5 +4,5 @@ import { PageDto } from "@/application/dto/pagination/responsePagination";
 
 
 export interface IProfileRepository extends GenericRepository<ProfileM>{
-    getEmployee(id:string, managerId: string) : Promise<ProfileM[]>
+    // getEmployee(id:string, managerId: string) : Promise<ProfileM[]>
 }

@@ -26,10 +26,10 @@ import { GetAllPositionHandler } from "@/application/use-case/position/queries/g
 import { CreatePositionCommand } from "@/application/use-case/position/command/create-position/create-position.command";
 import { CreatePositionHandler } from "@/application/use-case/position/command/create-position/create-position.handler";
 import { PositionController } from "./position/position.controller";
-import { CreateTechnicalCommand } from "@/application/use-case/skill/command/create-technical/create-technical.command";
-import { CreateTechnicalHandler } from "@/application/use-case/skill/command/create-technical/create-technical.handler";
-import { GetAllTechnicalQuery } from "@/application/use-case/skill/queries/get-all-technical/get-all-technical.command";
-import { GetAllTechnicalHandler } from "@/application/use-case/skill/queries/get-all-technical/get-all-technical.handler";
+import { CreateTechnicalCommand } from "@/application/use-case/technical/command/create-technical/create-technical.command";
+import { CreateTechnicalHandler } from "@/application/use-case/technical/command/create-technical/create-technical.handler";
+import { GetAllTechnicalQuery } from "@/application/use-case/technical/queries/get-all-technical/get-all-technical.command";
+import { GetAllTechnicalHandler } from "@/application/use-case/technical/queries/get-all-technical/get-all-technical.handler";
 import { GetAllProjectQuery } from "@/application/use-case/project/queries/get-all-project/get-all-project.command";
 import { GetAllProjectQueryHandler } from "@/application/use-case/project/queries/get-all-project/get-all-project.handler";
 import { AddUserProjectCommand } from "@/application/use-case/project/command/add-user-project/add-user-project.command";
@@ -38,7 +38,16 @@ import { GetAllProfileEmployeeHandler } from "@/application/use-case/user/querie
 import { GetAllProfileEmployeeQuery } from "@/application/use-case/user/queries/getAllEmployee/get-all-employee.command";
 import { GetAllUserOptionQuery } from "@/application/use-case/user/queries/getAllUserOption/get-all-user-option.command";
 import { GetAllUserOptionsHandler } from "@/application/use-case/user/queries/getAllUserOption/get-all-user-option.handler";
-import { TechnicalController } from "./technical/skill.controller";
+import { TechnicalController } from "./technical/technical.controller";
+import { GetAllLanguageQuery } from "@/application/use-case/language/query/get-all-language/get-all-language.command";
+import { GetAllLanguageQueryHandler } from "@/application/use-case/language/query/get-all-language/get-all-language.handler";
+import { CreateLanguageCommand } from "@/application/use-case/language/command/create-language/create-language.command";
+import { CreateLanguageHandler } from "@/application/use-case/language/command/create-language/create-languale.handler";
+import { UpdateLanguageCommand } from "@/application/use-case/language/command/update-language/update-language.handler";
+import { UpdateLanguageHandler } from "@/application/use-case/language/command/update-language/update.language.command";
+import { LanguageController } from "./language/language.controller";
+import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.command";
+import { GetProjectByIdQueryHandler } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.handler";
 
 
 const CommandHandler = [
@@ -55,7 +64,11 @@ const CommandHandler = [
     CreateTechnicalCommand,
     CreateTechnicalHandler,
     AddUserProjectCommand,
-    AddUserProjectHandler
+    AddUserProjectHandler,
+    CreateLanguageCommand,
+    CreateLanguageHandler,
+    UpdateLanguageCommand,
+    UpdateLanguageHandler
   ]
 
 const QueryHandler = [
@@ -70,7 +83,11 @@ const QueryHandler = [
     GetAllProfileEmployeeHandler,
     GetAllProfileEmployeeQuery,
     GetAllUserOptionQuery, 
-    GetAllUserOptionsHandler
+    GetAllUserOptionsHandler,
+    GetAllLanguageQuery,
+    GetAllLanguageQueryHandler,
+    GetProjectByIdQuery,
+    GetProjectByIdQueryHandler
 ]
 
 
@@ -89,7 +106,8 @@ const QueryHandler = [
         ProjectController,
         FileController,
         PositionController,
-        TechnicalController
+        TechnicalController,
+        LanguageController
     ],
     providers: [
         ...CommandHandler,

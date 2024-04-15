@@ -4,6 +4,7 @@ import { ProjectM } from "./project.model";
 import { ProjectMemberM } from "./projectMember.model";
 import { RoleM } from "./role.model";
 import { LanguageMemberM } from "./languageMember.modal";
+import { TechnicalMemberM } from "./technicalMember.model";
 
 export class UserM {
     id: string;
@@ -15,7 +16,8 @@ export class UserM {
     role: RoleM;
     projectMembers: ProjectMemberM[];
     languageMember: LanguageMemberM[];
-    // profile: ProfileM;
+    technicalMember: TechnicalMemberM[]
+    profile: ProfileM;
     isManager: boolean;
     manager: UserM;
     managerId: string;

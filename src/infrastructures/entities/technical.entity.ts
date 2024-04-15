@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Profile } from './profile.entity';
 import { TechnicalMember } from './technicalMember.entity';
+import { TechnicalProject } from './technicalProject.enity';
 
 @Entity('technical')
 export class Technical {
@@ -21,4 +22,7 @@ export class Technical {
 
   @OneToMany(() => TechnicalMember, technicalMember => technicalMember.technical)
   technicalMember: TechnicalMember[];
+
+  @OneToMany(()=>TechnicalProject, technicalProject => technicalProject.technical)
+  technicalProject: TechnicalProject[]
 }

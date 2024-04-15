@@ -11,7 +11,7 @@ import { Role } from '@/application/common/enums/role.enum';
 import { ProfileRepositoryOrm } from '@/infrastructures/repositories/profile/profile.repository';
 import { parseISO } from 'date-fns';
 import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical/technical.repository';
-import { TechnicalM } from '@/domain/model/skill.model';
+import { TechnicalM } from '@/domain/model/technical.model';
 import { PositionM } from '@/domain/model/position.model';
 import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/position.repository';
 import { Connection } from 'typeorm';
@@ -29,7 +29,7 @@ export class CreateAccountHandler
     private readonly roleRepository: RoleRepositoryOrm,
     private readonly bcryptService: BcryptService,
     private readonly profileRepository: ProfileRepositoryOrm,
-    private readonly skillRepository: TechnicalRepositoryOrm,
+    private readonly technicalRepository: TechnicalRepositoryOrm,
     private readonly positionRepository: PositionRepositoryOrm,
     private readonly connection: Connection,
     private readonly technicalMemberRepository: TechnicalMemberRepositoryOrm
@@ -51,15 +51,7 @@ export class CreateAccountHandler
         const hashedPassword = await this.bcryptService.hash(password);
         const role = await this.roleRepository.findByName(Role.EMPLOYEE);
 
-        const newUser = await this.userRepository.create(
-          {
-            email: email,
-            userName: userName,
-            password: hashedPassword,
-            role: role,
-          },
-          manager,
-        );
+
 
         const profile = await this.profileRepository.create(
           {
@@ -67,20 +59,32 @@ export class CreateAccountHandler
             dayOfBirth: parseISO(dayOfBirth),
             description: description,
             email: email,
-            user: newUser
+   
+          },
+          manager,
+        );
+
+
+        const newUser = await this.userRepository.create(
+          {
+            email: email,
+            userName: userName,
+            password: hashedPassword,
+            role: role,
+            profile: profile
           },
           manager,
         );
         if (technical && technical.length > 0) {
           // let technicalMember: TechnicalMemberM[] = []
           for (const id of technical) {
-            const currentTechnical = await this.skillRepository.findById(id);
+            const currentTechnical = await this.technicalRepository.findById(id);
             if (!currentTechnical) {
               throw new ForbiddenException({ message: 'invalid technical' });
             }
             await this.technicalMemberRepository.create({
               technical: currentTechnical,
-              profile:profile
+              user:newUser
             },manager)
             // technicalMember.push(newMember)
             // await this.skillRepository.update(currentTechnical.id, {technicalMember:technicalMember},manager)
@@ -106,7 +110,7 @@ export class CreateAccountHandler
         return profile;
       } catch (error) {
     
-        throw new ForbiddenException({ message: error.driverError.detail });
+        throw new ForbiddenException({ message: error });
       }
     });
   }

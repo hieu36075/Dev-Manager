@@ -1,5 +1,5 @@
 import { PositionM } from "@/domain/model/position.model";
-import { TechnicalM } from "@/domain/model/skill.model";
+import { TechnicalM } from "@/domain/model/technical.model";
 import { ITechnicalRepository } from "@/domain/repositories/technical.repository";
 import {  Technical } from "@/infrastructures/entities/technical.entity";
 import { ForbiddenException } from "@nestjs/common";
@@ -9,28 +9,33 @@ import { EntityManager, Repository } from "typeorm";
 export class TechnicalRepositoryOrm implements ITechnicalRepository{
     constructor(
         @InjectRepository(Technical)
-        private readonly skillRepository: Repository<Technical>
+        private readonly technicalRepository: Repository<Technical>
     ){
 
     }
     async findAll(): Promise<TechnicalM[]> {
-        return this.skillRepository.find()
+        return this.technicalRepository.find()
     }
     async findById(id: string): Promise<TechnicalM> {
         if(!id){
             throw new ForbiddenException({message:"Please Check Data Again"})
         }
-        const skill = await this.skillRepository.findOne({
-            where:{
-                id:id
-            }
-        })
-        return skill
+        try{
+            const technical = await this.technicalRepository.findOne({
+                where:{
+                    id:id
+                }
+            })
+            return technical
+
+        }catch(error){
+            console.log(error)
+        }
     }
     async create(entity: Partial<TechnicalM>): Promise<TechnicalM> {
-        const skill = new PositionM
-        skill.name = entity.name
-        return await this.skillRepository.save(skill)
+        const technical = new PositionM
+        technical.name = entity.name
+        return await this.technicalRepository.save(technical)
 
     }
     async update(id: string, entity: Partial<TechnicalM>,menager?: EntityManager): Promise<TechnicalM> {

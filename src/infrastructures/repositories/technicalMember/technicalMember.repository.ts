@@ -22,7 +22,7 @@ export class TechnicalMemberRepositoryOrm implements ITechnicalMemberRepository{
     async create(entity: Partial<TechnicalMemberM>, manager?: any): Promise<TechnicalMemberM> {
         const projectMember = new TechnicalMember();
         projectMember.technical = entity.technical;
-        projectMember.profile = entity.profile;
+        projectMember.user = entity.user;
         return await manager.save(projectMember);
     }
     update(id: string, entity: Partial<TechnicalMemberM>, manager?: any): Promise<TechnicalMemberM> {

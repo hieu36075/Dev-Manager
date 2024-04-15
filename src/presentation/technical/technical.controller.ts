@@ -1,10 +1,10 @@
 import { CreatePositionDTO } from "@/application/dto/position/create-position.dto";
 import { UpdatePostionDTO } from "@/application/dto/position/update-postiion.dto";
-import { CreateSkillDTO } from "@/application/dto/skill/create-skill.dto";
-import { CreateTechnicalCommand } from "@/application/use-case/skill/command/create-technical/create-technical.command";
-import { GetAllTechnicalQuery } from "@/application/use-case/skill/queries/get-all-technical/get-all-technical.command";
+import { CreateTechnicalDTO } from "@/application/dto/technical/create-technical.dto";
+import { CreateTechnicalCommand } from "@/application/use-case/technical/command/create-technical/create-technical.command";
+import { GetAllTechnicalQuery } from "@/application/use-case/technical/queries/get-all-technical/get-all-technical.command";
 import { PositionM } from "@/domain/model/position.model";
-import { TechnicalM } from "@/domain/model/skill.model";
+import { TechnicalM } from "@/domain/model/technical.model";
 import { Body, Controller, Get, Patch, Post, Query } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { ApiTags } from "@nestjs/swagger";
@@ -30,8 +30,8 @@ export class TechnicalController{
     }
 
     @Post()
-    create(@Body() createSkillDTO : CreateSkillDTO): Promise<TechnicalM>{
-        return this.commandBus.execute(new CreateTechnicalCommand(createSkillDTO.name))
+    create(@Body() createTechnicalDTO : CreateTechnicalDTO): Promise<TechnicalM>{
+        return this.commandBus.execute(new CreateTechnicalCommand(createTechnicalDTO.name))
     }
 
     @Patch(':id')

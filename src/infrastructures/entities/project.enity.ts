@@ -14,6 +14,7 @@ import { ProjectMember } from './projectMember.entity';
 import { ProjectStatusEnum } from '@/application/common/enums/project-status.enum';
 import { User } from './user.entity';
 import { LanguageProject } from './languageProject.entity';
+import { TechnicalProject } from './technicalProject.enity';
 
   
   @Entity('project')
@@ -34,12 +35,6 @@ import { LanguageProject } from './languageProject.entity';
     @UpdateDateColumn({ name: 'end_date' })
     endDate: Date;
 
-    @Column({
-      type: 'varchar',
-      array: true,
-      default:[]
-  })
-  language: string[];
 
     @OneToMany(() => ProjectMember, projectMember => projectMember.project)
     projectMembers: ProjectMember[];
@@ -47,15 +42,15 @@ import { LanguageProject } from './languageProject.entity';
     @OneToMany(()=> LanguageProject, languageProject => languageProject.project)
     languageProject: LanguageProject[];
 
+    @OneToMany(()=>TechnicalProject, technicalProject => technicalProject.technical)
+    technicalProject: TechnicalProject[]
+
     @Column({
         type: 'enum',
         enum: ProjectStatusEnum,
         default: ProjectStatusEnum.Pending
     })
     status: ProjectStatusEnum;
-
-    @Column('varchar', { array: true })
-    technical: string[];
 
     @ManyToOne(()=> User, {nullable:true})
     @JoinColumn({ name: 'managerId' })

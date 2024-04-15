@@ -15,6 +15,7 @@ import { ProjectM } from "@/domain/model/project.model"
 import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
+import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.command"
 
 @Controller('project')
 @ApiTags('Project')
@@ -34,6 +35,11 @@ export class ProjectController{
         return this.queryBus.execute(new GetAllProjectQuery(pageOptionsDto))
     }
 
+    @Get(":id")
+    async getById(@Param('id') id:string):Promise<ProjectM[]>{
+        return this.queryBus.execute(new GetProjectByIdQuery(id))
+    }
+
     @Post()
     async create(@Body()createProjectDTO : CreateProjectDTO) : Promise<any>{
         return await this.commandBus.execute(new CreateProjectCommand(
@@ -42,6 +48,7 @@ export class ProjectController{
             createProjectDTO.startDate,
             createProjectDTO.endDate,
             createProjectDTO.technical,
+            createProjectDTO.language,
             createProjectDTO.managerId,
             createProjectDTO.employeeId
         ))
@@ -52,6 +59,10 @@ export class ProjectController{
         return await this.commandBus.execute(command)
     }
 
+    @Post('unassign-employee')
+    async unassignEmployee(@Body() addEmployeeDto: AddEmployeeDTO): Promise<any>{
+        return 
+    }
     @Patch(':id')
     async update(@Param('id') id:string,@Body()updateProjectDTO:UpdateProjectDTO): Promise<any>{
         return await this.commandBus.execute(new UpdateProjectCommand(

@@ -7,35 +7,78 @@ import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { Connection } from 'typeorm';
 import { ProfileM } from '@/domain/model/profile.model';
 import { UserM } from '@/domain/model/user.model';
+import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical/technical.repository';
+import { LanguageRepositoryOrm } from '@/infrastructures/repositories/language/language.repository';
+import { LanguageProjectRepositoryOrm } from '@/infrastructures/repositories/languageProject/languageProject.repository';
+import { TechnicalProjectRepositoryOrm } from '@/infrastructures/repositories/technicalProject/technicalProject.repository';
 
 @CommandHandler(CreateProjectCommand)
 export class CreateProjectHandler
-  implements ICommandHandler<CreateProjectCommand>
-{
+  implements ICommandHandler<CreateProjectCommand> {
   constructor(
     private readonly projectRepository: ProjectRepositoryOrm,
     private readonly projectMemberRepository: ProjectMemberRepositoryOrm,
     private readonly userRepository: UserRepositoryOrm,
+    private readonly languageRepository: LanguageRepositoryOrm,
+    private readonly languageProjectRepository: LanguageProjectRepositoryOrm,
+    private readonly technicalRepository: TechnicalRepositoryOrm,
+    private readonly technicalProjectRepository: TechnicalProjectRepositoryOrm,
     private readonly connection: Connection,
-  ) {}
+  ) { }
 
   async execute(command: CreateProjectCommand): Promise<any> {
-    const { managerId, employeeId } = command;
+    const { managerId, employeeId, technical, language } = command;
+
     return await this.connection.transaction(async (manager) => {
       try {
         const project = await this.projectRepository.create(command, manager);
+
         const user = await this.userRepository.findById(managerId);
-        const managerUser = await this.projectMemberRepository.create(
+
+        if (user.isManager === false) {
+          throw new ForbiddenException({ message: "Invalid manager" })
+        }
+
+        await this.projectMemberRepository.create(
           { project: project, user: user },
           manager,
         );
+
+        if (technical && technical.length > 0) {
+          for (const id of technical) {
+
+            const currentTechnical = await this.technicalRepository.findById(id);
+            if (!currentTechnical) {
+              throw new ForbiddenException({ message: 'invalid technical' });
+            }
+            await this.technicalProjectRepository.create({
+              project: project,
+              technical: currentTechnical
+            }, manager)
+          }
+        }
+
+        if (language && language.length > 0) {
+          for (const id of language) {
+
+            const currentLanguage = await this.languageRepository.findById(id);
+
+            if (!currentLanguage) {
+              throw new ForbiddenException({ message: 'invalid language' });
+            }
+            await this.languageProjectRepository.create({
+              project: project,
+              language: currentLanguage
+            }, manager)
+          }
+        }
+
         if (employeeId && employeeId.length > 0) {
           for (const id of employeeId) {
             const currentPofile = await this.userRepository.findById(id);
             if (!currentPofile) {
-              throw new ForbiddenException({ message: 'invalid position' });
+              throw new ForbiddenException({ message: 'invalid employee' });
             }
-
             await this.projectMemberRepository.create(
               {
                 project: project,
@@ -43,13 +86,15 @@ export class CreateProjectHandler
               },
               manager,
             );
+            await this.userRepository.update(id, { managerId: user.managerId }, manager);
           }
         }
+
         return project;
       } catch (error) {
-        if (error.driverError.code === '23505') {
-          throw new BadRequestException({ message: 'NAME_ALREADY_EXIST' });
-        }
+        // if (error.driverError.code === '23505') {
+        //   throw new BadRequestException({ message: 'NAME_ALREADY_EXIST' });
+        // }
         throw new ForbiddenException({ message: 'Create failed', error });
       }
     });

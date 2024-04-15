@@ -4,7 +4,7 @@ import { PageOptionsDto } from '@/application/dto/pagination/paginationOptions';
 import { PageDto } from '@/application/dto/pagination/responsePagination';
 import { PositionM } from '@/domain/model/position.model';
 import { ProfileM } from '@/domain/model/profile.model';
-import {TechnicalM } from '@/domain/model/skill.model';
+import {TechnicalM } from '@/domain/model/technical.model';
 import { IProfileRepository } from '@/domain/repositories/profile.repository';
 import { Profile } from '@/infrastructures/entities/profile.entity';
 import { ForbiddenException } from '@nestjs/common';
@@ -18,50 +18,45 @@ export class ProfileRepositoryOrm implements IProfileRepository {
   ) {}
 
   async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<any>{
-    const { name, page, take } = pageOptionsDto;
-      const takeData = take || 10;
-      const skip = (page - 1) * take;
-      const [result, total] = await this.profileRepository.findAndCount({
-          where:{
-              fullName: name? Like(`%${name}%`) : Like(`%%`)
-          },
-          relations:{
-            positions:true,
-            technicalMember:true,
-            user:true
-          },
-          select:{
-            user:{
-              isManager:true,
-              managerId:true
-            }
-          },
-          skip,
-          take:takeData
-      });
+    // const { name, page, take } = pageOptionsDto;
+    //   const takeData = take || 10;
+    //   const skip = (page - 1) * take;
+    //   const [result, total] = await this.profileRepository.findAndCount({
+    //       where:{
+    //           fullName: name? Like(`%${name}%`) : Like(`%%`)
+    //       },
+    //       relations:{
+    //         positions:true,
+    //         technicalMember:true,
+    //         user:{
+    //           manager:true
+    //         }
+    //       },
+    //       select:{
+    //         user:{
+    //           isManager:true,
+    //           managerId:true,
+    //           userName:true,
+    //           manager:{
+    //             userName:true
+    //           }
+    //         }
+    //       },
+    //       skip,
+    //       take:takeData
+    //   });
 
-      const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
-
-      return new PageDto<ProfileM>(result, pageMetaDto, "Success")
+    //   const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
+      return this.profileRepository.find()
+      // return new PageDto<ProfileM>(result, pageMetaDto, "Success")
 
   }
 
-  async findAll(isManager?: boolean):Promise<ProfileM[]>{
+  async findAll(id?: string):Promise<ProfileM[]>{
     return await this.profileRepository.find({
-      relations:{
-        user:true
-      }, 
-      // where:{
-      //   user:{
-      //     isManager: isManager 
-      //   }
-      // },
-      select: { 
-        user: {
-          id: true, 
-          isManager:true
-        },
-      },
+      where:{
+        id:id
+      }
     });
   }
   async findById(id: string): Promise<ProfileM> {
@@ -81,7 +76,7 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     profile.dayOfBirth = entity.dayOfBirth;
     profile.description = entity.description;
     profile.avatarUrl = entity.avatarUrl || AVATARDEFAULT;
-    profile.user = entity.user
+    // profile.user = entity.user
     return await manager.save(profile);
   }
   update(id: string, entity: Partial<ProfileM>): Promise<ProfileM> {
@@ -105,19 +100,19 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     await manager.save(profile);
   }
 
-  async getEmployee(projectId:string) : Promise<ProfileM[]>{
-    return await this.profileRepository.find({
-      where:{
-        user:{
-          projectMembers:{
-            project:{
-              id: projectId
-            }
-          },
+  // async getEmployee(projectId:string) : Promise<ProfileM[]>{
+  //   return await this.profileRepository.find({
+  //     where:{
+  //       user:{
+  //         projectMembers:{
+  //           project:{
+  //             id: projectId
+  //           }
+  //         },
           
-        },
+  //       },
         
-      }
-    })
-  }
+  //     }
+  //   })
+  // }
 }

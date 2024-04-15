@@ -5,6 +5,7 @@ import { User } from '@/infrastructures/entities/user.entity';
 import { UserM } from './user.model';
 import { LanguageMemberM } from './languageMember.modal';
 import { LanguageProjectM } from './languageProject.modal';
+import { TechnicalProjectM } from './technicalProject.model';
 
 export class ProjectM {
   id:string;
@@ -12,10 +13,9 @@ export class ProjectM {
   description: string;
   startDate: Date;
   endDate: Date;
-  language: string[];
   projectMembers: ProjectMemberM[];
   languageProject: LanguageProjectM[];
+  technicalProject: TechnicalProjectM[];
   status: ProjectStatusEnum;
-  technical: string[];
   user: UserM;
 }

@@ -52,17 +52,14 @@ export class Profile {
     status: ProfileStatusEnum;
 
 
-    @OneToOne(() => User)
-    @JoinColumn()
-    user: User
+    // @OneToOne(() => User)
+    // @JoinColumn()
+    // user: User
 
-    @OneToMany(() => TechnicalMember, technical => technical.profile)
-    technicalMember: TechnicalMember[];
+
 
     @OneToMany(() => Position, position => position.profile)
     positions: Position[];
-
-
 
     @Column('varchar')
     description: string
