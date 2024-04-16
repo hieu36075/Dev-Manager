@@ -35,21 +35,28 @@ export class UserRepositoryOrm implements IUserRepository {
                 skip,
                 take,
                 relations: {
+                    manager:{
+                        profile:true
+                    },
                     technicalMember: true,
                     profile: {
                         positions: true,
                     },
 
                 },
-                select: [
-                    'id',
-                    'email',
-                    'userName',
-                    'isManager',
-                    'managerId',
-                    'profile',
-
-                ]
+                select: {
+                    id:true,
+                    email:true,
+                    isManager:true,
+                    managerId:true,
+                    manager:{
+                        userName:true,
+                        profile:{
+                            fullName:true,
+                            avatarUrl:true
+                        }
+                    }
+                }
             });
 
             const pageMetaDto = new PageMetaDto(pageOptionsDto, total);

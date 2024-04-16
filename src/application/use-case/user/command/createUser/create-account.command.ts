@@ -10,5 +10,6 @@ export class CreateAccountCommand implements ICommand{
         public readonly description: string,
         public readonly technical: string[],
         public readonly positions: string[],
+        public readonly language: string[],
     ){}
 }

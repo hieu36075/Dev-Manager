@@ -17,7 +17,8 @@ import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/p
 import { Connection } from 'typeorm';
 import { ProfileM } from '@/domain/model/profile.model';
 import { TechnicalMemberRepositoryOrm } from '@/infrastructures/repositories/technicalMember/technicalMember.repository';
-import { TechnicalMemberM } from '@/domain/model/technicalMember.model';
+import { LanguageRepositoryOrm } from '@/infrastructures/repositories/language/language.repository';
+import { LanguageMemberRepositoryOrm } from '@/infrastructures/repositories/languageMember/languageMember.repository';
 
 @CommandHandler(CreateAccountCommand)
 export class CreateAccountHandler
@@ -32,7 +33,9 @@ export class CreateAccountHandler
     private readonly technicalRepository: TechnicalRepositoryOrm,
     private readonly positionRepository: PositionRepositoryOrm,
     private readonly connection: Connection,
-    private readonly technicalMemberRepository: TechnicalMemberRepositoryOrm
+    private readonly technicalMemberRepository: TechnicalMemberRepositoryOrm,
+    private readonly languageRepository : LanguageRepositoryOrm,
+    private readonly languageMemberRepository : LanguageMemberRepositoryOrm
   ) {}
 
   async execute(command: CreateAccountCommand): Promise<ProfileM> {
@@ -45,6 +48,7 @@ export class CreateAccountHandler
       description,
       technical,
       positions,
+      language
     } = command;
     return await this.connection.transaction(async (manager) => {
       try {
@@ -86,11 +90,22 @@ export class CreateAccountHandler
               technical: currentTechnical,
               user:newUser
             },manager)
-            // technicalMember.push(newMember)
-            // await this.skillRepository.update(currentTechnical.id, {technicalMember:technicalMember},manager)
-            // await this.skillRepository.update
           }
         }
+
+        if (language && language.length > 0) {
+          for (const id of language) {
+            const currentLanguage = await this.languageRepository.findById(id);
+            if (!currentLanguage) {
+              throw new ForbiddenException({ message: 'invalid language' });
+            }
+            await this.languageMemberRepository.create({
+                language: currentLanguage,
+                user: newUser
+            },manager)
+          }
+        }
+        
         let listPositioin: PositionM[] = [];
         if (positions && positions.length > 0) {
           for (const id of positions) {

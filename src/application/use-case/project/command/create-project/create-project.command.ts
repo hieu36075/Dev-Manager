@@ -9,7 +9,7 @@ export class CreateProjectCommand implements ICommand{
         public readonly technical: string[],
         public readonly language: string[],
         public readonly managerId : string,
-        public readonly employeeId: string[]
+        public readonly employeeId: [],
     ){
 
     }

@@ -16,7 +16,6 @@ export class GetAllUserHandler implements IQueryHandler<GetAllUserQuery> {
     const {isManager} = query
     try{
       const users = await this.userRepository.findByIsManager(isManager);
-      console.log(users)
       return users
 
     }catch(error){

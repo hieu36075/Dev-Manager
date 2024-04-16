@@ -65,4 +65,14 @@ export class CreateUserDTO{
     })
     positions : string[];
 
+    
+    @IsArray()
+    @IsNotEmpty()
+    @ApiProperty({
+        description: 'Array of language IDs associated with the user',
+        example: ['Language1', 'Language2'],
+        type: [String],
+    })
+    language : string[];
+
 }

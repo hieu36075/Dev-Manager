@@ -21,8 +21,8 @@ export class LanguageController{
     }
 
     @Get()
-    findAll(@Query() pageOptionsDto: PageOptionsDto):Promise<LanguageM[]>{
-        return this.queryBus.execute(new GetAllLanguageQuery(pageOptionsDto))
+    findAll():Promise<LanguageM[]>{
+        return this.queryBus.execute(new GetAllLanguageQuery())
     }
 
     // @Get(':id')

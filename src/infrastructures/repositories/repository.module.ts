@@ -25,6 +25,8 @@ import { LanguageProjectRepositoryOrm } from './languageProject/languageProject.
 import { LanguageProject } from '../entities/languageProject.entity';
 import { TechnicalProjectRepositoryOrm } from './technicalProject/technicalProject.repository';
 import { TechnicalProject } from '../entities/technicalProject.enity';
+import { LanguageMemberRepositoryOrm } from './languageMember/languageMember.repository';
+import { LanguageMember } from '../entities/languageMember.entity';
 
 
 @Module({
@@ -39,7 +41,8 @@ import { TechnicalProject } from '../entities/technicalProject.enity';
     TechnicalMember,
     Language,
     LanguageProject,
-    TechnicalProject
+    TechnicalProject,
+    LanguageMember
   ])],
 
   providers: [
@@ -53,7 +56,8 @@ import { TechnicalProject } from '../entities/technicalProject.enity';
     TechnicalMemberRepositoryOrm,
     LanguageRepositoryOrm,
     LanguageProjectRepositoryOrm,
-    TechnicalProjectRepositoryOrm
+    TechnicalProjectRepositoryOrm,
+    LanguageMemberRepositoryOrm,
   ],
   
   exports: [
@@ -68,6 +72,7 @@ import { TechnicalProject } from '../entities/technicalProject.enity';
     LanguageRepositoryOrm,
     LanguageProjectRepositoryOrm,
     TechnicalProjectRepositoryOrm,
+    LanguageMemberRepositoryOrm
   ],
 })
 export class RepositoriesModule { }

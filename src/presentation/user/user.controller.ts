@@ -55,6 +55,7 @@ export class UserController {
         createUserDTO.description,
         createUserDTO.technical,
         createUserDTO.positions,
+        createUserDTO.language
       ),
     );
   }

@@ -15,7 +15,10 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
     ){
 
     }
-    async findAll(pageOptionsDto: PageOptionsDto): Promise<any> {
+    async findAll():Promise<Language[]>{
+        return await this.languageRepository.find()
+    }
+    async findAllByFilter(pageOptionsDto: PageOptionsDto): Promise<any> {
         // throw new Error("Method not implemented.");
         const { name, page, take, orderBy } = pageOptionsDto;
         const takeData = take || 10;

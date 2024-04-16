@@ -1,3 +1,4 @@
+import { ProjectStatusEnum } from "@/application/common/enums/project-status.enum";
 import { ICommand } from "@nestjs/cqrs";
 
 export class UpdateProjectCommand implements ICommand{
@@ -8,7 +9,8 @@ export class UpdateProjectCommand implements ICommand{
         public readonly startDate:string,
         public readonly endDate:string,
         public readonly technical: string[],
-        public readonly userId : string
+        public readonly userId : string,
+        public readonly status : ProjectStatusEnum
     ){
 
     }

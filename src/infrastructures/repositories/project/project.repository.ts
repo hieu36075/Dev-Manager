@@ -68,6 +68,47 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         const project = await this.projectRepository.findOne({
             where: {
                 id: id
+            },
+            relations:{
+              user:{
+                profile:true
+              },
+              projectMembers:{
+                user:{
+                  profile:true,
+                  manager:{
+                    profile:true
+                  }
+                }
+              }
+            },
+            select:{
+              user:{
+                id:true,
+                email:true,
+                profile:{
+                  fullName:true,
+                  avatarUrl:true
+                }
+
+              },
+              projectMembers:{
+                id:true,
+                user:{
+                  userName:true,
+                  isManager:true,
+                  managerId:true,
+                  manager:{
+                    userName:true,
+                    profile:{
+                      fullName:true,
+                      avatarUrl:true,
+                      email:true
+                    }
+                  },
+                  // profile:true
+                }
+              }
             }
         })
 
@@ -79,6 +120,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         project.description = createProjectDTO.description
         project.startDate = parseISO(createProjectDTO.startDate);
         project.endDate = parseISO(createProjectDTO.endDate);
+        project.user = createProjectDTO.user
         // project.technical = createProjectDTO.technical
         return await manager.save(project)
     }
@@ -94,6 +136,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         projectToUpdate.description = updateProjectDTO.description;
         projectToUpdate.startDate = parseISO(updateProjectDTO.startDate); 
         projectToUpdate.endDate = parseISO(updateProjectDTO.endDate);
+        projectToUpdate.status = updateProjectDTO.status
         return await this.projectRepository.save(projectToUpdate)
     }
 

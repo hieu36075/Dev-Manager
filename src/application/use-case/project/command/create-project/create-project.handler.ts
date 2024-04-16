@@ -28,12 +28,12 @@ export class CreateProjectHandler
 
   async execute(command: CreateProjectCommand): Promise<any> {
     const { managerId, employeeId, technical, language } = command;
-
     return await this.connection.transaction(async (manager) => {
       try {
-        const project = await this.projectRepository.create(command, manager);
-
         const user = await this.userRepository.findById(managerId);
+        
+        const project = await this.projectRepository.create(command, manager);
+   
 
         if (user.isManager === false) {
           throw new ForbiddenException({ message: "Invalid manager" })
@@ -74,7 +74,8 @@ export class CreateProjectHandler
         }
 
         if (employeeId && employeeId.length > 0) {
-          for (const id of employeeId) {
+          for (const item of employeeId) {
+            const {id, role} = item
             const currentPofile = await this.userRepository.findById(id);
             if (!currentPofile) {
               throw new ForbiddenException({ message: 'invalid employee' });
@@ -83,10 +84,11 @@ export class CreateProjectHandler
               {
                 project: project,
                 user: currentPofile,
+                roles: [role]
               },
               manager,
             );
-            await this.userRepository.update(id, { managerId: user.managerId }, manager);
+            await this.userRepository.update(id, { managerId: user.id }, manager);
           }
         }
 

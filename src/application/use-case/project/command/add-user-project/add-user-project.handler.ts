@@ -19,7 +19,7 @@ export class AddUserProjectHandler implements ICommandHandler<AddUserProjectComm
     }
 
     async execute(command: AddUserProjectCommand): Promise<any> {
-        const { userId, projectId, idManager } = command
+        const { userId, projectId, idManager , roles} = command
         return await this.connection.transaction(async (manager) => {
             try {
                 const userManager = await this.userRepositoryOrm.findById(idManager);
@@ -36,7 +36,7 @@ export class AddUserProjectHandler implements ICommandHandler<AddUserProjectComm
                 )
                 await this.projectMemberRepositoryOrm.create(
                     {
-                        project: project, user: user
+                        project: project, user: user, roles: roles
                     },
                     manager
                 )

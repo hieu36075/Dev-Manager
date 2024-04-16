@@ -1,3 +1,4 @@
+import { PositionEnum } from "@/application/common/enums/position.enum";
 import { CreateProjectMemberDTO } from "@/application/dto/projectMember/create-projectMember.dto";
 import { ProfileM } from "@/domain/model/profile.model";
 import { ProjectMemberM } from "@/domain/model/projectMember.model";
@@ -23,6 +24,7 @@ export class ProjectMemberRepositoryOrm implements IProjectMemberRepository{
         const projectMember = new ProjectMember();
         projectMember.project = entity.project;
         projectMember.user = entity.user;
+        projectMember.roles = entity.roles || [PositionEnum.BA]
         return await manager.save(projectMember);
     }
     update(id: string, entity: Partial<ProjectMemberM>): Promise<ProjectMemberM> {
