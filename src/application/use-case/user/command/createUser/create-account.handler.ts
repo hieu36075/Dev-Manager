@@ -40,19 +40,20 @@ export class CreateAccountHandler
 
   async execute(command: CreateAccountCommand): Promise<ProfileM> {
     const {
-      password,
-      userName,
+      // password,
+      // userName,
       email,
       fullName,
       dayOfBirth,
       description,
       technical,
       positions,
-      language
+      language,
+      isManager
     } = command;
     return await this.connection.transaction(async (manager) => {
       try {
-        const hashedPassword = await this.bcryptService.hash(password);
+        // const hashedPassword = await this.bcryptService.hash(password);
         const role = await this.roleRepository.findByName(Role.EMPLOYEE);
 
 
@@ -72,10 +73,9 @@ export class CreateAccountHandler
         const newUser = await this.userRepository.create(
           {
             email: email,
-            userName: userName,
-            password: hashedPassword,
             role: role,
-            profile: profile
+            profile: profile,
+            isManager: isManager
           },
           manager,
         );

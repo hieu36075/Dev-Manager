@@ -66,7 +66,7 @@ export class UserRepositoryOrm implements IUserRepository {
         }
     }
 
-    async findByIsManager(isManager: boolean): Promise<any> {
+    async findByIsManager(isManager?: boolean): Promise<any> {
 
         try {
 
@@ -133,6 +133,7 @@ export class UserRepositoryOrm implements IUserRepository {
         user.password = entity.password;
         user.role = entity.role
         user.profile = entity.profile
+        user.isManager = entity.isManager
         return await manager.save(user)
 
     }

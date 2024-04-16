@@ -26,10 +26,10 @@ export class User {
   @Column('varchar', { unique: true })
   email: string;
 
-  @Column('varchar')
+  @Column('varchar', { nullable: true })
   userName: string;
-
-  @Column('varchar')
+  
+  @Column('varchar', { nullable: true })
   password: string;
 
   @CreateDateColumn({ name: 'created_at' })

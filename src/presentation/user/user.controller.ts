@@ -33,8 +33,8 @@ export class UserController {
   }
 
   @Get('get-user')
-  async getAllUser(@Query('isManager') isManager: boolean): Promise<ProfileM> {
-    return await this.queryBus.execute(new GetAllUserQuery(isManager));
+  async getAllUser(): Promise<ProfileM> {
+    return await this.queryBus.execute(new GetAllUserQuery());
   }
 
 
@@ -55,7 +55,8 @@ export class UserController {
         createUserDTO.description,
         createUserDTO.technical,
         createUserDTO.positions,
-        createUserDTO.language
+        createUserDTO.language,
+        createUserDTO.isManager
       ),
     );
   }
