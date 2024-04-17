@@ -4,10 +4,12 @@ import {
     Entity,
     Index,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
   } from 'typeorm';
 import { Profile } from './profile.entity';
+import { ProjectMember } from './projectMember.entity';
   
   @Entity('position')
   export class Position {
@@ -22,4 +24,8 @@ import { Profile } from './profile.entity';
   
     @ManyToOne(()=>Profile,(profile) => profile.positions)
     profile: Profile
+
+    @ManyToOne(()=>ProjectMember,(projectMember) => projectMember.roles)
+    projectMember: ProjectMember
+    
   }

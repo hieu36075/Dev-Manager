@@ -11,6 +11,7 @@ import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical
 import { LanguageRepositoryOrm } from '@/infrastructures/repositories/language/language.repository';
 import { LanguageProjectRepositoryOrm } from '@/infrastructures/repositories/languageProject/languageProject.repository';
 import { TechnicalProjectRepositoryOrm } from '@/infrastructures/repositories/technicalProject/technicalProject.repository';
+import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/position.repository';
 
 @CommandHandler(CreateProjectCommand)
 export class CreateProjectHandler
@@ -23,6 +24,7 @@ export class CreateProjectHandler
     private readonly languageProjectRepository: LanguageProjectRepositoryOrm,
     private readonly technicalRepository: TechnicalRepositoryOrm,
     private readonly technicalProjectRepository: TechnicalProjectRepositoryOrm,
+    private readonly positionProjectRepository: PositionRepositoryOrm,
     private readonly connection: Connection,
   ) { }
 
@@ -77,6 +79,8 @@ export class CreateProjectHandler
           for (const item of employeeId) {
             const {id, role} = item
             const currentPofile = await this.userRepository.findById(id);
+            const currentRole = await this.positionProjectRepository.findRolesAndPushIntoArray(role)
+            
             if (!currentPofile) {
               throw new ForbiddenException({ message: 'invalid employee' });
             }
@@ -84,7 +88,7 @@ export class CreateProjectHandler
               {
                 project: project,
                 user: currentPofile,
-                roles: role
+                roles: currentRole
               },
               manager,
             );

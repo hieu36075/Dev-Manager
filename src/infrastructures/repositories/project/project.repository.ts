@@ -26,10 +26,24 @@ export class ProjectRepositoryOrm implements IProjectRepository {
           where: {
             name: name ? Like(`%${name}%`) : Like(`%%`),
           },
-          relations: ['projectMembers', 'projectMembers.user', 'projectMembers.user.profile', 'projectMembers.user.manager'],
+          // relations: ['projectMembers', 'projectMembers.user', 'projectMembers.user.profile', 'projectMembers.user.manager'],
+          relations:{
+            projectMembers:{
+              user:{
+                profile:true,
+                manager:true
+              },
+              roles:true,
+              
+            }
+          },
           select:{
             projectMembers:{
               id:true,
+              roles:{
+                id:true,
+                name:true,
+              },
               user:{
                 isManager:true,
                 managerId:true,
@@ -76,6 +90,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
               projectMembers:{
                 user:{
                   profile:true,
+                  role:true,
                   manager:{
                     profile:true
                   }
@@ -94,6 +109,10 @@ export class ProjectRepositoryOrm implements IProjectRepository {
               },
               projectMembers:{
                 id:true,
+                roles:{
+                  id:true,
+                  name:true,
+                },
                 user:{
                   userName:true,
                   isManager:true,
@@ -131,12 +150,16 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         if (!projectToUpdate) {
             throw new Error('Project not found');
         }
-
-        projectToUpdate.name = updateProjectDTO.name;
-        projectToUpdate.description = updateProjectDTO.description;
-        projectToUpdate.startDate = parseISO(updateProjectDTO.startDate); 
-        projectToUpdate.endDate = parseISO(updateProjectDTO.endDate);
-        projectToUpdate.status = updateProjectDTO.status
+        for (const [key, value] of Object.entries(updateProjectDTO)) {
+          if (value !== undefined && value !== null) {
+              if (key === 'startDate' || key === 'endDate') {
+                  projectToUpdate[key] = parseISO(value);
+              } else {
+                  projectToUpdate[key] = value;
+              }
+          }
+      }
+  
         return await this.projectRepository.save(projectToUpdate)
     }
 

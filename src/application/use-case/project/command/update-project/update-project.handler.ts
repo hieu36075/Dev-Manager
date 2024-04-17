@@ -9,14 +9,12 @@ import { ForbiddenException } from "@nestjs/common";
 export class UpdateProjectHandler implements ICommandHandler<UpdateProjectCommand>{
     constructor(
         private readonly projectRepository: ProjectRepositoryOrm,
-        private readonly projectMemberRepository : ProjectMemberRepositoryOrm,
-        private readonly userRepository: UserRepositoryOrm
     ){
 
     }
 
     async execute(command: UpdateProjectCommand): Promise<any> {
-        const {id, userId} = command
+        const {id} = command
         try{
             const project = await this.projectRepository.update(id, command)
             return project

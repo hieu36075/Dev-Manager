@@ -48,4 +48,23 @@ export class PositionRepositoryOrm implements IPositionRepository{
         throw new Error("Method not implemented.");
     }
 
+    async findRolesAndPushIntoArray(roleIds: string[]): Promise<PositionM[]> {
+        const roles: PositionM[] = [];
+    
+        // Lặp qua từng ID trong mảng roleIds
+        for (const roleId of roleIds) {
+            // Tìm role bằng cách gọi findById
+            const role = await this.findById(roleId);
+            
+            // Kiểm tra xem role có tồn tại không
+            if (role) {
+                // Đẩy role vào mảng roles
+                roles.push(role);
+            }
+        }
+    
+        // Trả về mảng roles
+        return roles;
+    }
+    
 }
