@@ -84,7 +84,7 @@ export class CreateProjectHandler
               {
                 project: project,
                 user: currentPofile,
-                roles: [role]
+                roles: role
               },
               manager,
             );

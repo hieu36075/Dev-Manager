@@ -1,11 +1,12 @@
 import { CreateProjectCommand } from '@/application/use-case/project/command/create-project/create-project.command';
 import { UserM } from '@/domain/model/user.model';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   ArrayNotEmpty,
   IsArray,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -19,11 +20,11 @@ export class CreateProjectDTO {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'Description for project',
-    example: 'string',
-  })
+  @ApiPropertyOptional({
+      description: 'Description for project',
+      example: 'string',
+    })
+ @IsOptional()
   description: string;
 
   @IsString()
@@ -66,8 +67,8 @@ export class CreateProjectDTO {
   managerId?: string;
 
   @IsArray()
-  @IsNotEmpty()
-  @ApiProperty({
+  @IsOptional()
+  @ApiPropertyOptional({
     description: 'Array of position IDs associated with the user',
     example: [
       {
@@ -76,7 +77,7 @@ export class CreateProjectDTO {
       },
       {
         id: '123',
-        role: 'fe',
+        role: ['fe','be'],
       },
     ],
     type: [],

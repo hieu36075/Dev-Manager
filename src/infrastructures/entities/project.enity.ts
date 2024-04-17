@@ -26,7 +26,7 @@ import { TechnicalProject } from './technicalProject.enity';
     @Column('varchar', { unique: true })
     name: string;
 
-    @Column('varchar')
+    @Column({ type: 'varchar', nullable: true })
     description :string;
     
     @CreateDateColumn({ name: 'start_date' })
