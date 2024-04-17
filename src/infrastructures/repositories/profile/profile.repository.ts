@@ -96,7 +96,7 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     }
     const profile = new Profile()
     profile.id = profileId
-    profile.positions = position;
+    // profile.positions = position;
     await manager.save(profile);
   }
 

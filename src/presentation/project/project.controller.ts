@@ -12,10 +12,11 @@ import { UpdateProjectCommand } from "@/application/use-case/project/command/upd
 import { GetAllProjectQuery } from "@/application/use-case/project/queries/get-all-project/get-all-project.command"
 import { plainToClass } from 'class-transformer';
 import { ProjectM } from "@/domain/model/project.model"
-import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
 import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.command"
+import { DeleteProjectCommand } from "@/application/use-case/project/command/delete-project/delete-project.command"
 
 @Controller('project')
 @ApiTags('Project')
@@ -77,6 +78,9 @@ export class ProjectController{
         ))
     }
 
-        
+    @Delete(':id')
+    delelte (@Param('id') id:string){
+        return this.commandBus.execute(new DeleteProjectCommand(id))
+    }
 }
 

@@ -58,7 +58,8 @@ export class UserController {
         createUserDTO.technical,
         createUserDTO.positions,
         createUserDTO.language,
-        createUserDTO.isManager
+        createUserDTO.isManager,
+        createUserDTO.managerId
       ),
     );
   }

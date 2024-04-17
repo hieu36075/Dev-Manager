@@ -45,6 +45,9 @@ import { TechnicalProject } from './technicalProject.enity';
     @OneToMany(()=>TechnicalProject, technicalProject => technicalProject.technical)
     technicalProject: TechnicalProject[]
 
+    @Column({ type: 'boolean', default: false })
+    isDelete: boolean;
+    
     @Column({
         type: 'enum',
         enum: ProjectStatusEnum,

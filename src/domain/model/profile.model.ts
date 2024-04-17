@@ -19,7 +19,7 @@ export class ProfileM {
   avatarUrl: string;
   gender: GenderEnum;
   status: ProfileStatusEnum;
-  positions: PositionM[];
+  // positions: PositionM[];
   description: string;
   // user: UserM
 }

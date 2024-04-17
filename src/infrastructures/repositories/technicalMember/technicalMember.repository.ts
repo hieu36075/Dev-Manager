@@ -1,9 +1,10 @@
 import { TechnicalMemberM } from "@/domain/model/technicalMember.model";
 import { ITechnicalMemberRepository } from "@/domain/repositories/technicalMember";
 import { TechnicalMember } from "@/infrastructures/entities/technicalMember.entity";
+import { BadRequestException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
-import { Repository } from "typeorm";
+import { EntityManager, Repository } from "typeorm";
 
 export class TechnicalMemberRepositoryOrm implements ITechnicalMemberRepository{
     constructor(
@@ -16,8 +17,17 @@ export class TechnicalMemberRepositoryOrm implements ITechnicalMemberRepository{
         return await this.technicalMemberRepository.find()
         // throw new Error("Method not implemented.");
     }
-    findById(id: string): Promise<TechnicalMemberM> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<TechnicalMemberM> {
+        if(!id){
+            throw new BadRequestException({message:"don't have id technical"})
+        }
+        const technicalMember = await this.technicalMemberRepository.findOne({
+            where:{
+                id: id
+            }
+        })
+
+        return technicalMember
     }
     async create(entity: Partial<TechnicalMemberM>, manager?: any): Promise<TechnicalMemberM> {
         const projectMember = new TechnicalMember();
@@ -28,8 +38,10 @@ export class TechnicalMemberRepositoryOrm implements ITechnicalMemberRepository{
     update(id: string, entity: Partial<TechnicalMemberM>, manager?: any): Promise<TechnicalMemberM> {
         throw new Error("Method not implemented.");
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string, manager?:EntityManager): Promise<void> {
+        const technicalMember = await this.findById(id)
+        
+        await manager.remove(technicalMember)
     }
     
 }

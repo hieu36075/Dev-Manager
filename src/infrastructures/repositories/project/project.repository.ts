@@ -6,7 +6,7 @@ import { UpdateProjectDTO } from "@/application/dto/project/update-project.dto";
 import { ProjectM } from "@/domain/model/project.model";
 import { IProjectRepository } from "@/domain/repositories/project.repository";
 import { Project } from "@/infrastructures/entities/project.enity";
-import { ForbiddenException } from "@nestjs/common";
+import { BadRequestException, ForbiddenException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { parseISO } from "date-fns";
 import { EntityManager, Like, Repository } from "typeorm";
@@ -175,7 +175,13 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     return await this.projectRepository.save(projectToUpdate)
   }
 
-  async delete(id: string): Promise<void> {
-
+  async delete(id: string, manager: EntityManager): Promise<void> {
+      const project = await this.findById(id)
+      if(!project){
+        throw new BadRequestException({message:"don;t have id"})
+      }
+      project.isDelete = true,
+      await manager.save(project)
+      // await this.projectRepository.delete(id)
   }
 }

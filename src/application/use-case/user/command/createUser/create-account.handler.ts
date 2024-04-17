@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateAccountCommand } from './create-account.command';
 import { UserRepositoryOrm } from '@/infrastructures/repositories/user/user.repository';
-import { ForbiddenException, Inject } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject } from '@nestjs/common';
 import { RoleRepositoryOrm } from '@/infrastructures/repositories/role/role.repository';
 import { Role } from '@/application/common/enums/role.enum';
 import { ProfileRepositoryOrm } from '@/infrastructures/repositories/profile/profile.repository';
@@ -15,6 +15,7 @@ import { ILanguageMemberRepository } from '@/domain/repositories/languageMember.
 import { InjectionToken } from '@/application/common/constants/constants';
 import { ILanguageRepository } from '@/domain/repositories/language.repository';
 import { ITechnicalMemberRepository } from '@/domain/repositories/technicalMember';
+import { IPositionMemberRepository } from '@/domain/repositories/positionMember.repository';
 
 @CommandHandler(CreateAccountCommand)
 export class CreateAccountHandler
@@ -32,7 +33,9 @@ export class CreateAccountHandler
     @Inject(InjectionToken.LANGUAGE_REPOSITORY)
     private readonly languageRepository : ILanguageRepository,
     @Inject(InjectionToken.LANGUAGEMEMBER_REPOSITORY)
-    private readonly languageMemberRepository : ILanguageMemberRepository
+    private readonly languageMemberRepository : ILanguageMemberRepository,
+    @Inject(InjectionToken.POSITIONMEMBER_REPOSITORY)
+    private readonly positionMemberRepository : IPositionMemberRepository
   ) {}
 
   async execute(command: CreateAccountCommand): Promise<ProfileM> {
@@ -46,7 +49,8 @@ export class CreateAccountHandler
       technical,
       positions,
       language,
-      isManager
+      isManager,
+      managerId
     } = command;
     return await this.connection.transaction(async (manager) => {
       try {
@@ -54,7 +58,12 @@ export class CreateAccountHandler
         const role = await this.roleRepository.findByName(Role.EMPLOYEE);
 
 
-
+        if(managerId){
+          const manager = await this.userRepository.findById(managerId)
+          if(!manager || manager.isManager != true){
+            throw new  BadRequestException({message: "User is not manager"})
+          }
+        }
         const profile = await this.profileRepository.create(
           {
             fullName,
@@ -72,7 +81,8 @@ export class CreateAccountHandler
             email: email,
             role: role,
             profile: profile,
-            isManager: isManager
+            isManager: isManager,
+            managerId: managerId
           },
           manager,
         );
@@ -103,23 +113,25 @@ export class CreateAccountHandler
           }
         }
         
-        let listPositioin: PositionM[] = [];
+        // let listPositioin: PositionM[] = [];
         if (positions && positions.length > 0) {
           for (const id of positions) {
             const currentPosition = await this.positionRepository.findById(id);
             if (!currentPosition) {
               throw new ForbiddenException({ message: 'invalid position' });
             }
-            listPositioin.push(currentPosition);
+            // listPositioin.push(currentPosition);
+            await this.positionMemberRepository.create(
+              {
+                postion: currentPosition,
+                user:newUser
+              },
+              manager,
+            );
+            return profile;
           }
         }
         
-        await this.profileRepository.addPositonToProfile(
-          profile.id,
-          listPositioin,
-          manager,
-        );
-        return profile;
       } catch (error) {
     
         throw new ForbiddenException({ message: error });

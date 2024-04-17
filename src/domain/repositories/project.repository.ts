@@ -8,5 +8,5 @@ export interface IProjectRepository{
     findById(id: string): Promise<ProjectM | undefined>;
     create(entity: CreateProjectDTO, manager: any): Promise<ProjectM>;
     update(id: string, entity: Partial<CreateProjectDTO>): Promise<ProjectM | undefined>;
-    delete(id: string): Promise<void>;
+    delete(id: string, manager:any): Promise<void>;
 }

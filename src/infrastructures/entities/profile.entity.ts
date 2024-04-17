@@ -58,8 +58,8 @@ export class Profile {
 
 
 
-    @OneToMany(() => Position, position => position.profile)
-    positions: Position[];
+    // @OneToMany(() => Position, position => position.profile)
+    // positions: Position[];
 
     @Column('varchar')
     description: string

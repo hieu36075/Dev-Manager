@@ -1,11 +1,14 @@
 import { ProjectMember } from '@/infrastructures/entities/projectMember.entity';
 import { ProfileM } from './profile.model';
 import { ProjectMemberM } from './projectMember.model';
+import { RoleMemberProjectM } from './roleMemberProject.model';
+import { PositionMemberM } from './positionMember.model';
 
 export class PositionM {
   id: string;
   name: string;
   description: string;
-  profile: ProfileM;
-  positions:PositionM[];
+  // profile: ProfileM;
+  positions:RoleMemberProjectM[];
+  positionMember: PositionMemberM[]
 }

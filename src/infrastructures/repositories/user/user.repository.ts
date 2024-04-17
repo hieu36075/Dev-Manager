@@ -49,10 +49,18 @@ export class UserRepositoryOrm implements IUserRepository {
                     manager:{
                         profile:true
                     },
-                    technicalMember: true,
                     profile: {
-                        positions: true,
+                        // positions: true,
                     },
+                    technicalMember: {
+                        technical:true
+                    },
+                    languageMember:{
+                        language:true
+                    },
+                    positionMember:{
+                        postion:true
+                    }
 
                 },
                 select: {
@@ -65,6 +73,24 @@ export class UserRepositoryOrm implements IUserRepository {
                         profile:{
                             fullName:true,
                             avatarUrl:true
+                        }
+                    },
+                    technicalMember:{
+                        id:true,
+                        technical:{
+                            name:true
+                        }
+                    },
+                    languageMember:{
+                        id:true,
+                        language:{
+                            name:true
+                        }
+                    },
+                    positionMember:{
+                        id:true,
+                        postion:{
+                            name:true
                         }
                     }
                 }
@@ -88,8 +114,9 @@ export class UserRepositoryOrm implements IUserRepository {
                 relations: {
                     technicalMember: true,
                     profile: {
-                        positions: true,
+                        // positions: true,
                     },
+                    languageMember:true
                 },
                 select: [
                     'id',
@@ -126,6 +153,12 @@ export class UserRepositoryOrm implements IUserRepository {
                     },
                     technicalMember:{
                         technical:true
+                    },
+                    positionMember:{
+                        postion:true
+                    },
+                    languageMember:{
+                        language:true
                     }
                 },
                 select:{
@@ -136,7 +169,7 @@ export class UserRepositoryOrm implements IUserRepository {
                     managerId:true,
                     profile:{
                         fullName:true,
-                        positions:true
+                        // positions:true
                     },
                     technicalMember:{
                         id:true,
@@ -167,6 +200,7 @@ export class UserRepositoryOrm implements IUserRepository {
         user.role = entity.role
         user.profile = entity.profile
         user.isManager = entity.isManager
+        user.managerId = entity.managerId || null
         return await manager.save(user)
 
     }
@@ -184,7 +218,7 @@ export class UserRepositoryOrm implements IUserRepository {
         const user = await this.findById(id)
 
         user.isDelete = true
-        user.isManager = null,
+        user.managerId = null,
         
         await manager.save(user)
         return Promise.resolve()

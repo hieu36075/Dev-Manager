@@ -31,6 +31,8 @@ import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.
 import { InjectionToken } from '@/application/common/constants/constants';
 import { RoleMemberProjectRepository } from './roleMemberProject/roleMemberProject.repository';
 import { RoleMemberProject } from '../entities/roleMemberProject.entity';
+import { PositionMember } from '../entities/positionMember.entity';
+import { PositionMemberRepositoryOrm } from './positionMember/positionMember.repository';
 
 const Repository = [
   {
@@ -48,6 +50,10 @@ const Repository = [
   {
     provide: InjectionToken.ROLEMEMBERPROJECT_REPOSITORY,
     useClass: RoleMemberProjectRepository
+  },
+  {
+    provide: InjectionToken.POSITIONMEMBER_REPOSITORY,
+    useClass: PositionMemberRepositoryOrm
   }
 ]
 @Module({
@@ -65,7 +71,8 @@ const Repository = [
     LanguageProject,
     TechnicalProject,
     LanguageMember,
-    RoleMemberProject
+    RoleMemberProject,
+    PositionMember
   ]),
   ],
   providers: [

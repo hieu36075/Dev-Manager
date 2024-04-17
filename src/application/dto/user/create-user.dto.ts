@@ -56,6 +56,11 @@ export class CreateUserDTO{
     @ApiProperty()
     description : string
 
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty()
+    managerId : string
+
     @IsArray()
     @IsNotEmpty()
     @ApiProperty({

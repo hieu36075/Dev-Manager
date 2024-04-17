@@ -10,6 +10,8 @@ import {
   } from 'typeorm';
 import { Profile } from './profile.entity';
 import { RoleMemberProject } from './roleMemberProject.entity';
+import { PositionMember } from './positionMember.entity';
+// import { PositionProject } from './positionMember.entity';
   
   @Entity('position')
   export class Position {
@@ -22,9 +24,9 @@ import { RoleMemberProject } from './roleMemberProject.entity';
     @Column('varchar')
     description: string;
   
-    @ManyToOne(()=>Profile,(profile) => profile.positions)
-    profile: Profile
+    @OneToMany(()=>PositionMember,(positionMember) => positionMember.postion)
+    positionMember: PositionMember[]
     
-    @ManyToOne(()=> RoleMemberProject, position => position.position)
-    positions: Position[];
+    @OneToMany(()=> RoleMemberProject, position => position.position)
+    positions: RoleMemberProject[];
   }

@@ -53,6 +53,8 @@ import { DeleteAccountHandler } from "@/application/use-case/user/command/delete
 import { GenerateCVQuery } from "@/application/use-case/file/query/generate-cv.command";
 import { GenerateCVQueryHandler } from "@/application/use-case/file/query/generate-cv.handler";
 import { DocxtemplateModule } from "@/infrastructures/service/docxtemplate/docxtemplate.module";
+import { DeleteProjectCommand } from "@/application/use-case/project/command/delete-project/delete-project.command";
+import { DeleteProjectHandler } from "@/application/use-case/project/command/delete-project/delete-project.handler";
 
 
 const CommandHandler = [
@@ -75,7 +77,9 @@ const CommandHandler = [
     UpdateLanguageCommand,
     UpdateLanguageHandler,
     DeleteAccountCommand,
-    DeleteAccountHandler
+    DeleteAccountHandler,
+    DeleteProjectCommand,
+    DeleteProjectHandler
   ]
 
 const QueryHandler = [

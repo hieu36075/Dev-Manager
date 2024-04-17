@@ -40,7 +40,7 @@ export class PositionRepositoryOrm implements IPositionRepository{
             throw new ForbiddenException({message: 'Not Found Id'})
         }
         position.name = entity.name
-        position.profile = entity.profile
+        // position.profile = entity.profile
 
         return await this.positionRepository.save(position) 
     }

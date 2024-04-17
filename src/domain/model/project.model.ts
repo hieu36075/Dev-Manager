@@ -16,6 +16,7 @@ export class ProjectM {
   projectMembers: ProjectMemberM[];
   languageProject: LanguageProjectM[];
   technicalProject: TechnicalProjectM[];
+  isDelete: boolean;
   status: ProjectStatusEnum;
   user: UserM;
 }

@@ -17,15 +17,17 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
         return this.technicalRepository.find()
     }
     async findById(id: string): Promise<TechnicalM> {
+
         if(!id){
             throw new ForbiddenException({message:"Please Check Data Again"})
         }
         try{
             const technical = await this.technicalRepository.findOne({
                 where:{
-                    id:id
+                    id: id
                 }
             })
+            console.log(technical)
             return technical
 
         }catch(error){
@@ -47,8 +49,11 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
         // technical.technicalMember = entity.technicalMember
         return await menager.save(technical) 
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string, manager?:EntityManager): Promise<void> {
+        console.log(id)
+        const technicalMember = await this.findById(id)
+        console.log(technicalMember)
+        await manager.remove(technicalMember)
     }
 
 }
