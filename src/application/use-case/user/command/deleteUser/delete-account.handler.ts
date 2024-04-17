@@ -5,7 +5,7 @@ import { ProjectMemberRepositoryOrm } from "@/infrastructures/repositories/proje
 import { MethodNotAllowedException } from "@nestjs/common";
 
 @CommandHandler(DeleteAccountCommand)
-export class CreateAccountHandler
+export class DeleteAccountHandler
   implements ICommandHandler<DeleteAccountCommand>
 {
     constructor(

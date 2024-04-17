@@ -6,6 +6,7 @@ import { PageOptionsDto } from '@/application/dto/pagination/paginationOptions';
 import { CreateUserDTO } from '@/application/dto/user/create-user.dto';
 import { GetEmployeeDTO } from '@/application/dto/user/get-employee.dto';
 import { CreateAccountCommand } from '@/application/use-case/user/command/createUser/create-account.command';
+import { DeleteAccountCommand } from '@/application/use-case/user/command/deleteUser/delete-account.command';
 import { GetAllProfileEmployeeQuery } from '@/application/use-case/user/queries/getAllEmployee/get-all-employee.command';
 import { GetAllUserQuery } from '@/application/use-case/user/queries/getAllUser/get-all-user.command';
 import { GetAllUserOptionQuery } from '@/application/use-case/user/queries/getAllUserOption/get-all-user-option.command';
@@ -64,6 +65,6 @@ export class UserController {
 
   @Delete()
   async delete(@Query('id') id:string): Promise<void>{
-    return
+    return await this.commandBus.execute(new DeleteAccountCommand(id))
   }
 }

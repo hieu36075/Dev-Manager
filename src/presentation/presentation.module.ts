@@ -48,6 +48,8 @@ import { UpdateLanguageHandler } from "@/application/use-case/language/command/u
 import { LanguageController } from "./language/language.controller";
 import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.command";
 import { GetProjectByIdQueryHandler } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.handler";
+import { DeleteAccountCommand } from "@/application/use-case/user/command/deleteUser/delete-account.command";
+import { DeleteAccountHandler } from "@/application/use-case/user/command/deleteUser/delete-account.handler";
 
 
 const CommandHandler = [
@@ -68,7 +70,9 @@ const CommandHandler = [
     CreateLanguageCommand,
     CreateLanguageHandler,
     UpdateLanguageCommand,
-    UpdateLanguageHandler
+    UpdateLanguageHandler,
+    DeleteAccountCommand,
+    DeleteAccountHandler
   ]
 
 const QueryHandler = [
