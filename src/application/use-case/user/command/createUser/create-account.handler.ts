@@ -1,17 +1,12 @@
-import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { CreateAccountCommand } from './create-account.command';
 import { UserRepositoryOrm } from '@/infrastructures/repositories/user/user.repository';
-import { UserM } from '@/domain/model/user.model';
-import { IJwtServicePayload } from '@/domain/adapter/token-service.repository';
-import { JwtTokenService } from '@/infrastructures/service/jwt/jwt.service';
-import { BcryptService } from '@/infrastructures/service/bcrypt/bcrypt.service';
-import { ForbiddenException, UseInterceptors } from '@nestjs/common';
+import { ForbiddenException, Inject } from '@nestjs/common';
 import { RoleRepositoryOrm } from '@/infrastructures/repositories/role/role.repository';
 import { Role } from '@/application/common/enums/role.enum';
 import { ProfileRepositoryOrm } from '@/infrastructures/repositories/profile/profile.repository';
 import { parseISO } from 'date-fns';
 import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical/technical.repository';
-import { TechnicalM } from '@/domain/model/technical.model';
 import { PositionM } from '@/domain/model/position.model';
 import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/position.repository';
 import { Connection } from 'typeorm';
@@ -19,6 +14,7 @@ import { ProfileM } from '@/domain/model/profile.model';
 import { TechnicalMemberRepositoryOrm } from '@/infrastructures/repositories/technicalMember/technicalMember.repository';
 import { LanguageRepositoryOrm } from '@/infrastructures/repositories/language/language.repository';
 import { LanguageMemberRepositoryOrm } from '@/infrastructures/repositories/languageMember/languageMember.repository';
+import { ILanguageMemberRepository } from '@/domain/repositories/languageMember.repository';
 
 @CommandHandler(CreateAccountCommand)
 export class CreateAccountHandler
@@ -26,16 +22,15 @@ export class CreateAccountHandler
 {
   constructor(
     private readonly userRepository: UserRepositoryOrm,
-    private readonly jwtService: JwtTokenService,
     private readonly roleRepository: RoleRepositoryOrm,
-    private readonly bcryptService: BcryptService,
     private readonly profileRepository: ProfileRepositoryOrm,
     private readonly technicalRepository: TechnicalRepositoryOrm,
     private readonly positionRepository: PositionRepositoryOrm,
     private readonly connection: Connection,
     private readonly technicalMemberRepository: TechnicalMemberRepositoryOrm,
     private readonly languageRepository : LanguageRepositoryOrm,
-    private readonly languageMemberRepository : LanguageMemberRepositoryOrm
+    @Inject('ILanguageMemberRepository')
+    private readonly languageMemberRepository : ILanguageMemberRepository
   ) {}
 
   async execute(command: CreateAccountCommand): Promise<ProfileM> {

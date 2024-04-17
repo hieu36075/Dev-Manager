@@ -21,5 +21,6 @@ export class UserM {
     isManager: boolean;
     manager: UserM;
     managerId: string;
+    isDelete: boolean;
     project: ProjectM[]
 }

@@ -11,7 +11,7 @@ import { GetAllUserQuery } from '@/application/use-case/user/queries/getAllUser/
 import { GetAllUserOptionQuery } from '@/application/use-case/user/queries/getAllUserOption/get-all-user-option.command';
 import { ProfileM } from '@/domain/model/profile.model';
 import { UserM } from '@/domain/model/user.model';
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
@@ -43,6 +43,7 @@ export class UserController {
     const query = plainToClass(GetAllProfileEmployeeQuery, getEmployeeDto)
     return await this.queryBus.execute(query)
   }
+
   @Post()
   async create(@Body() createUserDTO: CreateUserDTO): Promise<any> {
     return await this.commandBus.execute(
@@ -59,5 +60,10 @@ export class UserController {
         createUserDTO.isManager
       ),
     );
+  }
+
+  @Delete()
+  async delete(@Query('id') id:string): Promise<void>{
+    return
   }
 }

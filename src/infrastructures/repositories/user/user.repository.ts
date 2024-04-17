@@ -1,6 +1,6 @@
 
 import { IUserRepository } from "@/domain/repositories/user.repository";
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../../entities/user.entity";
 import { EntityManager, Like, Repository } from "typeorm";
@@ -144,8 +144,17 @@ export class UserRepositoryOrm implements IUserRepository {
         user.managerId = entity.managerId
         return await manager.save(user)
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string, manager?: EntityManager): Promise<void> {
+        if(!id){
+            throw new BadRequestException({message: "Don't have Id"})
+        }
+        const user = await this.findById(id)
+
+        user.isDelete = true
+        user.isManager = null,
+        
+        await manager.save(user)
+        return Promise.resolve()
     }
 
     async getUserByEmail(email: string): Promise<UserM> {

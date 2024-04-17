@@ -52,6 +52,9 @@ export class User {
   @Column({ type: 'boolean', default: false })
   isManager: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  isDelete: boolean;
+
   @ManyToOne(() => User, { nullable: true })
   @JoinColumn({ name: 'managerId' })
   manager: User;

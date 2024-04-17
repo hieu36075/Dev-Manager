@@ -2,8 +2,10 @@ import { PositionEnum } from "@/application/common/enums/position.enum";
 import { CreateProjectMemberDTO } from "@/application/dto/projectMember/create-projectMember.dto";
 import { ProfileM } from "@/domain/model/profile.model";
 import { ProjectMemberM } from "@/domain/model/projectMember.model";
+import { UserM } from "@/domain/model/user.model";
 import { IProjectMemberRepository } from "@/domain/repositories/projectMember.repository";
 import { ProjectMember } from "@/infrastructures/entities/projectMember.entity";
+import { User } from "@/infrastructures/entities/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EntityManager, Repository } from "typeorm";
 
@@ -32,6 +34,14 @@ export class ProjectMemberRepositoryOrm implements IProjectMemberRepository{
     }
     delete(id: string): Promise<void> {
         throw new Error("Method not implemented.");
+    }
+
+    async findUserInProject(user:UserM): Promise<ProjectMember[]>{
+        return await this.projectMemberRepository.find({
+            where:{
+                user: user
+            }
+        })
     }
 
     // async getEmployeesByManagerAndProject(managerId: string, projectId: string): Promise<any> {

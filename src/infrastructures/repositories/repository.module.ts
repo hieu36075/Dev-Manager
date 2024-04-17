@@ -27,10 +27,11 @@ import { TechnicalProjectRepositoryOrm } from './technicalProject/technicalProje
 import { TechnicalProject } from '../entities/technicalProject.enity';
 import { LanguageMemberRepositoryOrm } from './languageMember/languageMember.repository';
 import { LanguageMember } from '../entities/languageMember.entity';
-
+import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.repository";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([
+  imports: 
+  [TypeOrmModule.forFeature([
     User,
     Role,
     Project,
@@ -43,7 +44,10 @@ import { LanguageMember } from '../entities/languageMember.entity';
     LanguageProject,
     TechnicalProject,
     LanguageMember
-  ])],
+  ]),
+  
+  ]
+  ,
 
   providers: [
     UserRepositoryOrm,
@@ -57,7 +61,12 @@ import { LanguageMember } from '../entities/languageMember.entity';
     LanguageRepositoryOrm,
     LanguageProjectRepositoryOrm,
     TechnicalProjectRepositoryOrm,
-    LanguageMemberRepositoryOrm,
+    
+    // LanguageMemberRepositoryOrm,
+    {
+      provide: 'ILanguageMemberRepository',
+      useClass: LanguageMemberRepositoryOrm
+    }
   ],
   
   exports: [
@@ -72,7 +81,8 @@ import { LanguageMember } from '../entities/languageMember.entity';
     LanguageRepositoryOrm,
     LanguageProjectRepositoryOrm,
     TechnicalProjectRepositoryOrm,
-    LanguageMemberRepositoryOrm
+    'ILanguageMemberRepository'
+    // LanguageMemberRepositoryOrm
   ],
 })
 export class RepositoriesModule { }
