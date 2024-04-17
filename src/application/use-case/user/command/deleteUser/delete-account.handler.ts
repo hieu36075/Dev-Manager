@@ -34,7 +34,7 @@ export class DeleteAccountHandler
       const checkUserInProject =
         await this.projectMemberRepository.findUserInProject(currentUser);
     //   console.log(currentUser);
-      if (checkUserInProject.length < 0) {
+      if (checkUserInProject.length > 0) {
         throw new MethodNotAllowedException({
           message: 'User is in  a project, please check again',
         });

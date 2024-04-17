@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
-import { ForbiddenException, Inject } from "@nestjs/common";
+import { ForbiddenException, Inject, MethodNotAllowedException } from "@nestjs/common";
 import { ProjectRepositoryOrm } from "@/infrastructures/repositories/project/project.repository";
 import { ProjectMemberRepositoryOrm } from "@/infrastructures/repositories/projectMember/projectMember.repository";
 import { Connection } from 'typeorm';
@@ -21,7 +21,10 @@ export class DeleteProjectHandler implements ICommandHandler<DeleteProjectComman
     async execute(command: DeleteProjectCommand): Promise<any> {
         return await this.connection.transaction(async (manager) => {
             try {
-                
+                const project = await this.projectRepository.findById(command.id)
+                if(project.status === "Pending"){
+                    throw new MethodNotAllowedException({message: "project is pending"})
+                }
                 await this.projectRepository.delete(command.id, manager)
                 return 
             } catch (error) {

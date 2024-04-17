@@ -94,7 +94,6 @@ export class ProjectRepositoryOrm implements IProjectRepository {
           profile: true
         },
         projectMembers: {
-
           user: {
             profile: true,
             role: false,
@@ -104,7 +103,14 @@ export class ProjectRepositoryOrm implements IProjectRepository {
           roles: {
             position: true
           },
+        },
+        languageProject:{
+          language:true
+        },
+        technicalProject:{
+          technical:true
         }
+
       },
       select: {
         user: {
@@ -138,8 +144,22 @@ export class ProjectRepositoryOrm implements IProjectRepository {
             }
             // name:true,
           },
-
-
+        },
+        languageProject:{
+          id:true,
+          level:true,
+          experience:true,
+          language:{
+            name:true
+          }
+        },
+        technicalProject:{
+          id:true,
+          level:true,
+          experience:true,
+          technical:{
+            name:true
+          }
         }
       }
     })
