@@ -20,6 +20,17 @@ export class UserRepositoryOrm implements IUserRepository {
     ) {
 
     }
+    // async getUserInProject(id: string, projectId: string): Promise<UserM> {
+    //     const user = await this.userRepository.findOne({
+    //         where:{
+    //             id: id,
+    //             project:{
+    //                 id: projectId
+    //             }
+    //         }
+    //     })
+    //     return
+    // }
     async findAll(pageOptionsDto?: PageOptionsDto): Promise<any> {
         const { name, page, take } = pageOptionsDto;
         const takeData = take || 10;
@@ -110,16 +121,38 @@ export class UserRepositoryOrm implements IUserRepository {
                     id: id
                 },
                 relations: {
-                    profile: true
+                    profile: {
+                        
+                    },
+                    technicalMember:{
+                        technical:true
+                    }
                 },
-                select: [
-                    'id',
-                    'email',
-                    'userName',
-                    'isManager',
-                    'managerId',
-                    'profile',
-                ]
+                select:{
+                    id:true,
+                    email:true,
+                    userName:true,
+                    isManager:true,
+                    managerId:true,
+                    profile:{
+                        fullName:true,
+                        positions:true
+                    },
+                    technicalMember:{
+                        id:true,
+                        technical:{
+                            name:true
+                        }
+                    }
+                }
+                //  [
+                //     'id',
+                //     'email',
+                //     'userName',
+                //     'isManager',
+                //     'managerId',
+                //     'profile',
+                // ]
             })
             return user
         }catch(error){

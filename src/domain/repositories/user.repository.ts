@@ -6,6 +6,7 @@ import { GenericRepository } from "./generic-repository";
 export interface IUserRepository extends GenericRepository<UserM>{
     getUserByEmail(email:string) : Promise<UserM>
     getEmployee(id:string) : Promise<UserM[]>
+    // getUserInProject(id:string, projectId:string) : Promise<UserM>
 }
 
 export const IUserRepositoryToken = Symbol('IUserRepository');
