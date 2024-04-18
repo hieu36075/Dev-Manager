@@ -1,13 +1,15 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { ForbiddenException } from "@nestjs/common";
+import { ForbiddenException, Inject } from "@nestjs/common";
 import { CreateLanguageCommand } from "./create-language.command";
-import { LanguageRepositoryOrm } from "@/infrastructures/repositories/language/language.repository";
 import { LanguageM } from "@/domain/model/language.model";
+import { InjectionToken } from "@/application/common/constants/constants";
+import { ILanguageRepository } from "@/domain/repositories/language.repository";
 
 @CommandHandler(CreateLanguageCommand)
 export class CreateLanguageHandler implements ICommandHandler<CreateLanguageCommand>{
     constructor(
-        private readonly languageRepository : LanguageRepositoryOrm
+        @Inject(InjectionToken.LANGUAGE_REPOSITORY)
+        private readonly languageRepository : ILanguageRepository,
     ){
 
     }

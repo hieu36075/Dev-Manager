@@ -11,10 +11,10 @@ import { PositionM } from '@/domain/model/position.model';
 import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/position.repository';
 import { Connection } from 'typeorm';
 import { ProfileM } from '@/domain/model/profile.model';
-import { TechnicalMemberRepositoryOrm } from '@/infrastructures/repositories/technicalMember/technicalMember.repository';
-import { LanguageRepositoryOrm } from '@/infrastructures/repositories/language/language.repository';
-import { LanguageMemberRepositoryOrm } from '@/infrastructures/repositories/languageMember/languageMember.repository';
 import { ILanguageMemberRepository } from '@/domain/repositories/languageMember.repository';
+import { InjectionToken } from '@/application/common/constants/constants';
+import { ILanguageRepository } from '@/domain/repositories/language.repository';
+import { ITechnicalMemberRepository } from '@/domain/repositories/technicalMember';
 
 @CommandHandler(CreateAccountCommand)
 export class CreateAccountHandler
@@ -24,12 +24,14 @@ export class CreateAccountHandler
     private readonly userRepository: UserRepositoryOrm,
     private readonly roleRepository: RoleRepositoryOrm,
     private readonly profileRepository: ProfileRepositoryOrm,
-    private readonly technicalRepository: TechnicalRepositoryOrm,
+    private readonly technicalRepository: TechnicalRepositoryOrm,  
     private readonly positionRepository: PositionRepositoryOrm,
     private readonly connection: Connection,
-    private readonly technicalMemberRepository: TechnicalMemberRepositoryOrm,
-    private readonly languageRepository : LanguageRepositoryOrm,
-    @Inject('ILanguageMemberRepository')
+    @Inject(InjectionToken.TECHNICALMEMBER_REPOSITORY)
+    private readonly technicalMemberRepository: ITechnicalMemberRepository,
+    @Inject(InjectionToken.LANGUAGE_REPOSITORY)
+    private readonly languageRepository : ILanguageRepository,
+    @Inject(InjectionToken.LANGUAGEMEMBER_REPOSITORY)
     private readonly languageMemberRepository : ILanguageMemberRepository
   ) {}
 

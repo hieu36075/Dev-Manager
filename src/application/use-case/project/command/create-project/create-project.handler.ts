@@ -3,15 +3,15 @@ import { CreateProjectCommand } from './create-project.command';
 import { ProjectRepositoryOrm } from '@/infrastructures/repositories/project/project.repository';
 import { ProjectMemberRepositoryOrm } from '@/infrastructures/repositories/projectMember/projectMember.repository';
 import { UserRepositoryOrm } from '@/infrastructures/repositories/user/user.repository';
-import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import { ForbiddenException, Inject } from '@nestjs/common';
 import { Connection } from 'typeorm';
-import { ProfileM } from '@/domain/model/profile.model';
-import { UserM } from '@/domain/model/user.model';
 import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical/technical.repository';
-import { LanguageRepositoryOrm } from '@/infrastructures/repositories/language/language.repository';
 import { LanguageProjectRepositoryOrm } from '@/infrastructures/repositories/languageProject/languageProject.repository';
 import { TechnicalProjectRepositoryOrm } from '@/infrastructures/repositories/technicalProject/technicalProject.repository';
 import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/position.repository';
+import { InjectionToken } from '@/application/common/constants/constants';
+import { IRoleMemberProjectRepository } from '@/domain/repositories/roleMemberProject.repository';
+import { ILanguageRepository } from '@/domain/repositories/language.repository';
 
 @CommandHandler(CreateProjectCommand)
 export class CreateProjectHandler
@@ -20,11 +20,14 @@ export class CreateProjectHandler
     private readonly projectRepository: ProjectRepositoryOrm,
     private readonly projectMemberRepository: ProjectMemberRepositoryOrm,
     private readonly userRepository: UserRepositoryOrm,
-    private readonly languageRepository: LanguageRepositoryOrm,
+    @Inject(InjectionToken.LANGUAGE_REPOSITORY)
+    private readonly languageRepository : ILanguageRepository,
     private readonly languageProjectRepository: LanguageProjectRepositoryOrm,
     private readonly technicalRepository: TechnicalRepositoryOrm,
     private readonly technicalProjectRepository: TechnicalProjectRepositoryOrm,
     private readonly positionProjectRepository: PositionRepositoryOrm,
+    @Inject(InjectionToken.ROLEMEMBERPROJECT_REPOSITORY)
+    private readonly roleMemberProjectRepostiroy: IRoleMemberProjectRepository,
     private readonly connection: Connection,
   ) { }
 
@@ -41,7 +44,7 @@ export class CreateProjectHandler
           throw new ForbiddenException({ message: "Invalid manager" })
         }
 
-        await this.projectMemberRepository.create(
+        const member = await this.projectMemberRepository.create(
           { project: project, user: user },
           manager,
         );
@@ -84,20 +87,19 @@ export class CreateProjectHandler
             if (!currentPofile) {
               throw new ForbiddenException({ message: 'invalid employee' });
             }
-            await this.projectMemberRepository.create(
-              {
-                project: project,
-                user: currentPofile,
-                roles: currentRole
-              },
-              manager,
-            );
+            for(const role of currentRole){
+              await this.roleMemberProjectRepostiroy.create({
+                position:role,
+                projectMember: member
+              },manager)
+            }
             await this.userRepository.update(id, { managerId: user.id }, manager);
           }
         }
 
         return project;
       } catch (error) {
+        console.log(error)
         // if (error.driverError.code === '23505') {
         //   throw new BadRequestException({ message: 'NAME_ALREADY_EXIST' });
         // }

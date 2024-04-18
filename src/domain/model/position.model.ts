@@ -7,5 +7,5 @@ export class PositionM {
   name: string;
   description: string;
   profile: ProfileM;
-  projectMember:ProjectMemberM
+  positions:PositionM[];
 }

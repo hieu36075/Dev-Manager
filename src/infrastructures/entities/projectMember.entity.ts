@@ -11,6 +11,7 @@ import { User } from './user.entity';
 import { Project } from './project.enity';
 import { PositionEnum } from '@/application/common/enums/position.enum';
 import { Position } from './position.entity';
+import { RoleMemberProject } from './roleMemberProject.entity';
 
 @Entity('project_members')
 export class ProjectMember {
@@ -29,6 +30,6 @@ export class ProjectMember {
   @CreateDateColumn({ name: 'fire_date' })
   fireDate: Date;
 
-  @OneToMany(()=> Position, position => position.projectMember)
-  roles: Position[];
+  @OneToMany(()=> RoleMemberProject, roleMemberProject => roleMemberProject.projectMember)
+  roles: RoleMemberProject[];
 }

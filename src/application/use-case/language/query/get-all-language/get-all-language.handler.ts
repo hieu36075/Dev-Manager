@@ -1,16 +1,16 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { ForbiddenException } from "@nestjs/common";
-import { PageDto } from "@/application/dto/pagination/responsePagination";
-import { ProjectM } from "@/domain/model/project.model";
+import { ForbiddenException, Inject } from "@nestjs/common";
 import { GetAllLanguageQuery } from "./get-all-language.command";
-import { LanguageRepositoryOrm } from "@/infrastructures/repositories/language/language.repository";
 import { Language } from "@/infrastructures/entities/language.entity";
+import { InjectionToken } from "@/application/common/constants/constants";
+import { ILanguageRepository } from "@/domain/repositories/language.repository";
 
 
 @QueryHandler(GetAllLanguageQuery)
 export class GetAllLanguageQueryHandler implements IQueryHandler<GetAllLanguageQuery> {
     constructor(
-        private readonly languageRepository : LanguageRepositoryOrm
+        @Inject(InjectionToken.LANGUAGE_REPOSITORY)
+        private readonly languageRepository : ILanguageRepository,
     ) {}
 
     async execute(query: GetAllLanguageQuery): Promise<Language[]> {

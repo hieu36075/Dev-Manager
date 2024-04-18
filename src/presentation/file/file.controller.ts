@@ -1,5 +1,7 @@
+import { GenerateCVQuery } from "@/application/use-case/file/query/generate-cv.command";
 import { CloudinaryService } from "@/infrastructures/service/cloudinary/cloudinary.service";
-import { Controller, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { QueryBus } from "@nestjs/cqrs";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
 
@@ -8,9 +10,15 @@ import { ApiBody, ApiTags } from "@nestjs/swagger";
 @ApiTags('File')
 export class FileController{
     constructor(
-        private readonly cloudinaryService: CloudinaryService
+        private readonly cloudinaryService: CloudinaryService,
+        private readonly queryBus: QueryBus
     ){
 
+    }
+
+    @Get('generate-cv')
+    getCv(@Query('id') id:string): Promise<Buffer>{
+        return this.queryBus.execute(new GenerateCVQuery(id))
     }
 
     @Post()
@@ -18,4 +26,6 @@ export class FileController{
     uploadImage(@UploadedFile() file: Express.Multer.File){
         return this.cloudinaryService.uploadImage(file)
     }
+
+
 }

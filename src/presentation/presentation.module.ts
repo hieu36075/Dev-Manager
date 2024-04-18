@@ -50,6 +50,9 @@ import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-
 import { GetProjectByIdQueryHandler } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.handler";
 import { DeleteAccountCommand } from "@/application/use-case/user/command/deleteUser/delete-account.command";
 import { DeleteAccountHandler } from "@/application/use-case/user/command/deleteUser/delete-account.handler";
+import { GenerateCVQuery } from "@/application/use-case/file/query/generate-cv.command";
+import { GenerateCVQueryHandler } from "@/application/use-case/file/query/generate-cv.handler";
+import { DocxtemplateModule } from "@/infrastructures/service/docxtemplate/docxtemplate.module";
 
 
 const CommandHandler = [
@@ -91,7 +94,9 @@ const QueryHandler = [
     GetAllLanguageQuery,
     GetAllLanguageQueryHandler,
     GetProjectByIdQuery,
-    GetProjectByIdQueryHandler
+    GetProjectByIdQueryHandler,
+    GenerateCVQuery,
+    GenerateCVQueryHandler
 ]
 
 
@@ -103,6 +108,7 @@ const QueryHandler = [
         BcryptModule,
         JwtModule,
         CloudinaryModule,
+        DocxtemplateModule
     ],
     controllers: [
         UserController,

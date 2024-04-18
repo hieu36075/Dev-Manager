@@ -26,7 +26,7 @@ export class ProjectMemberRepositoryOrm implements IProjectMemberRepository{
         const projectMember = new ProjectMember();
         projectMember.project = entity.project;
         projectMember.user = entity.user;
-        projectMember.roles = entity.roles 
+        // projectMember.roles = entity.roles 
         return await manager.save(projectMember);
     }
     update(id: string, entity: Partial<ProjectMemberM>): Promise<ProjectMemberM> {

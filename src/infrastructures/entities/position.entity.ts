@@ -9,7 +9,7 @@ import {
     UpdateDateColumn,
   } from 'typeorm';
 import { Profile } from './profile.entity';
-import { ProjectMember } from './projectMember.entity';
+import { RoleMemberProject } from './roleMemberProject.entity';
   
   @Entity('position')
   export class Position {
@@ -24,8 +24,7 @@ import { ProjectMember } from './projectMember.entity';
   
     @ManyToOne(()=>Profile,(profile) => profile.positions)
     profile: Profile
-
-    @ManyToOne(()=>ProjectMember,(projectMember) => projectMember.roles)
-    projectMember: ProjectMember
     
+    @ManyToOne(()=> RoleMemberProject, position => position.position)
+    positions: Position[];
   }

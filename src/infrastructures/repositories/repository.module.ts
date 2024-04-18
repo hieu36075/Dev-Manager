@@ -28,7 +28,28 @@ import { TechnicalProject } from '../entities/technicalProject.enity';
 import { LanguageMemberRepositoryOrm } from './languageMember/languageMember.repository';
 import { LanguageMember } from '../entities/languageMember.entity';
 import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.repository";
+import { InjectionToken } from '@/application/common/constants/constants';
+import { RoleMemberProjectRepository } from './roleMemberProject/roleMemberProject.repository';
+import { RoleMemberProject } from '../entities/roleMemberProject.entity';
 
+const Repository = [
+  {
+    provide: InjectionToken.TECHNICALMEMBER_REPOSITORY,
+    useClass: TechnicalMemberRepositoryOrm
+  },
+  {
+    provide: InjectionToken.LANGUAGE_REPOSITORY,
+    useClass: LanguageRepositoryOrm
+  },
+  {
+    provide: InjectionToken.LANGUAGEMEMBER_REPOSITORY,
+    useClass: LanguageMemberRepositoryOrm
+  },
+  {
+    provide: InjectionToken.ROLEMEMBERPROJECT_REPOSITORY,
+    useClass: RoleMemberProjectRepository
+  }
+]
 @Module({
   imports: 
   [TypeOrmModule.forFeature([
@@ -43,12 +64,10 @@ import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.
     Language,
     LanguageProject,
     TechnicalProject,
-    LanguageMember
+    LanguageMember,
+    RoleMemberProject
   ]),
-  
-  ]
-  ,
-
+  ],
   providers: [
     UserRepositoryOrm,
     RoleRepositoryOrm,
@@ -57,16 +76,10 @@ import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.
     PositionRepositoryOrm,
     TechnicalRepositoryOrm,
     ProfileRepositoryOrm,
-    TechnicalMemberRepositoryOrm,
-    LanguageRepositoryOrm,
     LanguageProjectRepositoryOrm,
     TechnicalProjectRepositoryOrm,
-    
-    // LanguageMemberRepositoryOrm,
-    {
-      provide: 'ILanguageMemberRepository',
-      useClass: LanguageMemberRepositoryOrm
-    }
+    ...Repository
+
   ],
   
   exports: [
@@ -77,12 +90,9 @@ import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.
     PositionRepositoryOrm,
     TechnicalRepositoryOrm,
     ProfileRepositoryOrm,
-    TechnicalMemberRepositoryOrm,
-    LanguageRepositoryOrm,
     LanguageProjectRepositoryOrm,
     TechnicalProjectRepositoryOrm,
-    'ILanguageMemberRepository'
-    // LanguageMemberRepositoryOrm
+    ...Repository
   ],
 })
 export class RepositoriesModule { }

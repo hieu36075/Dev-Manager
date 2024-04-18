@@ -6,5 +6,5 @@ import { UserM } from "@/domain/model/user.model";
 export class CreateProjectMemberDTO{
     project : ProjectM
     user: UserM
-    roles?: PositionM[]
+    // roles?: PositionM[]
 }

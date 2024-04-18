@@ -36,7 +36,7 @@ export class AddUserProjectHandler implements ICommandHandler<AddUserProjectComm
                 )
                 await this.projectMemberRepositoryOrm.create(
                     {
-                        project: project, user: user, roles: roles
+                        project: project, user: user,
                     },
                     manager
                 )
