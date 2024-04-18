@@ -37,9 +37,9 @@ export class CreateProjectHandler
       try {
         const user = await this.userRepository.findById(managerId);
         
-        const project = await this.projectRepository.create(command, manager);
+        const project = await this.projectRepository.create({ ...command, user}, manager);
    
-
+        console.log()
         if (user.isManager === false) {
           throw new ForbiddenException({ message: "Invalid manager" })
         }
@@ -83,14 +83,18 @@ export class CreateProjectHandler
             const {id, role} = item
             const currentPofile = await this.userRepository.findById(id);
             const currentRole = await this.positionProjectRepository.findRolesAndPushIntoArray(role)
-            
+            const currentMember = await this.projectMemberRepository.create({
+              project: project,
+              user: currentPofile
+            },manager)
             if (!currentPofile) {
               throw new ForbiddenException({ message: 'invalid employee' });
             }
             for(const role of currentRole){
+              
               await this.roleMemberProjectRepostiroy.create({
                 position:role,
-                projectMember: member
+                projectMember: currentMember
               },manager)
             }
             await this.userRepository.update(id, { managerId: user.id }, manager);

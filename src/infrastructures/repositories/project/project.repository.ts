@@ -94,17 +94,16 @@ export class ProjectRepositoryOrm implements IProjectRepository {
           profile: true
         },
         projectMembers: {
-          roles: {
-            position: true
-          },
+
           user: {
             profile: true,
             role: false,
-            manager: {
-              profile: true
-            },
+            manager:false
 
-          }
+          },
+          roles: {
+            position: true
+          },
         }
       },
       select: {
@@ -119,38 +118,25 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         },
         projectMembers: {
           id: true,
-          roles: {
-            id: true,
-            position: {
-              name: true
-            }
-            // name:true,
-          },
+
           user: {
+            id: true,
             userName: true,
             isManager: true,
-            managerId: true,
-            manager: {
-              userName: true,
-              profile: {
-                fullName: true,
-                avatarUrl: true,
-                email: true
-              }
-            },
-            // role: {
-            //   id: true,
-            //   name: true,
-            //   // users: {
-            //   //   userName: 
-            //   // }
-            // },
+            // manager: false,
             profile: {
               fullName: true,
               email: true,
               avatarUrl: true,
             },
 
+          },
+          roles: {
+            id: true,
+            position: {
+              name: true
+            }
+            // name:true,
           },
 
 
