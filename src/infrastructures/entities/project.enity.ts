@@ -32,7 +32,7 @@ import { TechnicalProject } from './technicalProject.enity';
     @CreateDateColumn({ name: 'start_date' })
     startDate: Date;
   
-    @UpdateDateColumn({ name: 'end_date' })
+    @CreateDateColumn({ name: 'end_date' })
     endDate: Date;
 
 
