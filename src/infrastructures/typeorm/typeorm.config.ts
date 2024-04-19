@@ -26,8 +26,6 @@ import { join } from 'path';
       inject: [ConfigService],
     }),
   ],
-  providers:[
-  ]
+  providers: [],
 })
 export class TypeOrmConfigModule {}
-
