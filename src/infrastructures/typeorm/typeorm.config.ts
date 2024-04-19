@@ -16,18 +16,16 @@ import { join } from 'path';
         entities: [join(__dirname, '../entities/*{.ts,.js}')],
 
         synchronize: true,
-        ssl:false
-        // extra: {
-        //   ssl: {
-        //     rejectUnauthorized: false,
-        //   },
-        // },
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
       inject: [ConfigService],
     }),
   ],
-  providers:[
-  ]
+  providers: [],
 })
 export class TypeOrmConfigModule {}
-
