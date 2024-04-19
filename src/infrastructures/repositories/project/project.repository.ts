@@ -25,6 +25,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     const [result, total] = await this.projectRepository.findAndCount({
       where: {
         name: name ? Like(`%${name}%`) : Like(`%%`),
+        isDelete:false
       },
       // relations: ['projectMembers', 'projectMembers.user', 'projectMembers.user.profile', 'projectMembers.user.manager'],
       relations: {
@@ -87,7 +88,8 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     }
     const project = await this.projectRepository.findOne({
       where: {
-        id: id
+        id: id,
+        isDelete:false
       },
       relations: {
         user: {

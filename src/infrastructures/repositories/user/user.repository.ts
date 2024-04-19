@@ -40,8 +40,10 @@ export class UserRepositoryOrm implements IUserRepository {
             const [result, total] = await this.userRepository.findAndCount({
                 where: {
                     profile: {
-                        fullName: name ? Like(`%${name}%`) : Like(`%%`)
-                    }
+                        fullName: name ? Like(`%${name}%`) : Like(`%%`),
+                    
+                    },
+                    isDelete:false
                 },
                 skip,
                 take,
@@ -69,7 +71,7 @@ export class UserRepositoryOrm implements IUserRepository {
                     isManager:true,
                     managerId:true,
                     manager:{
-                        userName:true,
+                        id:true,
                         profile:{
                             fullName:true,
                             avatarUrl:true
@@ -109,7 +111,8 @@ export class UserRepositoryOrm implements IUserRepository {
 
             const result = await this.userRepository.find({
                 where: {
-                    isManager: isManager
+                    isManager: isManager,
+                    isDelete:false
                 },
                 relations: {
                     technicalMember: true,
