@@ -9,7 +9,7 @@ import { Project } from "@/infrastructures/entities/project.enity";
 import { BadRequestException, ForbiddenException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { parseISO } from "date-fns";
-import { EntityManager, Like, Repository } from "typeorm";
+import { EntityManager, ILike, Like, Repository } from "typeorm";
 
 export class ProjectRepositoryOrm implements IProjectRepository {
   constructor(
@@ -24,7 +24,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     const skip = (page - 1) * take;
     const [result, total] = await this.projectRepository.findAndCount({
       where: {
-        name: name ? Like(`%${name}%`) : Like(`%%`),
+        name: name ? ILike(`%${name.toLowerCase()}%`) : Like(`%%`),
         isDelete:false
       },
       // relations: ['projectMembers', 'projectMembers.user', 'projectMembers.user.profile', 'projectMembers.user.manager'],

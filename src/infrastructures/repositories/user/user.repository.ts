@@ -3,7 +3,7 @@ import { IUserRepository } from "@/domain/repositories/user.repository";
 import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../../entities/user.entity";
-import { EntityManager, Like, Repository } from "typeorm";
+import { EntityManager, ILike, Like, Repository } from "typeorm";
 import { UserM } from "@/domain/model/user.model";
 import { CreateUserDTO } from "@/application/dto/user/create-user.dto";
 import { RoleM } from "@/domain/model/role.model";
@@ -40,7 +40,7 @@ export class UserRepositoryOrm implements IUserRepository {
             const [result, total] = await this.userRepository.findAndCount({
                 where: {
                     profile: {
-                        fullName: name ? Like(`%${name}%`) : Like(`%%`),
+                        fullName: name ? ILike(`%${name}%`) : Like(`%%`),
                     
                     },
                     isDelete:false
