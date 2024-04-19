@@ -15,6 +15,7 @@ import { ProjectStatusEnum } from '@/application/common/enums/project-status.enu
 import { User } from './user.entity';
 import { LanguageProject } from './languageProject.entity';
 import { TechnicalProject } from './technicalProject.enity';
+import { ProjectHistory } from './projectHistory.entity';
 
   
   @Entity('project')
@@ -32,7 +33,7 @@ import { TechnicalProject } from './technicalProject.enity';
     @CreateDateColumn({ name: 'start_date' })
     startDate: Date;
   
-    @UpdateDateColumn({ name: 'end_date' })
+    @CreateDateColumn({ name: 'end_date' })
     endDate: Date;
 
 
@@ -44,6 +45,9 @@ import { TechnicalProject } from './technicalProject.enity';
 
     @OneToMany(()=>TechnicalProject, technicalProject => technicalProject.project)
     technicalProject: TechnicalProject[]
+
+    @OneToMany(()=>ProjectHistory, projectHistory => projectHistory.project)
+    projectHistory: ProjectHistory[]
 
     @Column({ type: 'boolean', default: false })
     isDelete: boolean;

@@ -17,6 +17,7 @@ import { LanguageMember } from './languageMember.entity';
 import { Profile } from './profile.entity';
 import { TechnicalMember } from './technicalMember.entity';
 import { PositionMember } from './positionMember.entity';
+import { ProjectHistory } from './projectHistory.entity';
 
 @Entity('users')
 export class User {
@@ -71,6 +72,9 @@ export class User {
 
   @OneToMany(() => PositionMember, positionMember => positionMember.user)
   positionMember: PositionMember[];
+
+  @OneToMany(() => ProjectHistory, projectHistory => projectHistory.user)
+  projectHistory: ProjectHistory[];
 
   @OneToOne(() => Profile )
   @JoinColumn()

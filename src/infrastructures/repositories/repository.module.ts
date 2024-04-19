@@ -33,6 +33,8 @@ import { RoleMemberProjectRepository } from './roleMemberProject/roleMemberProje
 import { RoleMemberProject } from '../entities/roleMemberProject.entity';
 import { PositionMember } from '../entities/positionMember.entity';
 import { PositionMemberRepositoryOrm } from './positionMember/positionMember.repository';
+import { ProjectHistory } from '../entities/projectHistory.entity';
+import { ProjectHistoryRepositoryOrm } from './projectHistory/projectHistory.repository';
 
 const Repository = [
   {
@@ -54,6 +56,10 @@ const Repository = [
   {
     provide: InjectionToken.POSITIONMEMBER_REPOSITORY,
     useClass: PositionMemberRepositoryOrm
+  },
+  {
+    provide: InjectionToken.PROJECTHISTORY_REPOSITORY,
+    useClass: ProjectHistoryRepositoryOrm
   }
 ]
 @Module({
@@ -72,7 +78,8 @@ const Repository = [
     TechnicalProject,
     LanguageMember,
     RoleMemberProject,
-    PositionMember
+    PositionMember,
+    ProjectHistory
   ]),
   ],
   providers: [

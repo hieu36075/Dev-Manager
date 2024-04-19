@@ -12,6 +12,7 @@ import { PositionRepositoryOrm } from '@/infrastructures/repositories/position/p
 import { InjectionToken } from '@/application/common/constants/constants';
 import { IRoleMemberProjectRepository } from '@/domain/repositories/roleMemberProject.repository';
 import { ILanguageRepository } from '@/domain/repositories/language.repository';
+import { IProjectHistoryRepository } from '@/domain/repositories/projectHistory.repository';
 
 @CommandHandler(CreateProjectCommand)
 export class CreateProjectHandler
@@ -28,6 +29,8 @@ export class CreateProjectHandler
     private readonly positionProjectRepository: PositionRepositoryOrm,
     @Inject(InjectionToken.ROLEMEMBERPROJECT_REPOSITORY)
     private readonly roleMemberProjectRepostiroy: IRoleMemberProjectRepository,
+    @Inject(InjectionToken.PROJECTHISTORY_REPOSITORY)
+    private readonly projectHistoryRepository : IProjectHistoryRepository,
     private readonly connection: Connection,
   ) { }
 
@@ -39,7 +42,7 @@ export class CreateProjectHandler
         
         const project = await this.projectRepository.create({ ...command, user}, manager);
    
-        console.log()
+    
         if (user.isManager === false) {
           throw new ForbiddenException({ message: "Invalid manager" })
         }
@@ -95,6 +98,12 @@ export class CreateProjectHandler
               await this.roleMemberProjectRepostiroy.create({
                 position:role,
                 projectMember: currentMember
+              },manager)
+              await this.projectHistoryRepository.create({
+                project:project,
+                user: currentPofile,
+                type:"ADD-EMPLOYEE",
+                description:`${currentPofile.profile.fullName} participated in the ${project.name}`
               },manager)
             }
             await this.userRepository.update(id, { managerId: user.id }, manager);

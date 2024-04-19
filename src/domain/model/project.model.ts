@@ -6,6 +6,7 @@ import { UserM } from './user.model';
 import { LanguageMemberM } from './languageMember.modal';
 import { LanguageProjectM } from './languageProject.modal';
 import { TechnicalProjectM } from './technicalProject.model';
+import { ProjectHistoryM } from './projectHistory.model';
 
 export class ProjectM {
   id:string;
@@ -16,6 +17,7 @@ export class ProjectM {
   projectMembers: ProjectMemberM[];
   languageProject: LanguageProjectM[];
   technicalProject: TechnicalProjectM[];
+  projectHistory: ProjectHistoryM[]
   isDelete: boolean;
   status: ProjectStatusEnum;
   user: UserM;

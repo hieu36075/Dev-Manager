@@ -6,6 +6,7 @@ import { RoleM } from "./role.model";
 import { LanguageMemberM } from "./languageMember.modal";
 import { TechnicalMemberM } from "./technicalMember.model";
 import { PositionMemberM } from "./positionMember.model";
+import { ProjectHistoryM } from "./projectHistory.model";
 
 export class UserM {
     id: string;
@@ -19,6 +20,7 @@ export class UserM {
     languageMember: LanguageMemberM[];
     technicalMember: TechnicalMemberM[];
     positionMember: PositionMemberM[];
+    projectHistory: ProjectHistoryM[];
     profile: ProfileM;
     isManager: boolean;
     manager: UserM;
