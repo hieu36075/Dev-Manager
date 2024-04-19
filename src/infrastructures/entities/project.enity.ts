@@ -42,7 +42,7 @@ import { TechnicalProject } from './technicalProject.enity';
     @OneToMany(()=> LanguageProject, languageProject => languageProject.project)
     languageProject: LanguageProject[];
 
-    @OneToMany(()=>TechnicalProject, technicalProject => technicalProject.technical)
+    @OneToMany(()=>TechnicalProject, technicalProject => technicalProject.project)
     technicalProject: TechnicalProject[]
 
     @Column({ type: 'boolean', default: false })
