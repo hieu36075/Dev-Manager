@@ -105,6 +105,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         technicalProject: {
           technical: true,
         },
+        projectHistory:true
       },
       select: {
         user: {
