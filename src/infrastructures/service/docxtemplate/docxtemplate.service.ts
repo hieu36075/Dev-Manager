@@ -11,6 +11,7 @@ import { UserM } from '@/domain/model/user.model';
 export class DocxTemplateService implements IDocxtemplateRepository {
   async generateWord(data: UserM): Promise<string> {
     const templatePath = path.resolve(__dirname, '../../../../assets/template/template.docx');
+    // console.log(templatePath)
     const docContent = fs.readFileSync(templatePath, 'binary');
     const doc = new Docxtemplater();
     var zip = new PizZip(docContent);
@@ -18,26 +19,7 @@ export class DocxTemplateService implements IDocxtemplateRepository {
     // const user = data.profile
     
 
-    console.log(data)
-    const projects = [
-      {
-        projectName: "CV Management",
-        role: "Full Stack Developer and DevOps",
-        description: "The project involves the development of an HR Management System tailored for a specific company. The system aims to streamline and automate various human resource processes, enhancing efficiency and accuracy in managing employee information, payroll, attendance, leave, and other HR-related tasks",
-        specification: "Full-stack features development and maintenance",
-        languagesAndFrameworks: "Nodejs, NestJs, Typescript, ReactJS",
-        technologies: "Git/Github, Docker, PostgreSQL, AWS"
-      },
-      {
-        projectName: "High Out Office",
-        role: "BE",
-        description: "Web-based application supporting Excel-like functionalities for input/output data, insight reports, data visualization in charts, report export…",
-        specification: "BE features development and maintenance",
-        languagesAndFrameworks: "Nodejs, NestJs, Typescript, ReactJS",
-        technologies: "Git/Github, Docker, SQL Server, Serverless, AWS S3, AWS CloudWatch"
-      }
-    ];
-    console.log(projects)
+    // console.log(data.projectMembers[0])
     doc.setData(data);
     
 
@@ -48,10 +30,10 @@ export class DocxTemplateService implements IDocxtemplateRepository {
     }
 
     const buf = doc.getZip().generate({ type: 'nodebuffer' });
-    console.log(buf)
+    // console.log(buf)
 
-    const outputPath = path.resolve(__dirname, 'path/to/output.docx');
-    // fs.writeFileSync(outputPath, buf);
+    // const outputPath = path.resolve(__dirname, 'path/to/output.docx');
+    // // fs.writeFileSync(outputPath, buf);
 
     return buf;
   }

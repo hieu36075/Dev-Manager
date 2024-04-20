@@ -55,6 +55,8 @@ import { GenerateCVQueryHandler } from "@/application/use-case/file/query/genera
 import { DocxtemplateModule } from "@/infrastructures/service/docxtemplate/docxtemplate.module";
 import { DeleteProjectCommand } from "@/application/use-case/project/command/delete-project/delete-project.command";
 import { DeleteProjectHandler } from "@/application/use-case/project/command/delete-project/delete-project.handler";
+import { DeleteEmployeeProjectCommand } from "@/application/use-case/project/command/delete-employee/delete-employee.command";
+import { DeleteEmployeeProjectHandler } from "@/application/use-case/project/command/delete-employee/delete-employee.handler";
 
 
 const CommandHandler = [
@@ -79,7 +81,9 @@ const CommandHandler = [
     DeleteAccountCommand,
     DeleteAccountHandler,
     DeleteProjectCommand,
-    DeleteProjectHandler
+    DeleteProjectHandler,
+    DeleteEmployeeProjectCommand,
+    DeleteEmployeeProjectHandler
   ]
 
 const QueryHandler = [
@@ -100,7 +104,8 @@ const QueryHandler = [
     GetProjectByIdQuery,
     GetProjectByIdQueryHandler,
     GenerateCVQuery,
-    GenerateCVQueryHandler
+    GenerateCVQueryHandler,
+
 ]
 
 

@@ -162,6 +162,12 @@ export class UserRepositoryOrm implements IUserRepository {
                     },
                     languageMember:{
                         language:true
+                    },
+                    projectMembers:{
+                        roles:{
+                            position:true
+                        },
+                        project:true
                     }
                 },
                 select:{
@@ -178,6 +184,21 @@ export class UserRepositoryOrm implements IUserRepository {
                         id:true,
                         technical:{
                             name:true
+                        }
+                    },
+                    projectMembers:{
+                        id:true,
+                        roles:{
+                          id:true,
+                            position:{
+                                name:true
+                            }
+                        },
+                        project:{
+                            name:true,
+                            languageProject:true,
+                            startDate:true,
+                            endDate:true
                         }
                     }
                 }

@@ -6,6 +6,7 @@ import { UserM } from "@/domain/model/user.model";
 import { IProjectMemberRepository } from "@/domain/repositories/projectMember.repository";
 import { ProjectMember } from "@/infrastructures/entities/projectMember.entity";
 import { User } from "@/infrastructures/entities/user.entity";
+import { NotAcceptableException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EntityManager, Repository } from "typeorm";
 
@@ -19,8 +20,27 @@ export class ProjectMemberRepositoryOrm implements IProjectMemberRepository{
     findAll(): Promise<ProjectMemberM[]> {
         throw new Error("Method not implemented.");
     }
-    findById(id: string): Promise<ProjectMemberM> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<ProjectMemberM> {
+        if(!id){
+            throw new NotAcceptableException()
+        }
+        return await this.projectMemberRepository.findOne({
+            where:{
+                id:id
+            },
+            relations:{
+                roles:true,
+                user:{
+                    profile:true
+                },
+                project:true
+            },
+            select:{
+                roles:true,
+                // project:true
+
+            }
+        })
     }
     async create(entity: CreateProjectMemberDTO, manager: EntityManager): Promise<ProjectMemberM> {
         const projectMember = new ProjectMember();
@@ -32,8 +52,9 @@ export class ProjectMemberRepositoryOrm implements IProjectMemberRepository{
     update(id: string, entity: Partial<ProjectMemberM>): Promise<ProjectMemberM> {
         throw new Error("Method not implemented.");
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string, manager?: EntityManager): Promise<void> {
+        const currentMember = await this.findById(id)
+        await manager.remove(currentMember)
     }
 
     async findUserInProject(user:UserM): Promise<ProjectMember[]>{

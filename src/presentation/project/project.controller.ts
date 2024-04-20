@@ -17,6 +17,7 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
 import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.command"
 import { DeleteProjectCommand } from "@/application/use-case/project/command/delete-project/delete-project.command"
+import { DeleteEmployeeProjectCommand } from "@/application/use-case/project/command/delete-employee/delete-employee.command"
 
 @Controller('project')
 @ApiTags('Project')
@@ -60,9 +61,9 @@ export class ProjectController{
         return await this.commandBus.execute(command)
     }
 
-    @Post('unassign-employee')
-    async unassignEmployee(@Body() addEmployeeDto: AddEmployeeDTO): Promise<any>{
-        return 
+    @Delete('unassign-employee/:id')
+    async unassignEmployee(@Param('id') id: string): Promise<any>{
+        return await this.commandBus.execute(new DeleteEmployeeProjectCommand(id))
     }
     @Patch(':id')
     async update(@Param('id') id:string,@Body()updateProjectDTO:UpdateProjectDTO): Promise<any>{
