@@ -179,6 +179,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     if (!projectToUpdate) {
       throw new Error('Project not found');
     }
+    
     for (const [key, value] of Object.entries(updateProjectDTO)) {
       if (value !== undefined && value !== null) {
         if (key === 'startDate' || key === 'endDate') {
@@ -188,7 +189,6 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         }
       }
     }
-
     return await this.projectRepository.save(projectToUpdate);
   }
 

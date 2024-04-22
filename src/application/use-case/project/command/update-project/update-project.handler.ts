@@ -4,21 +4,30 @@ import { ProjectMemberRepositoryOrm } from "@/infrastructures/repositories/proje
 import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
 import { UpdateProjectCommand } from "./update-project.command";
 import { ForbiddenException } from "@nestjs/common";
+import { UserM } from "@/domain/model/user.model";
 
 @CommandHandler(UpdateProjectCommand)
 export class UpdateProjectHandler implements ICommandHandler<UpdateProjectCommand>{
     constructor(
         private readonly projectRepository: ProjectRepositoryOrm,
+        private readonly userRepository : UserRepositoryOrm
     ){
 
     }
 
     async execute(command: UpdateProjectCommand): Promise<any> {
-        const {id} = command
+        const {id, managerId} = command
         try{
-            const project = await this.projectRepository.update(id, command)
+            let manager : UserM
+            if(managerId){
+                manager = await this.userRepository.findById(managerId)
+            }
+            
+            
+            const project = await this.projectRepository.update(id, {...command,user: manager})
             return project
         }catch(error){
+            console.log(error)
             throw new ForbiddenException({message: 'Update failed'})
         }
     }
