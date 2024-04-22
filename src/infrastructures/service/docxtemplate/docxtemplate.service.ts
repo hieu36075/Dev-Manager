@@ -11,7 +11,7 @@ import { UserM } from '@/domain/model/user.model';
 export class DocxTemplateService implements IDocxtemplateRepository {
   async generateWord(data: UserM): Promise<string> {
     const templatePath = path.resolve(__dirname, '../../../../assets/template/template.docx');
-    // console.log(templatePath)
+    console.log(data)
     const docContent = fs.readFileSync(templatePath, 'binary');
     const doc = new Docxtemplater();
     var zip = new PizZip(docContent);

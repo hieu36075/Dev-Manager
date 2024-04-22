@@ -10,9 +10,10 @@ import { DeleteAccountCommand } from '@/application/use-case/user/command/delete
 import { GetAllProfileEmployeeQuery } from '@/application/use-case/user/queries/getAllEmployee/get-all-employee.command';
 import { GetAllUserQuery } from '@/application/use-case/user/queries/getAllUser/get-all-user.command';
 import { GetAllUserOptionQuery } from '@/application/use-case/user/queries/getAllUserOption/get-all-user-option.command';
+import { GetUserByIdQuery } from '@/application/use-case/user/queries/getUserById/get-user-by-id.command';
 import { ProfileM } from '@/domain/model/profile.model';
 import { UserM } from '@/domain/model/user.model';
-import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
@@ -31,6 +32,12 @@ export class UserController {
   @Get()
   async getAll(@Query() pageOptionsDto: PageOptionsDto): Promise<ProfileM> {
     return await this.queryBus.execute(new GetAllUserOptionQuery(pageOptionsDto));
+  }
+
+  @Get(':id')
+  async getById(@Param('id') id:string):Promise<ProfileM>{
+    console.log(id)
+    return await this.queryBus.execute(new GetUserByIdQuery(id))
   }
 
   @Get('get-user')

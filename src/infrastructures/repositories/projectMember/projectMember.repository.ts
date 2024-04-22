@@ -43,6 +43,7 @@ export class ProjectMemberRepositoryOrm implements IProjectMemberRepository{
         })
     }
     async create(entity: CreateProjectMemberDTO, manager: EntityManager): Promise<ProjectMemberM> {
+        // console.log(entity.user)
         const projectMember = new ProjectMember();
         projectMember.project = entity.project;
         projectMember.user = entity.user;

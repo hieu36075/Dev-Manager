@@ -86,26 +86,26 @@ export class CreateProjectHandler
             const {id, role} = item
             const currentPofile = await this.userRepository.findById(id);
             const currentRole = await this.positionProjectRepository.findRolesAndPushIntoArray(role)
+            if (!currentPofile) {
+              throw new ForbiddenException({ message: 'invalid employee' });
+            }
             const currentMember = await this.projectMemberRepository.create({
               project: project,
               user: currentPofile
             },manager)
-            if (!currentPofile) {
-              throw new ForbiddenException({ message: 'invalid employee' });
-            }
+            console.log(currentMember.user)
             for(const role of currentRole){
-              
               await this.roleMemberProjectRepostiroy.create({
                 position:role,
                 projectMember: currentMember
               },manager)
-              await this.projectHistoryRepository.create({
-                project:project,
-                user: currentPofile,
-                type:"ADD-EMPLOYEE",
-                description:`${currentPofile.profile.fullName} participated in the ${project.name}`
-              },manager)
             }
+            await this.projectHistoryRepository.create({
+              project:project,
+              user: currentPofile,
+              type:"ADD-EMPLOYEE",
+              description:`${currentPofile.profile.fullName} participated in the ${project.name} project`
+            },manager)
             await this.userRepository.update(id, { managerId: user.id }, manager);
           }
         }

@@ -57,6 +57,8 @@ import { DeleteProjectCommand } from "@/application/use-case/project/command/del
 import { DeleteProjectHandler } from "@/application/use-case/project/command/delete-project/delete-project.handler";
 import { DeleteEmployeeProjectCommand } from "@/application/use-case/project/command/delete-employee/delete-employee.command";
 import { DeleteEmployeeProjectHandler } from "@/application/use-case/project/command/delete-employee/delete-employee.handler";
+import { GetUserByIdHandler } from "@/application/use-case/user/queries/getUserById/get-user-by-id.handler";
+import { GetUserByIdQuery } from "@/application/use-case/user/queries/getUserById/get-user-by-id.command";
 
 
 const CommandHandler = [
@@ -105,6 +107,8 @@ const QueryHandler = [
     GetProjectByIdQueryHandler,
     GenerateCVQuery,
     GenerateCVQueryHandler,
+    GetUserByIdHandler,
+    GetUserByIdQuery
 
 ]
 
