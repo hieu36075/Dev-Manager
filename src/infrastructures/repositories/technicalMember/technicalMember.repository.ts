@@ -33,6 +33,8 @@ export class TechnicalMemberRepositoryOrm implements ITechnicalMemberRepository{
         const projectMember = new TechnicalMember();
         projectMember.technical = entity.technical;
         projectMember.user = entity.user;
+        projectMember.level = entity.level;
+        projectMember.experience = entity.experience
         return await manager.save(projectMember);
     }
     update(id: string, entity: Partial<TechnicalMemberM>, manager?: any): Promise<TechnicalMemberM> {

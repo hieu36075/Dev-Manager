@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn } from 'typeorm';
+import { Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn, Column } from 'typeorm';
 import { User } from './user.entity';
 import { Project } from './project.enity';
 import { Language } from './language.entity';
@@ -17,5 +17,11 @@ export class TechnicalMember {
 
   @ManyToOne(() => User, user => user.technicalMember)
   user: User;
+
+  @Column('varchar')
+  level: string;
+
+  @Column('varchar')
+  experience: string;
 
 }

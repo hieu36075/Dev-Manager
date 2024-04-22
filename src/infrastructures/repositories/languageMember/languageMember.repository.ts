@@ -31,6 +31,8 @@ export class LanguageMemberRepositoryOrm implements ILanguageMemberRepository{
         const languageMember = new LanguageMember
         languageMember.language = entity.language
         languageMember.user = entity.user
+        languageMember.level = entity.level
+        languageMember.experience = entity.experience
         return await manager.save(languageMember)
     }
     update(id: string, entity: Partial<LanguageMemberM>, manager?: any): Promise<LanguageMemberM> {

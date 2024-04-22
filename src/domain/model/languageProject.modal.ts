@@ -5,6 +5,4 @@ export class LanguageProjectM {
   id: string;
   language: LanguageM;
   project: ProjectM;
-  level: string;
-  experience: string;
 }

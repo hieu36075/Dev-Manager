@@ -14,12 +14,4 @@ export class LanguageProject {
 
   @ManyToOne(() => Project, project => project.projectMembers)
   project: Project;
-
-  @Column('varchar')
-  level: string;
-
-  @Column('varchar')
-  experience: string;
-
-
 }

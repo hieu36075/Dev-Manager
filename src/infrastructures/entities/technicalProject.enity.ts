@@ -16,11 +16,6 @@ export class TechnicalProject {
   @ManyToOne(() => Project, project => project.technicalProject)
   project: Project;
 
-  @Column('varchar')
-  level: string;
-
-  @Column('varchar')
-  experience: string;
 
 
 }

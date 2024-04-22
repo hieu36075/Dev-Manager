@@ -8,6 +8,4 @@ export class TechnicalProjectM {
   id: string;
   project: ProjectM;
   technical: TechnicalM;
-  level: string;
-  experience: string;
 }

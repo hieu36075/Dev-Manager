@@ -65,10 +65,16 @@ export class CreateUserDTO{
     @IsNotEmpty()
     @ApiProperty({
         description: 'Array of technical IDs associated with the user',
-        example: ['technical1', 'technical2'],
-        type: [String],
+        example: [
+            {
+                id: '123',
+                level: 1,
+                experience: 1
+            },
+        ],
+        type: [],
     })
-    technical : string[];
+    technical : [];
 
     @IsArray()
     @IsNotEmpty()
@@ -84,9 +90,15 @@ export class CreateUserDTO{
     @IsNotEmpty()
     @ApiProperty({
         description: 'Array of language IDs associated with the user',
-        example: ['Language1', 'Language2'],
-        type: [String],
+        example: [
+            {
+                id: '123',
+                level: 1,
+                experience: 1
+            },
+        ],
+        type: [],
     })
-    language : string[];
+    language : [];
 
 }

@@ -87,28 +87,33 @@ export class CreateAccountHandler
           manager,
         );
         if (technical && technical.length > 0) {
-          // let technicalMember: TechnicalMemberM[] = []
-          for (const id of technical) {
+          for (const item of technical) {
+            const {id, level, experience} = item
             const currentTechnical = await this.technicalRepository.findById(id);
             if (!currentTechnical) {
               throw new ForbiddenException({ message: 'invalid technical' });
             }
             await this.technicalMemberRepository.create({
               technical: currentTechnical,
-              user:newUser
+              user:newUser,
+              level: level,
+              experience: experience
             },manager)
           }
         }
 
         if (language && language.length > 0) {
-          for (const id of language) {
+          for (const item of language) {
+            const {id, level, experience} = item
             const currentLanguage = await this.languageRepository.findById(id);
             if (!currentLanguage) {
               throw new ForbiddenException({ message: 'invalid language' });
             }
             await this.languageMemberRepository.create({
                 language: currentLanguage,
-                user: newUser
+                user: newUser,
+                level: level,
+                experience: experience
             },manager)
           }
         }

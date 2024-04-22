@@ -25,8 +25,6 @@ export class TechnicalProjectRepositoryOrm implements ITechnicalProjectRepositor
         const technicalProject = new TechnicalProject
         technicalProject.project = entity.project;
         technicalProject.technical = entity.technical;
-        technicalProject.level = entity.level || '0'
-        technicalProject.experience = entity.level || '0'
         return await manager.save(technicalProject)
     }
     update(id: string, entity: Partial<LanguageProjectM>, manager?: any): Promise<TechnicalProjectM> {

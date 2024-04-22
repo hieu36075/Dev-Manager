@@ -6,5 +6,6 @@ export class LanguageMemberM {
   id: string;
   language: LanguageM;
   user: UserM;
-
+  level: string;
+  experience: string;
 }

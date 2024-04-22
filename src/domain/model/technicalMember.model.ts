@@ -8,5 +8,7 @@ export class TechnicalMemberM {
   id: string;
   user: UserM;
   technical: TechnicalM;
+  level: string;
+  experience: string;
 
 }

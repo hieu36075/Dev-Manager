@@ -192,6 +192,8 @@ export class UserRepositoryOrm implements IUserRepository {
                     },
                     technicalMember:{
                         id:true,
+                        level:true, 
+                        experience:true,
                         technical:{
                             name:true
                         }

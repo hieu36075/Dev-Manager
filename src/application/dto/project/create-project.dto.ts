@@ -72,10 +72,6 @@ export class CreateProjectDTO {
     description: 'Array of position IDs associated with the user',
     example: [
       {
-        id: 'e98c00eb-0e60-4aa3-bc25-2eaa7bb4c408',
-        role: 'fe',
-      },
-      {
         id: '123',
         role: ['fe','be'],
       },

@@ -23,8 +23,6 @@ export class LanguageProjectRepositoryOrm implements ILanguageProjectRepository{
         const langueProject = new LanguageProject
         langueProject.project = entity.project;
         langueProject.language = entity.language
-        langueProject.level = entity.level || '0'
-        langueProject.experience = entity.level || '0'
         return await manager.save(langueProject)
     }
     update(id: string, entity: Partial<LanguageProjectM>, manager?: any): Promise<LanguageProjectM> {
