@@ -74,6 +74,7 @@ export class ProjectController{
             updateProjectDTO.startDate,
             updateProjectDTO.endDate,
             updateProjectDTO.technical,
+            updateProjectDTO.language,
             updateProjectDTO.managerId, 
             updateProjectDTO.status
         ))

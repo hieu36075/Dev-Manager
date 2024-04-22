@@ -9,7 +9,8 @@ export class UpdateProjectCommand implements ICommand{
         public readonly startDate:string,
         public readonly endDate:string,
         public readonly technical: string[],
-        public readonly userId : string,
+        public readonly language: string[],
+        public readonly managerId : string,
         public readonly status : ProjectStatusEnum
     ){
 
