@@ -33,16 +33,16 @@ export class UserController {
   async getAll(@Query() pageOptionsDto: PageOptionsDto): Promise<ProfileM> {
     return await this.queryBus.execute(new GetAllUserOptionQuery(pageOptionsDto));
   }
+  
+    @Get('get-user')
+    async getAllUser(): Promise<ProfileM> {
+      return await this.queryBus.execute(new GetAllUserQuery());
+    }
 
   @Get(':id')
   async getById(@Param('id') id:string):Promise<ProfileM>{
     console.log(id)
     return await this.queryBus.execute(new GetUserByIdQuery(id))
-  }
-
-  @Get('get-user')
-  async getAllUser(): Promise<ProfileM> {
-    return await this.queryBus.execute(new GetAllUserQuery());
   }
 
 
