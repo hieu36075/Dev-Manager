@@ -167,8 +167,14 @@ export class UserRepositoryOrm implements IUserRepository {
                         roles:{
                             position:true
                         },
-                        project:true
-                    }
+                        project:{
+                            languageProject:{
+                                project:true
+                            }
+                        }
+                    },
+                    
+                    
                 },
                 select:{
                     id:true,
@@ -198,7 +204,8 @@ export class UserRepositoryOrm implements IUserRepository {
                             name:true,
                             languageProject:true,
                             startDate:true,
-                            endDate:true
+                            endDate:true,
+                            description:true
                         }
                     }
                 }
@@ -231,8 +238,8 @@ export class UserRepositoryOrm implements IUserRepository {
 
     async update(id: string, entity: Partial<UserM>, manager: EntityManager): Promise<UserM> {
         const user = await this.findById(id)
-        user.isManager = entity.isManager || user.isManager
-        user.managerId = entity.managerId
+        user.isManager = entity?.isManager ? entity.isManager :  user.isManager
+        user.managerId = entity?.managerId ? entity.managerId :user.managerId
         return await manager.save(user)
     }
     async delete(id: string, manager?: EntityManager): Promise<void> {

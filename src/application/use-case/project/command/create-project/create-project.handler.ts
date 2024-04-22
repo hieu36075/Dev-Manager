@@ -84,16 +84,17 @@ export class CreateProjectHandler
         if (employeeId && employeeId.length > 0) {
           for (const item of employeeId) {
             const {id, role} = item
-            const currentPofile = await this.userRepository.findById(id);
+            
+            const currentUser = await this.userRepository.findById(id);
             const currentRole = await this.positionProjectRepository.findRolesAndPushIntoArray(role)
-            if (!currentPofile) {
+            if (!currentUser) {
               throw new ForbiddenException({ message: 'invalid employee' });
             }
+          
             const currentMember = await this.projectMemberRepository.create({
               project: project,
-              user: currentPofile
+              user: currentUser
             },manager)
-            console.log(currentMember.user)
             for(const role of currentRole){
               await this.roleMemberProjectRepostiroy.create({
                 position:role,
@@ -102,9 +103,9 @@ export class CreateProjectHandler
             }
             await this.projectHistoryRepository.create({
               project:project,
-              user: currentPofile,
+              user: currentUser,
               type:"ADD-EMPLOYEE",
-              description:`${currentPofile.profile.fullName} participated in the ${project.name} project`
+              description:`${currentUser.profile.fullName} participated in the ${project.name} project`
             },manager)
             await this.userRepository.update(id, { managerId: user.id }, manager);
           }
