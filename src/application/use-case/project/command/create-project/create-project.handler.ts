@@ -107,7 +107,9 @@ export class CreateProjectHandler
               type:"ADD-EMPLOYEE",
               description:`${currentUser.profile.fullName} participated in the ${project.name} project`
             },manager)
-            await this.userRepository.update(id, { managerId: user.id }, manager);
+
+
+            // await this.userRepository.update(currentUser.id, { managerId: managerId }, manager);
           }
         }
 
