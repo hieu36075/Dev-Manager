@@ -169,10 +169,14 @@ export class UserRepositoryOrm implements IUserRepository {
                         },
                         project:{
                             languageProject:{
-                                project:true
+                                language:true
+                            },
+                            technicalProject:{
+                                technical:true
                             }
                         }
                     },
+
                     
                     
                 },

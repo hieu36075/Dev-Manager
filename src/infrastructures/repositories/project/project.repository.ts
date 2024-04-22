@@ -133,6 +133,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
           roles: {
             id: true,
             position: {
+              id:true,
               name: true,
             },
             // name:true,
@@ -140,17 +141,15 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         },
         languageProject: {
           id: true,
-          level: true,
-          experience: true,
           language: {
+            id:true,
             name: true,
           },
         },
         technicalProject: {
           id: true,
-          level: true,
-          experience: true,
           technical: {
+            id:true,
             name: true,
           },
         },
