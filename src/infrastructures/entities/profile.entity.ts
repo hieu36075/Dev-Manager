@@ -51,10 +51,8 @@ export class Profile {
     })
     status: ProfileStatusEnum;
 
-
-    // @OneToOne(() => User)
-    // @JoinColumn()
-    // user: User
+    @Column('varchar', {nullable:true})
+    address: string
 
 
 

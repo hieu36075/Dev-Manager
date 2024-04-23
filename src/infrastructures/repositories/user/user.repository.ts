@@ -86,12 +86,14 @@ export class UserRepositoryOrm implements IUserRepository {
                     languageMember:{
                         id:true,
                         language:{
+                            id:true,
                             name:true
                         }
                     },
                     positionMember:{
                         id:true,
                         postion:{
+                            id:true,
                             name:true
                         }
                     }
@@ -176,6 +178,7 @@ export class UserRepositoryOrm implements IUserRepository {
                             }
                         }
                     },
+                    projectHistory:true
 
                     
                     
@@ -188,6 +191,10 @@ export class UserRepositoryOrm implements IUserRepository {
                     managerId:true,
                     profile:{
                         fullName:true,
+                        description:true,
+                        dayOfBirth:true,
+                        phoneNumber:true,
+                        avatarUrl:true
                         // positions:true
                     },
                     technicalMember:{
@@ -195,6 +202,7 @@ export class UserRepositoryOrm implements IUserRepository {
                         level:true, 
                         experience:true,
                         technical:{
+                            id:true,
                             name:true
                         }
                     },
@@ -203,6 +211,7 @@ export class UserRepositoryOrm implements IUserRepository {
                         roles:{
                           id:true,
                             position:{
+                                id:true,
                                 name:true
                             }
                         },
@@ -212,6 +221,13 @@ export class UserRepositoryOrm implements IUserRepository {
                             startDate:true,
                             endDate:true,
                             description:true
+                        }
+                    },
+                    languageMember:{
+                        id:true,
+                        language:{
+                            id:true,
+                            name:true
                         }
                     }
                 }

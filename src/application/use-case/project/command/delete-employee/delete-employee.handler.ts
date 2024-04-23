@@ -31,7 +31,7 @@ export class DeleteEmployeeProjectHandler implements ICommandHandler<DeleteEmplo
             try {
                 const currentProjectMember =await this.projectMemberRepository.findById(command.id)
                 if(!currentProjectMember){
-                    throw new NotFoundException("Don;t found id ")
+                    throw new NotFoundException("Don't found id ")
                 }
                 for (const roleMember of currentProjectMember.roles) {
                     const roleId = roleMember.id;

@@ -12,6 +12,7 @@ export class CreateAccountCommand implements ICommand{
         public readonly positions: string[],
         public readonly language: [],
         public readonly isManager: boolean,
-        public readonly managerId?: string
+        public readonly managerId?: string,
+        public readonly address?:string
     ){}
 }

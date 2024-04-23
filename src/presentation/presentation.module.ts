@@ -59,6 +59,8 @@ import { DeleteEmployeeProjectCommand } from "@/application/use-case/project/com
 import { DeleteEmployeeProjectHandler } from "@/application/use-case/project/command/delete-employee/delete-employee.handler";
 import { GetUserByIdHandler } from "@/application/use-case/user/queries/getUserById/get-user-by-id.handler";
 import { GetUserByIdQuery } from "@/application/use-case/user/queries/getUserById/get-user-by-id.command";
+import { UpdateProfileCommand } from "@/application/use-case/user/command/updateProfile/update-profile.command";
+import { UpdateProfileHandler } from "@/application/use-case/user/command/updateProfile/update-profile.handler";
 
 
 const CommandHandler = [
@@ -85,7 +87,9 @@ const CommandHandler = [
     DeleteProjectCommand,
     DeleteProjectHandler,
     DeleteEmployeeProjectCommand,
-    DeleteEmployeeProjectHandler
+    DeleteEmployeeProjectHandler,
+    UpdateProfileCommand,
+    UpdateProfileHandler
   ]
 
 const QueryHandler = [

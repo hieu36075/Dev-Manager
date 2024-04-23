@@ -1,0 +1,56 @@
+import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { UpdateProfileCommand } from "./update-profile.command";
+import { CreateAccountCommand } from "../createUser/create-account.command";
+import { ProfileRepositoryOrm } from "@/infrastructures/repositories/profile/profile.repository";
+import { UserRepositoryOrm } from "@/infrastructures/repositories/user/user.repository";
+import { Connection } from "typeorm";
+import { parseISO } from "date-fns";
+import { LanguageRepositoryOrm } from "@/infrastructures/repositories/language/language.repository";
+import { Inject, NotAcceptableException } from "@nestjs/common";
+import { InjectionToken } from "@/application/common/constants/constants";
+import { ILanguageRepository } from "@/domain/repositories/language.repository";
+import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.repository";
+import { ITechnicalMemberRepository } from "@/domain/repositories/technicalMember";
+import { TechnicalRepositoryOrm } from "@/infrastructures/repositories/technical/technical.repository";
+import { PositionRepositoryOrm } from "@/infrastructures/repositories/position/position.repository";
+import { ProjectRepositoryOrm } from "@/infrastructures/repositories/project/project.repository";
+
+@CommandHandler(UpdateProfileCommand)
+export class UpdateProfileHandler
+  implements ICommandHandler<UpdateProfileCommand>
+{
+    constructor(
+        private readonly userRepository: UserRepositoryOrm,
+        private readonly profileRepository : ProfileRepositoryOrm,
+        private readonly connection: Connection,
+
+        
+    ){
+        
+    }
+    async execute(command: UpdateProfileCommand): Promise<any> {
+        const {id, dayOfBirth} = command
+        return await this.connection.transaction(async (manager) => {
+
+            const user = await this.userRepository.findById(id)
+            const profile = await this.profileRepository.findById(user.id)
+        
+            if(command.managerId || command.managerId){
+                await this.userRepository.update(id,{
+                    isManager: command.isManager,
+                    managerId: command.managerId
+                },manager)
+            }
+
+            await this.profileRepository.update(user.profile.id,{
+                address: command.address,
+                dayOfBirth: parseISO(dayOfBirth),
+                fullName: command.fullName,
+                avatarUrl: command.avatarUrl,
+                description: command.description,
+            },manager)
+        })
+        
+       
+    }
+}

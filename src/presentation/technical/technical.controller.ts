@@ -5,7 +5,7 @@ import { CreateTechnicalCommand } from "@/application/use-case/technical/command
 import { GetAllTechnicalQuery } from "@/application/use-case/technical/queries/get-all-technical/get-all-technical.command";
 import { PositionM } from "@/domain/model/position.model";
 import { TechnicalM } from "@/domain/model/technical.model";
-import { Body, Controller, Get, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { ApiTags } from "@nestjs/swagger";
 
@@ -35,7 +35,13 @@ export class TechnicalController{
     }
 
     @Patch(':id')
-    update(@Query('id') id:string, @Body() updatePositionDTO : UpdatePostionDTO): Promise<PositionM | undefined>{
+    update(@Param('id') id:string, @Body() updatePositionDTO : UpdatePostionDTO): Promise<PositionM | undefined>{
         return
     }
+
+    @Delete(':id')
+    delete(@Param('id') id:string):Promise<void>{
+        return
+    }
+
 }

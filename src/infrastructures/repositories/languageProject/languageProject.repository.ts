@@ -1,10 +1,11 @@
 import { LanguageM } from "@/domain/model/language.model";
 import { LanguageProjectM } from "@/domain/model/languageProject.modal";
+import { ProjectM } from "@/domain/model/project.model";
 import { ILanguageRepository } from "@/domain/repositories/language.repository";
 import { ILanguageProjectRepository } from "@/domain/repositories/languageProject.repository";
 import { LanguageProject } from "@/infrastructures/entities/languageProject.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { EntityManager, Repository } from "typeorm";
 
 export class LanguageProjectRepositoryOrm implements ILanguageProjectRepository{
     constructor(
@@ -30,5 +31,10 @@ export class LanguageProjectRepositoryOrm implements ILanguageProjectRepository{
     }
     delete(id: string): Promise<void> {
         throw new Error("Method not implemented.");
+    }
+
+    async removeAll(project:ProjectM, manager: EntityManager):Promise<void>{
+        await manager.delete(LanguageProject, {project: project})
+        return Promise.resolve();
     }
 }

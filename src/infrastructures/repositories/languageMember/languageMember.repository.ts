@@ -1,6 +1,9 @@
 import { LanguageMemberM } from "@/domain/model/languageMember.modal";
+import { ProjectM } from "@/domain/model/project.model";
+import { UserM } from "@/domain/model/user.model";
 import { ILanguageMemberRepository } from "@/domain/repositories/languageMember.repository";
 import { LanguageMember } from "@/infrastructures/entities/languageMember.entity";
+import { Project } from "@/infrastructures/entities/project.enity";
 import { BadRequestException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EntityManager, Repository } from "typeorm";
@@ -43,6 +46,12 @@ export class LanguageMemberRepositoryOrm implements ILanguageMemberRepository{
         const language = await this.findById(id)
 
         await manager.remove(language)
+    }
+
+    async removeAllByUser(user:UserM, manager?:EntityManager):Promise<void>{
+
+        manager.delete(LanguageMember, {user: user, })
+        return Promise.resolve();
     }
 
 }

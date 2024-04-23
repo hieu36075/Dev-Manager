@@ -9,6 +9,7 @@ import { IProfileRepository } from '@/domain/repositories/profile.repository';
 import { Profile } from '@/infrastructures/entities/profile.entity';
 import { ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { parseISO } from 'date-fns';
 import { EntityManager, Like, Repository } from 'typeorm';
 
 export class ProfileRepositoryOrm implements IProfileRepository {
@@ -79,8 +80,19 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     // profile.user = entity.user
     return await manager.save(profile);
   }
-  update(id: string, entity: Partial<ProfileM>): Promise<ProfileM> {
-    throw new Error('Method not implemented.');
+  async update(id: string, entity: Partial<ProfileM>, manager?: EntityManager): Promise<ProfileM> {
+    const profile = await this.findById(id);
+    if (!profile) {
+      throw new Error('Project not found');
+    }
+    
+    for (const [key, value] of Object.entries(entity)) {
+      if (value !== undefined && value !== null) {
+          profile[key] = value;
+        
+      }
+    }
+    return await manager.save(profile)
   }
   delete(id: string): Promise<void> {
     throw new Error('Method not implemented.');

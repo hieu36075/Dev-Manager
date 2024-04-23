@@ -4,7 +4,7 @@ import { CreateLanguageCommand } from "@/application/use-case/language/command/c
 import { UpdateLanguageCommand } from "@/application/use-case/language/command/update-language/update-language.handler"
 import { GetAllLanguageQuery } from "@/application/use-case/language/query/get-all-language/get-all-language.command"
 import { LanguageM } from "@/domain/model/language.model"
-import { Body, Controller, Get, Patch, Post, Query } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { ApiTags } from "@nestjs/swagger"
 import { plainToClass } from "class-transformer"
@@ -39,5 +39,10 @@ export class LanguageController{
     @Patch(':id')
     async update(@Query('id') id:string, @Body()updateLanguageDto: CreateLanguageDTO ): Promise<LanguageM | undefined>{
         return await this.commandBus.execute(new UpdateLanguageCommand(id, updateLanguageDto.name))
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id:string):Promise<void>{
+        return
     }
 }
