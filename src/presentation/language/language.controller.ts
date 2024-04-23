@@ -1,6 +1,7 @@
 import { CreateLanguageDTO } from "@/application/dto/language/create-language.dto"
 import { PageOptionsDto } from "@/application/dto/pagination/paginationOptions"
 import { CreateLanguageCommand } from "@/application/use-case/language/command/create-language/create-language.command"
+import { DeleteLanguageCommand } from "@/application/use-case/language/command/delete-language/delete-laguage.handler"
 import { UpdateLanguageCommand } from "@/application/use-case/language/command/update-language/update-language.handler"
 import { GetAllLanguageQuery } from "@/application/use-case/language/query/get-all-language/get-all-language.command"
 import { LanguageM } from "@/domain/model/language.model"
@@ -37,12 +38,12 @@ export class LanguageController{
     }
 
     @Patch(':id')
-    async update(@Query('id') id:string, @Body()updateLanguageDto: CreateLanguageDTO ): Promise<LanguageM | undefined>{
+    async update(@Param('id') id:string, @Body()updateLanguageDto: CreateLanguageDTO ): Promise<LanguageM | undefined>{
         return await this.commandBus.execute(new UpdateLanguageCommand(id, updateLanguageDto.name))
     }
 
     @Delete(':id')
-    delete(@Param('id') id:string):Promise<void>{
-        return
+    async delete(@Param('id') id:string):Promise<void>{
+        return await this.commandBus.execute(new DeleteLanguageCommand(id))
     }
 }

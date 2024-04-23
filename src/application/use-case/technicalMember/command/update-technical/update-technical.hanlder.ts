@@ -7,13 +7,13 @@ import {
 } from '@nestjs/common';
 // import { UpdateLanguageUserCommand } from './update-language.command';
 import { InjectionToken } from '@/application/common/constants/constants';
-import { UpdateTechnicalUserCommand } from './update-technical.command';
+import { UpdateTechnicalMemberCommand } from './update-technical.command';
 import { ITechnicalMemberRepository } from '@/domain/repositories/technicalMember';
 import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical/technical.repository';
 
-@QueryHandler(UpdateTechnicalUserCommand)
-export class UpdateTechnicalUserHandler
-  implements IQueryHandler<UpdateTechnicalUserCommand>
+@QueryHandler(UpdateTechnicalMemberCommand)
+export class UpdateTechnicalMemberHandler
+  implements IQueryHandler<UpdateTechnicalMemberCommand>
 {
   constructor(
     private readonly technicalRepository: TechnicalRepositoryOrm,
@@ -21,7 +21,7 @@ export class UpdateTechnicalUserHandler
     private readonly technicalMemberRepository: ITechnicalMemberRepository,
   ) {}
 
-  async execute(command: UpdateTechnicalUserCommand): Promise<any> {
+  async execute(command: UpdateTechnicalMemberCommand): Promise<any> {
     const { id } = command;
     try {
       const currentLanguageMember =

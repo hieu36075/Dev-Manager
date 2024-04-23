@@ -5,6 +5,7 @@ import { ProfileM } from "./profile.model";
 export class LanguageM {
     id: string;
     name: string;
+    isDelete: boolean;
     languageMember: LanguageMemberM[];
     languageProject: LanguageProjectM[]
     // profile: ProfileM

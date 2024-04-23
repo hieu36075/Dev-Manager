@@ -16,7 +16,11 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
 
     }
     async findAll():Promise<Language[]>{
-        return await this.languageRepository.find()
+        return await this.languageRepository.find({
+            where:{
+                isDelete:false
+            }
+        })
     }
     async findAllByFilter(pageOptionsDto: PageOptionsDto): Promise<any> {
         // throw new Error("Method not implemented.");
@@ -76,7 +80,9 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
         language.name = entity.name
         return await this.languageRepository.save(language)
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string): Promise<void> {
+        const language = await this.findById(id)
+        language.isDelete = true
+         await this.languageRepository.save(language)
     }
 }

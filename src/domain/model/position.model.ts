@@ -8,6 +8,7 @@ export class PositionM {
   id: string;
   name: string;
   description: string;
+  isDelete: boolean;
   // profile: ProfileM;
   positions:RoleMemberProjectM[];
   positionMember: PositionMemberM[]

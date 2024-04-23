@@ -13,7 +13,11 @@ export class PositionRepositoryOrm implements IPositionRepository{
 
     }
     async findAll(): Promise<PositionM[]> {
-        return this.positionRepository.find()
+        return this.positionRepository.find({
+            where:{
+                isDelete:false
+            }
+        })
     }
     async findById(id: string): Promise<PositionM> {
         if(!id){
@@ -44,8 +48,10 @@ export class PositionRepositoryOrm implements IPositionRepository{
 
         return await this.positionRepository.save(position) 
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string): Promise<void> {
+        const position = await this.findById(id)
+        position.isDelete = true
+         await this.positionRepository.save(position)
     }
 
     async findRolesAndPushIntoArray(roleIds: string[]): Promise<PositionM[]> {

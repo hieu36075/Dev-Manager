@@ -77,6 +77,7 @@ export class ProfileRepositoryOrm implements IProfileRepository {
     profile.dayOfBirth = entity.dayOfBirth;
     profile.description = entity.description;
     profile.avatarUrl = entity.avatarUrl || AVATARDEFAULT;
+    profile.address = entity.address
     // profile.user = entity.user
     return await manager.save(profile);
   }

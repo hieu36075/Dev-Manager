@@ -6,6 +6,7 @@ export class TechnicalM {
   id: string;
   name: string;
   // profile: ProfileM;
+  isDelete: boolean;
   technicalMember: TechnicalMemberM[];
   technicalProject: TechnicalProjectM[];
 }

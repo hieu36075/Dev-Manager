@@ -14,7 +14,11 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
 
     }
     async findAll(): Promise<TechnicalM[]> {
-        return this.technicalRepository.find()
+        return this.technicalRepository.find({
+            where:{
+                isDelete:false
+            }
+        })
     }
     async findById(id: string): Promise<TechnicalM> {
 
@@ -50,10 +54,9 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
         return await menager.save(technical) 
     }
     async delete(id: string, manager?:EntityManager): Promise<void> {
-        console.log(id)
-        const technicalMember = await this.findById(id)
-        console.log(technicalMember)
-        await manager.remove(technicalMember)
+        const technical = await this.findById(id)
+        technical.isDelete = true
+         await this.technicalRepository.save(technical)
     }
 
 }

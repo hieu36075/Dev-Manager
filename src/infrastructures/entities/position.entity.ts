@@ -23,6 +23,9 @@ import { PositionMember } from './positionMember.entity';
 
     @Column('varchar')
     description: string;
+
+    @Column({ type: 'boolean', default: false })
+    isDelete: boolean;
   
     @OneToMany(()=>PositionMember,(positionMember) => positionMember.postion)
     positionMember: PositionMember[]

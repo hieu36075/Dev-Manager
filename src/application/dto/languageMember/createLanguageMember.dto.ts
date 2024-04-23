@@ -1,16 +1,22 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
-export class CreatePositionDTO {
+export class CreateLanguageMemberDTO {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    name:string
+    userId:string
 
     @IsOptional()
     @IsString()
     @IsNotEmpty()
     @ApiPropertyOptional()
-    description?:string
+    level?:string
+
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    @ApiPropertyOptional()
+    experience?:string
 
 }

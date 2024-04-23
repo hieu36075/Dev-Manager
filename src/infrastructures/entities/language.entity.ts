@@ -20,6 +20,8 @@ import { LanguageProject } from './languageProject.entity';
     @Column('varchar')
     name: string;
     
+    @Column({ type: 'boolean', default: false })
+    isDelete: boolean;
 
     @OneToMany(() => LanguageMember, languageMember => languageMember.language)
     languageMember: LanguageMember[];

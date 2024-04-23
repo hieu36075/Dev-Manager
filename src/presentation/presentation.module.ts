@@ -44,7 +44,7 @@ import { GetAllLanguageQueryHandler } from "@/application/use-case/language/quer
 import { CreateLanguageCommand } from "@/application/use-case/language/command/create-language/create-language.command";
 import { CreateLanguageHandler } from "@/application/use-case/language/command/create-language/create-languale.handler";
 import { UpdateLanguageCommand } from "@/application/use-case/language/command/update-language/update-language.handler";
-import { UpdateLanguageHandler } from "@/application/use-case/language/command/update-language/update.language.command";
+import { UpdateLanguageHandler } from "@/application/use-case/language/command/update-language/update-language.command";
 import { LanguageController } from "./language/language.controller";
 import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.command";
 import { GetProjectByIdQueryHandler } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.handler";
@@ -61,27 +61,68 @@ import { GetUserByIdHandler } from "@/application/use-case/user/queries/getUserB
 import { GetUserByIdQuery } from "@/application/use-case/user/queries/getUserById/get-user-by-id.command";
 import { UpdateProfileCommand } from "@/application/use-case/user/command/updateProfile/update-profile.command";
 import { UpdateProfileHandler } from "@/application/use-case/user/command/updateProfile/update-profile.handler";
+import { CreateLanguageMemberCommand } from "@/application/use-case/languageMember/command/create-languageMember/create-languageMember.command";
+import { CreateLanguageMemberHandler } from "@/application/use-case/languageMember/command/create-languageMember/create-languageMember.handler";
+import { DeleteLanguageMemberCommand } from "@/application/use-case/languageMember/command/delete-languageMember/delete-languageMember.command";
+import { DeleteLanguageMemberHandler } from "@/application/use-case/languageMember/command/delete-languageMember/delete-languageMember.handler";
+import { UpdateLanguageMemberCommand } from "@/application/use-case/languageMember/command/update-languageMember/update-languageMember.command";
+import { UpdateLanguageMemberHandler } from "@/application/use-case/languageMember/command/update-languageMember/update-languageMember.handler";
+import { CreateTechnicalMemberCommand } from "@/application/use-case/technicalMember/command/create-technical/create-technicalMember.command";
+import { CreateTechnicalMemberHandler } from "@/application/use-case/technicalMember/command/create-technical/create-technicalMember.handler";
+import { DeleteTechnicalMemberCommand } from "@/application/use-case/technicalMember/command/delete-technical/delete-technical.command";
+import { DeleteTechnicalMemberHandler } from "@/application/use-case/technicalMember/command/delete-technical/delete-technical.handler";
+import { DeleteLanguageCommand } from "@/application/use-case/language/command/delete-language/delete-laguage.handler";
+import { DeleteLanguageHandler } from "@/application/use-case/language/command/delete-language/delete-language.command";
+import { UpdatePositionCommand } from "@/application/use-case/position/command/update-position/update-position.command";
+import { UpdatePositionHandler } from "@/application/use-case/position/command/update-position/update-position.handler";
+import { DeletePositionCommand } from "@/application/use-case/position/command/delete-postion/delete-position.command";
+import { DeletePositionHandler } from "@/application/use-case/position/command/delete-postion/delete-postion.handler";
+import { UpdateTechnicalCommand } from "@/application/use-case/technical/command/update-technical/update-technical.command";
+import { UpdateTechnicalHandler } from "@/application/use-case/technical/command/update-technical/update-technical.handler";
+import { DeleteTechnicalCommand } from "@/application/use-case/technical/command/delete-technical/delete-technical.command";
+import { DeleteTechnicalHandler } from "@/application/use-case/technical/command/delete-technical/delete-technical.handler";
 
 
 const CommandHandler = [
+    //usser
     CreateAccountCommand,
     CreateAccountHandler,
+    //auth
     LoginCommand,
     LoginHandler,
+    //project
     CreateProjectCommand,
     CreateProjectHandler,
     UpdateProjectCommand,
     UpdateProjectHandler,
+    //position
     CreatePositionCommand,
     CreatePositionHandler,
+    UpdatePositionCommand,
+    UpdatePositionHandler,
+    DeletePositionCommand,
+    DeletePositionHandler,
+    //technical
     CreateTechnicalCommand,
     CreateTechnicalHandler,
+    UpdateTechnicalCommand,
+    UpdateTechnicalHandler,
+    DeleteTechnicalCommand,
+    DeleteTechnicalHandler,
+
+
     AddUserProjectCommand,
     AddUserProjectHandler,
+
+    //language
     CreateLanguageCommand,
     CreateLanguageHandler,
     UpdateLanguageCommand,
     UpdateLanguageHandler,
+    DeleteLanguageCommand,
+    DeleteLanguageHandler,
+
+    //acount
     DeleteAccountCommand,
     DeleteAccountHandler,
     DeleteProjectCommand,
@@ -89,7 +130,21 @@ const CommandHandler = [
     DeleteEmployeeProjectCommand,
     DeleteEmployeeProjectHandler,
     UpdateProfileCommand,
-    UpdateProfileHandler
+    UpdateProfileHandler,
+    // Language Member
+    CreateLanguageMemberCommand,
+    CreateLanguageMemberHandler,
+    DeleteLanguageMemberCommand,
+    DeleteLanguageMemberHandler,
+    UpdateLanguageMemberCommand,
+    UpdateLanguageMemberHandler,
+    //Tehnical Member
+    CreateTechnicalMemberCommand,
+    CreateTechnicalMemberHandler,
+    DeleteTechnicalMemberCommand,
+    DeleteTechnicalMemberHandler,
+    UpdateLanguageMemberCommand,
+    UpdateLanguageMemberHandler
   ]
 
 const QueryHandler = [

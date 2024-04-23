@@ -20,6 +20,9 @@ export class Technical {
   @Column('varchar')
   name: string;
 
+  @Column({ type: 'boolean', default: false })
+  isDelete: boolean;
+  
   @OneToMany(() => TechnicalMember, technicalMember => technicalMember.technical)
   technicalMember: TechnicalMember[];
 
