@@ -34,7 +34,16 @@ export class LanguageProjectRepositoryOrm implements ILanguageProjectRepository{
     }
 
     async removeAll(project:ProjectM, manager: EntityManager):Promise<void>{
-        await manager.delete(LanguageProject, {project: project})
+        const languageProject = await this.languageProjectRepository.find({
+            where:{
+                project:project
+            }
+        })
+        // await manager.delete(LanguageProject, {project: project})
+        // await manager.remove(languageProject)
+        await Promise.all(languageProject.map(async (languageProject) => {
+            await manager.remove(languageProject);
+        }));
         return Promise.resolve();
     }
 }

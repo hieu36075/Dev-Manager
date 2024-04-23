@@ -188,13 +188,15 @@ export class UserRepositoryOrm implements IUserRepository {
                     email:true,
                     userName:true,
                     isManager:true,
+                    
                     managerId:true,
                     profile:{
                         fullName:true,
                         description:true,
                         dayOfBirth:true,
                         phoneNumber:true,
-                        avatarUrl:true
+                        avatarUrl:true,
+                        address:true
                         // positions:true
                     },
                     technicalMember:{

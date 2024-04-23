@@ -64,13 +64,14 @@ export class CreateAccountHandler
             throw new  BadRequestException({message: "User is not manager"})
           }
         }
+        
         const profile = await this.profileRepository.create(
           {
             fullName,
             dayOfBirth: parseISO(dayOfBirth),
             description: description,
             email: email,
-   
+            address: command.address,
           },
           manager,
         );

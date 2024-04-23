@@ -36,7 +36,15 @@ export class TechnicalProjectRepositoryOrm implements ITechnicalProjectRepositor
     }
 
     async removeAll(project:ProjectM, manager: EntityManager):Promise<void>{
-        await manager.delete(TechnicalProject, {project: project})
+        const technicalProject = await this.technicalProjectRepository.find({
+            where:{
+                project:project
+            }
+        })
+        // await manager.delete(TechnicalProject, {project: project})
+        await Promise.all(technicalProject.map(async (technicalProject) => {
+            await manager.remove(technicalProject);
+        }));
         return Promise.resolve();
     }
 }

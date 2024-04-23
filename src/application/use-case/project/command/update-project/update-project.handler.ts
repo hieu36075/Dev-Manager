@@ -39,35 +39,35 @@ export class UpdateProjectHandler
         if (managerId) {
           newManager = await this.userRepository.findById(managerId);
         }
-
-        const project = await this.projectRepository.update(id, {
-          ...command,
-          user: newManager,
-        });
+        const currentProject = await this.projectRepository.findById(id)
+  
 
         if (language) {
           for (const id of language) {
-            await this.languageProjectRepository.removeAll(project, manager);
+            await this.languageProjectRepository.removeAll(currentProject, manager);
             const newLanguage = await this.languageRepository.findById(id);
             if (!newLanguage) throw new NotAcceptableException('Id invalid');
             await this.languageProjectRepository.create({
               language: newLanguage,
-              project: project,
-            });
+              project: currentProject,
+            },manager);
           }
         }
         if (technical) {
           for (const id of technical) {
-            await this.technicalProjectRepository.removeAll(project, manager);
+            await this.technicalProjectRepository.removeAll(currentProject, manager);
             const newTechnical = await this.technicalRepository.findById(id);
             if (!newTechnical) throw new NotAcceptableException('Id invalid');
             await this.technicalProjectRepository.create({
               technical: newTechnical,
-              project: project,
-            });
+              project: currentProject,
+            },manager);
           }
         }
-
+        const project = await this.projectRepository.update(id, {
+            ...command,
+            user: newManager,
+          });
         return project;
       } catch (error) {
         console.log(error);
