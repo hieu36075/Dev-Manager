@@ -38,8 +38,15 @@ export class LanguageMemberRepositoryOrm implements ILanguageMemberRepository{
         languageMember.experience = entity.experience
         return await manager.save(languageMember)
     }
-    update(id: string, entity: Partial<LanguageMemberM>, manager?: any): Promise<LanguageMemberM> {
-        throw new Error("Method not implemented.");
+    async update(id: string, entity: Partial<LanguageMemberM>, manager?: any): Promise<LanguageMemberM> {
+        const currentLanguage = await this.findById(id)
+        for (const [key, value] of Object.entries(entity)) {
+            if (value !== undefined && value !== null) {
+                currentLanguage[key] = value;
+              
+            }
+          }
+        return await this.languageMemberRepository.save(currentLanguage)
     }
     async delete(id: string, manager?: EntityManager): Promise<void> {
        

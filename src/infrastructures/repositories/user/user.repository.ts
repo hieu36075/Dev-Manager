@@ -225,6 +225,8 @@ export class UserRepositoryOrm implements IUserRepository {
                     },
                     languageMember:{
                         id:true,
+                        level:true,
+                        experience:true,
                         language:{
                             id:true,
                             name:true

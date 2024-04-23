@@ -43,7 +43,6 @@ export class UserController {
 
   @Get(':id')
   async getById(@Param('id') id:string):Promise<ProfileM>{
-    console.log(id)
     return await this.queryBus.execute(new GetUserByIdQuery(id))
   }
 

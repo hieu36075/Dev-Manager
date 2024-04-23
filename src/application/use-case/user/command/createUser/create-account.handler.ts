@@ -133,9 +133,9 @@ export class CreateAccountHandler
               },
               manager,
             );
-            return profile;
           }
         }
+        return profile;
         
       } catch (error) {
     
