@@ -41,18 +41,20 @@ export class UpdateProjectHandler
         }
         const currentProject = await this.projectRepository.findById(id);
 
-        
         if (language) {
+          
           const currentLanguageProject =
             await this.languageProjectRepository.findLanguageProject(
               currentProject,
             );
+        
           const idsToDelete = currentLanguageProject
-            .filter((item) => !technical.includes(item.language.id))
+            .filter((item) => !language.includes(item.language.id))
             .map((item) => item.id);
-
-          await this.technicalProjectRepository.removeAll(idsToDelete, manager);
-          for (const id of technical) {
+              await this.languageProjectRepository.removeAll(idsToDelete, manager);
+     
+     
+          for (const id of language) {
             const checkLanguage = currentLanguageProject.filter(
               (item) => item.language.id === id,
             );
@@ -74,8 +76,9 @@ export class UpdateProjectHandler
           const idsToDelete = currentTechnicalProject
             .filter((item) => !technical.includes(item.technical.id))
             .map((item) => item.id);
-
-          await this.technicalProjectRepository.removeAll(idsToDelete, manager);
+           
+              await this.technicalProjectRepository.removeAll(idsToDelete, manager);
+            
           for (const id of technical) {
             const checkTechnical = currentTechnicalProject.filter(
               (item) => item.technical.id === id,

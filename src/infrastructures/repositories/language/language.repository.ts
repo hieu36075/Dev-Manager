@@ -62,9 +62,7 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
                     languageProject:true
                 }
             })
-            if(!language){
-                throw new BadRequestException({message: "khong co"})
-            }
+
             return language
         } catch (error) {
             console.log(error)
