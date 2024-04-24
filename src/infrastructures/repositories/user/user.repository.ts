@@ -249,6 +249,8 @@ export class UserRepositoryOrm implements IUserRepository {
             console.log(error)
         }
     }
+
+    
     async create(entity: Partial<UserM>, manager: EntityManager): Promise<UserM> {
         const user = new User()
         user.email = entity.email;

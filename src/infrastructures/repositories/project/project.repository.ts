@@ -9,8 +9,16 @@ import { Project } from '@/infrastructures/entities/project.enity';
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { parseISO } from 'date-fns';
-import { EntityManager, ILike, Like, Repository } from 'typeorm';
-
+import {
+  EntityManager,
+  ILike,
+  LessThanOrEqual,
+  Like,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm';
+import { startOfMonth, endOfMonth } from 'date-fns';
+import { ProjectStatusEnum } from '@/application/common/enums/project-status.enum';
 export class ProjectRepositoryOrm implements IProjectRepository {
   constructor(
     @InjectRepository(Project)
@@ -105,7 +113,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         technicalProject: {
           technical: true,
         },
-        projectHistory:true
+        projectHistory: true,
       },
       select: {
         user: {
@@ -133,7 +141,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
           roles: {
             id: true,
             position: {
-              id:true,
+              id: true,
               name: true,
             },
             // name:true,
@@ -142,14 +150,14 @@ export class ProjectRepositoryOrm implements IProjectRepository {
         languageProject: {
           id: true,
           language: {
-            id:true,
+            id: true,
             name: true,
           },
         },
         technicalProject: {
           id: true,
           technical: {
-            id:true,
+            id: true,
             name: true,
           },
         },
@@ -157,6 +165,29 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     });
 
     return project;
+  }
+  async getProjectInMonth(): Promise<any> {
+    const today = new Date();
+    const startOfMonthDate = startOfMonth(today);
+    const endOfMonthDate = endOfMonth(today);
+    const totalProjet = await this.projectRepository.count();
+    const data = await this.projectRepository.countBy({
+      startDate: MoreThanOrEqual(startOfMonthDate),
+      endDate: LessThanOrEqual(endOfMonthDate),
+    });
+    const statusPending = await this.projectRepository.countBy({
+      status: ProjectStatusEnum.Pending
+    });
+
+    const statusProgress = await this.projectRepository.countBy({
+      status: ProjectStatusEnum.InProgress
+    })
+
+    const statusComplete = await this.projectRepository.countBy({
+      status: ProjectStatusEnum.Completed
+    })
+
+    return { projectInMonth: data, totalProjet: totalProjet, projectStatus:{pending: statusPending, progress: statusProgress, complete: statusComplete} };
   }
   async create(
     createProjectDTO: CreateProjectDTO,
@@ -179,7 +210,7 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     if (!projectToUpdate) {
       throw new Error('Project not found');
     }
-    
+
     for (const [key, value] of Object.entries(updateProjectDTO)) {
       if (value !== undefined && value !== null) {
         if (key === 'startDate' || key === 'endDate') {

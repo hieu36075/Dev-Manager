@@ -83,6 +83,8 @@ import { DeleteTechnicalCommand } from "@/application/use-case/technical/command
 import { DeleteTechnicalHandler } from "@/application/use-case/technical/command/delete-technical/delete-technical.handler";
 import { LanguageMemberController } from "./languageMember/languageMember.controller";
 import { TechnicalMemberController } from "./technicalMember/technicalMember.controller";
+import { GetProjectInMonthQuery } from "@/application/use-case/technical/queries/getProjectInMonth/get-project-in-month.command";
+import { GetProjectInMonthHandler } from "@/application/use-case/technical/queries/getProjectInMonth/get-project-in-month.handler";
 
 
 const CommandHandler = [
@@ -169,7 +171,9 @@ const QueryHandler = [
     GenerateCVQuery,
     GenerateCVQueryHandler,
     GetUserByIdHandler,
-    GetUserByIdQuery
+    GetUserByIdQuery,
+    GetProjectInMonthQuery,
+    GetProjectInMonthHandler
 
 ]
 

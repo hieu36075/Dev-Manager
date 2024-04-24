@@ -18,6 +18,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger"
 import { GetProjectByIdQuery } from "@/application/use-case/project/queries/get-project-by-id/get-project-by-id.command"
 import { DeleteProjectCommand } from "@/application/use-case/project/command/delete-project/delete-project.command"
 import { DeleteEmployeeProjectCommand } from "@/application/use-case/project/command/delete-employee/delete-employee.command"
+import { GetProjectInMonthQuery } from "@/application/use-case/technical/queries/getProjectInMonth/get-project-in-month.command"
 
 @Controller('project')
 @ApiTags('Project')
@@ -35,6 +36,12 @@ export class ProjectController{
     @Get()
     async findAll(@Query() pageOptionsDto: PageOptionsDto):Promise<ProjectM[]>{
         return this.queryBus.execute(new GetAllProjectQuery(pageOptionsDto))
+    }
+
+    @Get('/projectInMonth')
+    async projectInMonth():Promise<ProjectM[]>{
+        // return this.queryBus.execute(new GetAllProjectQuery())
+        return this.queryBus.execute(new GetProjectInMonthQuery())
     }
 
     @Get(":id")
