@@ -16,7 +16,6 @@ export class GetUserByIdHandler implements IQueryHandler<GetUserByIdQuery> {
     const {id} = query
     try{
       const users = await this.userRepository.findById(id);
-      console.log(users)
       return users
 
     }catch(error){

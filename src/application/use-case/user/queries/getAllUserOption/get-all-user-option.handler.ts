@@ -19,7 +19,6 @@ export class GetAllUserOptionsHandler implements IQueryHandler<GetAllUserOptionQ
     const { pageOptionsDto } = query
     try{
       const users = await this.userRepository.findAll(pageOptionsDto);
-      console.log(users)
       return users
 
     }catch(error){

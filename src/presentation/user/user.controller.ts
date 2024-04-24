@@ -73,7 +73,7 @@ export class UserController {
     );
   }
 
-  @Patch('"id')
+  @Patch(':id')
   update(@Param('id')id:string, @Body()updateUserDto: UpdateUserDTO){
     return this.commandBus.execute(new UpdateProfileCommand(
         id,

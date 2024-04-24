@@ -41,7 +41,7 @@ export class UpdateProjectHandler
         }
         const currentProject = await this.projectRepository.findById(id)
   
-
+        console.log(currentProject)
         if (language) {
           for (const id of language) {
             await this.languageProjectRepository.removeAll(currentProject, manager);

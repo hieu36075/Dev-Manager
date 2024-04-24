@@ -31,7 +31,6 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
                     id: id
                 }
             })
-            console.log(technical)
             return technical
 
         }catch(error){

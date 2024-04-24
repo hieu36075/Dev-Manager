@@ -39,11 +39,12 @@ export class LanguageProjectRepositoryOrm implements ILanguageProjectRepository{
                 project:project
             }
         })
-        // await manager.delete(LanguageProject, {project: project})
-        // await manager.remove(languageProject)
-        await Promise.all(languageProject.map(async (languageProject) => {
-            await manager.remove(languageProject);
+        // console.log(languageProject)
+     
+        await Promise.all(project.languageProject.map(async (languageProject) => {
+            console.log(languageProject)
+            await this.languageProjectRepository.remove(languageProject);
         }));
-        return Promise.resolve();
+        // return Promise.resolve();
     }
 }
