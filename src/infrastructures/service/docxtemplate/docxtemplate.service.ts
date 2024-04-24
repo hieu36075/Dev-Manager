@@ -5,23 +5,24 @@ import * as path from 'path';
 import { Injectable } from '@nestjs/common';
 import Docxtemplater from 'docxtemplater';
 import { IDocxtemplateRepository } from '@/domain/adapter/docxtemplater.repository';
-import PizZip from "pizzip";
+import PizZip from 'pizzip';
 import { UserM } from '@/domain/model/user.model';
 @Injectable()
 export class DocxTemplateService implements IDocxtemplateRepository {
   async generateWord(data: UserM): Promise<string> {
-    const templatePath = path.resolve(__dirname, '../../../../assets/template/template.docx');
+    const templatePath = path.resolve(
+      __dirname,
+      '../../../../assets/template/template.docx',
+    );
     // console.log(data)
     const docContent = fs.readFileSync(templatePath, 'binary');
     const doc = new Docxtemplater();
     var zip = new PizZip(docContent);
     doc.loadZip(zip);
     // const user = data.profile
-    
 
     // console.log(data.projectMembers[0])
     doc.setData(data);
-    
 
     try {
       doc.render();
@@ -29,11 +30,10 @@ export class DocxTemplateService implements IDocxtemplateRepository {
       throw new Error('Error rendering template: ' + error);
     }
 
-    const buf = doc.getZip().generate({ type: 'nodebuffer' });
-    // console.log(buf)
-
-    // const outputPath = path.resolve(__dirname, 'path/to/output.docx');
-    // // fs.writeFileSync(outputPath, buf);
+    const buf = doc.getZip().generate({
+      type: 'nodebuffer',
+      compression: 'DEFLATE',
+    });
 
     return buf;
   }
