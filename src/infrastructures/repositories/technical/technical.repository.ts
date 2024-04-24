@@ -29,6 +29,9 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
             const technical = await this.technicalRepository.findOne({
                 where:{
                     id: id
+                },
+                relations:{
+                    technicalProject:true
                 }
             })
             return technical

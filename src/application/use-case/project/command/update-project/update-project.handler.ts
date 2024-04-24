@@ -55,6 +55,7 @@ export class UpdateProjectHandler
         }
         if (technical) {
           for (const id of technical) {
+            // const id = await this.technicalProjectRepository.findById()
             await this.technicalProjectRepository.removeAll(currentProject, manager);
             const newTechnical = await this.technicalRepository.findById(id);
             if (!newTechnical) throw new NotAcceptableException('Id invalid');

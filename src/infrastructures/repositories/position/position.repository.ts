@@ -26,6 +26,9 @@ export class PositionRepositoryOrm implements IPositionRepository{
         const position = await this.positionRepository.findOne({
             where:{
                 id:id
+            },
+            relations:{
+                positionMember:true
             }
         })
         return position

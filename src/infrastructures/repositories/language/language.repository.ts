@@ -57,6 +57,9 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
             const language = await this.languageRepository.findOne({
                 where:{
                     id:id
+                },
+                relations:{
+                    languageProject:true
                 }
             })
             if(!language){

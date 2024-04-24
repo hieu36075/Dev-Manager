@@ -22,6 +22,12 @@ export class TechnicalProjectRepositoryOrm implements ITechnicalProjectRepositor
     findById(id: string): Promise<TechnicalProjectM> {
         throw new Error("Method not implemented.");
     }
+
+    async findTechnicalProject(project: any, technical:any ): Promise<TechnicalProjectM[]> {
+        return await this.technicalProjectRepository.find({
+
+        })
+    }
     async create(entity: Partial<TechnicalProjectM>, manager?: any): Promise<TechnicalProjectM> {
         const technicalProject = new TechnicalProject
         technicalProject.project = entity.project;
