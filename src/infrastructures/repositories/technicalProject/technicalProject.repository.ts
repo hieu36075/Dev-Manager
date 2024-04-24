@@ -19,13 +19,24 @@ export class TechnicalProjectRepositoryOrm implements ITechnicalProjectRepositor
     findAll(option?: any): Promise<TechnicalProjectM[]> {
         throw new Error("Method not implemented.");
     }
-    findById(id: string): Promise<TechnicalProjectM> {
-        throw new Error("Method not implemented.");
+    async findById(id: string): Promise<TechnicalProjectM> {
+        return await this.technicalProjectRepository.findOne({
+            where:{
+                id: id
+            }
+        })
     }
 
-    async findTechnicalProject(project: any, technical:any ): Promise<TechnicalProjectM[]> {
+    async findTechnicalProject(project: any, technical?:any ): Promise<TechnicalProjectM[]> {
         return await this.technicalProjectRepository.find({
-
+            where:{
+                project:{
+                    id: project.id
+                }
+            },
+            relations:{
+                technical:true
+            }
         })
     }
     async create(entity: Partial<TechnicalProjectM>, manager?: any): Promise<TechnicalProjectM> {
@@ -37,12 +48,15 @@ export class TechnicalProjectRepositoryOrm implements ITechnicalProjectRepositor
     update(id: string, entity: Partial<LanguageProjectM>, manager?: any): Promise<TechnicalProjectM> {
         throw new Error("Method not implemented.");
     }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete(id: string, manager?:EntityManager): Promise<void> {
+        const curent = await this.findById(id)
+
+        await manager.remove(curent)
     }
 
-    async removeAll(project:ProjectM, manager: EntityManager):Promise<void>{
-        await Promise.all(project.technicalProject.map(async (technicalProject) => {
+    async removeAll(project:any, manager: EntityManager):Promise<void>{
+        await Promise.all(project.map(async (id:string) => {
+            const technicalProject = await this.findById(id)
             await this.technicalProjectRepository.remove(technicalProject);
         }));
 

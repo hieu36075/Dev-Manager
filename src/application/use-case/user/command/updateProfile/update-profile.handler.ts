@@ -33,7 +33,7 @@ export class UpdateProfileHandler
         return await this.connection.transaction(async (manager) => {
 
             const user = await this.userRepository.findById(id)
-            const profile = await this.profileRepository.findById(user.id)
+            const profile = await this.profileRepository.findById(user.profile.id)
         
             if(command.managerId || command.managerId){
                 await this.userRepository.update(id,{
