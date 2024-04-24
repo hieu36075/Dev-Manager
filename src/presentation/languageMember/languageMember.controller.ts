@@ -16,7 +16,7 @@ import { plainToClass } from "class-transformer";
 
 @Controller('languageMember')
 @ApiTags('LanguageMember')
-export class PositionController{
+export class LanguageMemberController{
     constructor(
         private readonly commandBus: CommandBus,
         private readonly queryBus : QueryBus

@@ -81,6 +81,8 @@ import { UpdateTechnicalCommand } from "@/application/use-case/technical/command
 import { UpdateTechnicalHandler } from "@/application/use-case/technical/command/update-technical/update-technical.handler";
 import { DeleteTechnicalCommand } from "@/application/use-case/technical/command/delete-technical/delete-technical.command";
 import { DeleteTechnicalHandler } from "@/application/use-case/technical/command/delete-technical/delete-technical.handler";
+import { LanguageMemberController } from "./languageMember/languageMember.controller";
+import { TechnicalMemberController } from "./technicalMember/technicalMember.controller";
 
 
 const CommandHandler = [
@@ -189,7 +191,9 @@ const QueryHandler = [
         FileController,
         PositionController,
         TechnicalController,
-        LanguageController
+        LanguageController,
+        LanguageMemberController,
+        TechnicalMemberController
     ],
     providers: [
         ...CommandHandler,
