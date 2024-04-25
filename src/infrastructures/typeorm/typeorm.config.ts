@@ -15,12 +15,12 @@ import { join } from 'path';
         password: configService.get('DB_PASSWORD'),
         entities: [join(__dirname, '../entities/*{.ts,.js}')],
         synchronize: true,
-        ssl: false,
-        // extra: {
-        //   ssl: {
-        //     rejectUnauthorized: false,
-        //   },
-        // },
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
       inject: [ConfigService],
     }),
