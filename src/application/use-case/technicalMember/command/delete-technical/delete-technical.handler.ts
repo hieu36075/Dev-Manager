@@ -17,7 +17,7 @@ export class DeleteTechnicalMemberHandler implements ICommandHandler<DeleteTechn
     }
     async execute(command: DeleteTechnicalMemberCommand): Promise<any> {
         return await this.connection.transaction(async (manager) => {
-            await this.technicalMemberRepository.delete(command.id, manager);
+            return await this.technicalMemberRepository.delete(command.id, manager);
         })
     }
 }

@@ -1,9 +1,8 @@
-import { CreateTechnicalMemberDTO } from './../../application/dto/technicalMember/createTechicalMember.dto';
 import { Roles } from "@/application/common/decorator/roles.decorator";
 import { Role } from "@/application/common/enums/role.enum";
 import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
 import { RolesGuard } from "@/application/common/guards/role.guard";
-import { CreateTechnicalCommand } from "@/application/use-case/technical/command/create-technical/create-technical.command";
+import { CreateTechnicalMemberCommand } from '@/application/use-case/technicalMember/command/create-technical/create-technicalMember.command';
 import { DeleteTechnicalMemberCommand } from "@/application/use-case/technicalMember/command/delete-technical/delete-technical.command";
 import { UpdateTechnicalMemberCommand } from "@/application/use-case/technicalMember/command/update-technical/update-technical.command";
 import { LanguageMember } from "@/infrastructures/entities/languageMember.entity";
@@ -11,6 +10,7 @@ import { Body, Controller, Delete, Param, Patch, Post, UseGuards } from "@nestjs
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { ApiBearerAuth, ApiProperty, ApiTags } from "@nestjs/swagger";
 import { plainToClass } from "class-transformer";
+import { CreateTechnicalMemberDTO } from './../../application/dto/technicalMember/createTechicalMember.dto';
 
 @Controller('technicalMember')
 @ApiTags('TechnicalMember')
@@ -28,7 +28,9 @@ export class TechnicalMemberController{
     
     @Post()
     create(@Body() createTechnicalDTO : CreateTechnicalMemberDTO): Promise<LanguageMember>{
-        return this.commandBus.execute(plainToClass(CreateTechnicalCommand, createTechnicalDTO))
+        return this.commandBus.execute(
+          plainToClass(CreateTechnicalMemberCommand, createTechnicalDTO),
+        );
     }
 
     @ApiProperty()
