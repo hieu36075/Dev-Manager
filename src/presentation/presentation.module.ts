@@ -95,6 +95,7 @@ import { GetAllPostionPaginationQuery } from "@/application/use-case/position/qu
 import { GetAllPaginationPositionHandler } from "@/application/use-case/position/queries/get-all-postion-pagination/get-all-postion-pagination.handler";
 import { GetAllLanguagePaginationQuery } from "@/application/use-case/language/query/get-all-language-pagination/get-all-language-pagination.command";
 import { GetAllLanguagePaginationQueryHandler } from "@/application/use-case/language/query/get-all-language-pagination/get-all-language-pagination.handler";
+import { GetProjectInMonthHandler } from "@/application/use-case/technical/queries/getProjectInMonth/get-project-in-month.handler";
 
 
 const CommandHandler = [
@@ -194,7 +195,9 @@ const QueryHandler = [
     GetAllPostionPaginationQuery,
     GetAllPaginationPositionHandler,
     GetAllLanguagePaginationQuery, 
-    GetAllLanguagePaginationQueryHandler
+    GetAllLanguagePaginationQueryHandler,
+    GetProjectInMonthQuery, 
+    GetProjectInMonthHandler
 
 ]
 
