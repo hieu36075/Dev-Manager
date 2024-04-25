@@ -29,7 +29,7 @@ export class CreateLanguageMemberHandler implements ICommandHandler<CreateLangua
                 user:user,
                 language: newLanguage,
                 level: command.level,
-                experience: command.experience
+                experience: command.experience,
             }, manager)
         })
     }

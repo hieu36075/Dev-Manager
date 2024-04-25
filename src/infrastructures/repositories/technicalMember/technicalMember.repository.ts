@@ -24,6 +24,9 @@ export class TechnicalMemberRepositoryOrm implements ITechnicalMemberRepository{
         const technicalMember = await this.technicalMemberRepository.findOne({
             where:{
                 id: id
+            },
+            relations:{
+                user:true
             }
         })
 
@@ -40,10 +43,11 @@ export class TechnicalMemberRepositoryOrm implements ITechnicalMemberRepository{
     update(id: string, entity: Partial<TechnicalMemberM>, manager?: any): Promise<TechnicalMemberM> {
         throw new Error("Method not implemented.");
     }
-    async delete(id: string, manager?:EntityManager): Promise<void> {
+    async delete(id: string, manager?:EntityManager): Promise<any> {
         const technicalMember = await this.findById(id)
         
         await manager.remove(technicalMember)
+        return technicalMember.user
     }
     
 }

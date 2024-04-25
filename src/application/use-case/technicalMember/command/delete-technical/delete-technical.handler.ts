@@ -10,14 +10,14 @@ import { ITechnicalMemberRepository } from "@/domain/repositories/technicalMembe
 export class DeleteTechnicalMemberHandler implements ICommandHandler<DeleteTechnicalMemberCommand>{
     constructor(
         @Inject(InjectionToken.TECHNICALMEMBER_REPOSITORY)
-        private readonly languageMemberRepository : ITechnicalMemberRepository,
+        private readonly technicalMemberRepository : ITechnicalMemberRepository,
         private readonly connection: Connection,
     ){
 
     }
     async execute(command: DeleteTechnicalMemberCommand): Promise<any> {
         return await this.connection.transaction(async (manager) => {
-            await this.languageMemberRepository.delete(command.id, manager)
+            await this.technicalMemberRepository.delete(command.id, manager);
         })
     }
 }

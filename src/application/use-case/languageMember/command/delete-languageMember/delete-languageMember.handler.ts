@@ -14,8 +14,9 @@ export class DeleteLanguageMemberHandler implements ICommandHandler<DeleteLangua
 
     }
     async execute(command: DeleteLanguageMemberCommand): Promise<any> {
+
         return await this.connection.transaction(async (manager) => {
-            await this.languageMemberRepository.delete(command.id, manager)
+            return await this.languageMemberRepository.delete(command.id, manager)
         })
     }
 }

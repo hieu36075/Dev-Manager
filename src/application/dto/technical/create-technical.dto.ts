@@ -6,4 +6,6 @@ export class CreateTechnicalDTO {
     @IsNotEmpty()
     @ApiProperty()
     name: string
+
+
 }

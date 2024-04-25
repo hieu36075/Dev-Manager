@@ -1,3 +1,4 @@
+import { CreateTechnicalMemberDTO } from './../../application/dto/technicalMember/createTechicalMember.dto';
 import { CreateLanguageMemberDTO } from "@/application/dto/languageMember/createLanguageMember.dto";
 import { UpdateLanguageMemberDTO } from "@/application/dto/languageMember/updateLanguageMember.dto";
 import { CreateTechnicalDTO } from "@/application/dto/technical/create-technical.dto";
@@ -25,7 +26,7 @@ export class TechnicalMemberController{
     }
 
     @Post()
-    create(@Body() createTechnicalDTO : CreateTechnicalDTO): Promise<LanguageMember>{
+    create(@Body() createTechnicalDTO : CreateTechnicalMemberDTO): Promise<LanguageMember>{
         return this.commandBus.execute(plainToClass(CreateTechnicalCommand, createTechnicalDTO))
     }
 
@@ -40,8 +41,8 @@ export class TechnicalMemberController{
         ))
     }
 
-    @Delete('')
-    delete(@Param('id') id:string):Promise<void>{
+    @Delete(':id')
+    delete(@Param('id') id:string):Promise<any>{
         return this.commandBus.execute(new DeleteTechnicalMemberCommand(id))
     }
 }
