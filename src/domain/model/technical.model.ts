@@ -9,4 +9,6 @@ export class TechnicalM {
   isDelete: boolean;
   technicalMember: TechnicalMemberM[];
   technicalProject: TechnicalProjectM[];
+  created_at: Date;
+  updated_at: Date;
 }

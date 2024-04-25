@@ -20,7 +20,10 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
         return this.technicalRepository.find({
             where:{
                 isDelete:false
-            }
+            },
+            order:{
+                created_at:'DESC'
+            },
         })
     }
 
@@ -32,6 +35,9 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
             where:{
                 name: name ? ILike(`%${name.toLowerCase()}%`) : ILike(`%%`),
                 isDelete:false
+            },
+            order:{
+                created_at:'DESC'
             },
             skip: skip,
             take:takeData

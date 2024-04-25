@@ -11,6 +11,7 @@ import { GetMostTechnicalQuery } from "@/application/use-case/project/queries/ge
 import { CreateTechnicalCommand } from "@/application/use-case/technical/command/create-technical/create-technical.command";
 import { DeleteTechnicalCommand } from "@/application/use-case/technical/command/delete-technical/delete-technical.command";
 import { UpdateTechnicalCommand } from "@/application/use-case/technical/command/update-technical/update-technical.command";
+import { GetAllTechnicalPaginationQuery } from "@/application/use-case/technical/queries/get-all-technical-pagination/get-all-technical.command";
 import { GetAllTechnicalQuery } from "@/application/use-case/technical/queries/get-all-technical/get-all-technical.command";
 import { PositionM } from "@/domain/model/position.model";
 import { TechnicalM } from "@/domain/model/technical.model";
@@ -32,8 +33,12 @@ export class TechnicalController{
     }
 
     @Get()
-    findAll(@Query() pageOptionsDto: PageOptionsDto):Promise<TechnicalM[]>{
-        return this.queryBus.execute(new GetAllTechnicalQuery(pageOptionsDto))
+    findAll():Promise<TechnicalM[]>{
+        return this.queryBus.execute(new GetAllTechnicalQuery())
+    }
+    @Get('pagination')
+    findAllPagination(@Query() pageOptionsDto: PageOptionsDto):Promise<TechnicalM[]>{
+        return this.queryBus.execute(new GetAllTechnicalPaginationQuery(pageOptionsDto))
     }
 
     @Get('getMostTechnical')

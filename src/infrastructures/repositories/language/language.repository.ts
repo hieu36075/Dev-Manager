@@ -19,7 +19,10 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
         return await this.languageRepository.find({
             where:{
                 isDelete:false
-            }
+            },
+            order:{
+                created_at:'DESC'
+            },
         })
     }
 
@@ -31,6 +34,9 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
             where:{
                 name: name ? ILike(`%${name.toLowerCase()}%`) : ILike(`%%`),
                 isDelete:false
+            },
+            order:{
+                created_at:'DESC'
             },
             skip: skip,
             take:takeData

@@ -12,8 +12,7 @@ export class GetAllTechnicalHandler implements IQueryHandler<GetAllTechnicalQuer
 
     }
     async execute(query: GetAllTechnicalQuery): Promise<any> {
-        const { pageOptionsDto } = query
-        const technical = await this.technicalRepository.findAllOptions(pageOptionsDto)
+        const technical = await this.technicalRepository.findAll()
         
         return technical
     }

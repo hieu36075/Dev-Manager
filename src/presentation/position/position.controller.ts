@@ -9,6 +9,7 @@ import { CreatePositionCommand } from "@/application/use-case/position/command/c
 import { DeletePositionCommand } from "@/application/use-case/position/command/delete-postion/delete-position.command";
 import { UpdatePositionCommand } from "@/application/use-case/position/command/update-position/update-position.command";
 import { GetAllPostionQuery } from "@/application/use-case/position/queries/get-all-position/get-all-position.command";
+import { GetAllPostionPaginationQuery } from "@/application/use-case/position/queries/get-all-postion-pagination/get-all-postion-pagination.command";
 import { PositionM } from "@/domain/model/position.model";
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
@@ -28,10 +29,14 @@ export class PositionController{
     }
 
     @Get()
-    findAll(@Query() pageOptionsDto: PageOptionsDto):Promise<PositionM[]>{
-        return this.queryBus.execute(new GetAllPostionQuery(pageOptionsDto))
+    findAll():Promise<PositionM[]>{
+        return this.queryBus.execute(new GetAllPostionQuery())
     }
 
+    @Get('pagination')
+    findAllPagination(@Query() pageOptionsDto: PageOptionsDto):Promise<PositionM[]>{
+        return this.queryBus.execute(new GetAllPostionPaginationQuery(pageOptionsDto))
+    }
     @Get(':id')
     findById(@Query('id') id:string):Promise<PositionM>{
         return

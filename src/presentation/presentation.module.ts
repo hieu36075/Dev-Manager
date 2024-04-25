@@ -89,6 +89,12 @@ import { ProjectController } from "./project/project.controller";
 import { TechnicalController } from "./technical/technical.controller";
 import { TechnicalMemberController } from "./technicalMember/technicalMember.controller";
 import { UserController } from "./user/user.controller";
+import { GetAllTechnicalPaginationQuery } from "@/application/use-case/technical/queries/get-all-technical-pagination/get-all-technical.command";
+import { GetAllTechnicalPaginationHandler } from "@/application/use-case/technical/queries/get-all-technical-pagination/get-all-technical.handler";
+import { GetAllPostionPaginationQuery } from "@/application/use-case/position/queries/get-all-postion-pagination/get-all-postion-pagination.command";
+import { GetAllPaginationPositionHandler } from "@/application/use-case/position/queries/get-all-postion-pagination/get-all-postion-pagination.handler";
+import { GetAllLanguagePaginationQuery } from "@/application/use-case/language/query/get-all-language-pagination/get-all-language-pagination.command";
+import { GetAllLanguagePaginationQueryHandler } from "@/application/use-case/language/query/get-all-language-pagination/get-all-language-pagination.handler";
 
 
 const CommandHandler = [
@@ -182,7 +188,13 @@ const QueryHandler = [
     GetMostLanguageQuery, 
     GetMostLanguageHandler,
     GetMostTechnicalQuery, 
-    GetMostTechnicalHandler
+    GetMostTechnicalHandler,
+    GetAllTechnicalPaginationQuery,
+    GetAllTechnicalPaginationHandler,
+    GetAllPostionPaginationQuery,
+    GetAllPaginationPositionHandler,
+    GetAllLanguagePaginationQuery, 
+    GetAllLanguagePaginationQueryHandler
 
 ]
 

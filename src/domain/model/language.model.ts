@@ -7,6 +7,8 @@ export class LanguageM {
     name: string;
     isDelete: boolean;
     languageMember: LanguageMemberM[];
-    languageProject: LanguageProjectM[]
+    languageProject: LanguageProjectM[];
+    created_at: Date;
+    updated_at: Date;
     // profile: ProfileM
   }

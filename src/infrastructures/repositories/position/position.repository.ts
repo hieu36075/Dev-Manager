@@ -19,7 +19,10 @@ export class PositionRepositoryOrm implements IPositionRepository{
         return await this.positionRepository.find({
             where:{
                 isDelete:false
-            }
+            },
+            order:{
+                created_at:'DESC'
+            },
         })
     }
     async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<PageDto<PositionM>> {
@@ -29,7 +32,10 @@ export class PositionRepositoryOrm implements IPositionRepository{
     const [result, total] =  await this.positionRepository.findAndCount({
             where:{
                 name: name ? ILike(`%${name.toLowerCase()}%`) : ILike(`%%`),
-                isDelete:false
+                isDelete:false,
+            },
+            order:{
+                created_at:'DESC'
             },
             skip: skip,
             take:takeData
