@@ -3,7 +3,7 @@ import { IUserRepository } from "@/domain/repositories/user.repository";
 import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../../entities/user.entity";
-import { EntityManager, ILike, Like, Repository } from "typeorm";
+import { EntityManager, ILike, IsNull, Like, Repository } from "typeorm";
 import { UserM } from "@/domain/model/user.model";
 import { CreateUserDTO } from "@/application/dto/user/create-user.dto";
 import { RoleM } from "@/domain/model/role.model";
@@ -249,6 +249,8 @@ export class UserRepositoryOrm implements IUserRepository {
             console.log(error)
         }
     }
+
+    
     async create(entity: Partial<UserM>, manager: EntityManager): Promise<UserM> {
         const user = new User()
         user.email = entity.email;
@@ -321,5 +323,23 @@ export class UserRepositoryOrm implements IUserRepository {
         })
     }
 
+    async countUsersWithoutProjects(): Promise<any> {
+        const usersWithoutProjects = await this.userRepository.find({
+            relations:{
+                projectMembers:{
+                    project:true
+                }
+            },
+            where:{
+                projectMembers:{
+                    project: IsNull()
+                }
+            },
+        })
+
+        
+          console.log(usersWithoutProjects)
+        return {userWithoughtProject : usersWithoutProjects.length}
+      }
 
 }

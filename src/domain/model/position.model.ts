@@ -11,5 +11,7 @@ export class PositionM {
   isDelete: boolean;
   // profile: ProfileM;
   positions:RoleMemberProjectM[];
-  positionMember: PositionMemberM[]
+  positionMember: PositionMemberM[];
+  created_at: Date;
+  updated_at: Date;
 }

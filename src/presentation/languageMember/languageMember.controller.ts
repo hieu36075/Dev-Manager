@@ -1,21 +1,27 @@
-import { CreateLanguageMemberDTO } from '@/application/dto/languageMember/createLanguageMember.dto';
-import { UpdateLanguageMemberDTO } from '@/application/dto/languageMember/updateLanguageMember.dto';
-import { CreateLanguageMemberCommand } from '@/application/use-case/languageMember/command/create-languageMember/create-languageMember.command';
-import { DeleteLanguageMemberCommand } from '@/application/use-case/languageMember/command/delete-languageMember/delete-languageMember.command';
-import { LanguageMember } from '@/infrastructures/entities/languageMember.entity';
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { ApiProperty, ApiTags } from '@nestjs/swagger';
-import { plainToClass } from 'class-transformer';
-import { UpdateLanguageMemberCommand } from './../../application/use-case/languageMember/command/update-languageMember/update-languageMember.command';
+import { Roles } from "@/application/common/decorator/roles.decorator";
+import { Role } from "@/application/common/enums/role.enum";
+import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
+import { RolesGuard } from "@/application/common/guards/role.guard";
+import { CreateLanguageMemberDTO } from "@/application/dto/languageMember/createLanguageMember.dto";
+import { UpdateLanguageMemberDTO } from "@/application/dto/languageMember/updateLanguageMember.dto";
+import { CreateLanguageMemberCommand } from "@/application/use-case/languageMember/command/create-languageMember/create-languageMember.command";
+import { DeleteLanguageMemberCommand } from "@/application/use-case/languageMember/command/delete-languageMember/delete-languageMember.command";
+import { LanguageMember } from "@/infrastructures/entities/languageMember.entity";
+import { Body, Controller, Delete, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { CommandBus, QueryBus } from "@nestjs/cqrs";
+import { ApiBearerAuth, ApiProperty, ApiTags } from "@nestjs/swagger";
+import { plainToClass } from "class-transformer";
 
 @Controller('languageMember')
 @ApiTags('LanguageMember')
-export class LanguageMemberController {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
-  ) {}
+@ApiBearerAuth('JWT-auth')
+@Roles(Role.MANAGER)
+@UseGuards(JwtAuthGuard, RolesGuard)
+export class LanguageMemberController{
+    constructor(
+        private readonly commandBus: CommandBus,
+        private readonly queryBus : QueryBus
+    ){}
 
   @Post()
   create(
@@ -33,7 +39,7 @@ export class LanguageMemberController {
     @Body() updateLanguageMemberDTO: UpdateLanguageMemberDTO,
   ): Promise<LanguageMember | undefined> {
     return this.commandBus.execute(
-      new UpdateLanguageMemberCommand(
+      new UpdateLanguageMemberDTO(
         id,
         updateLanguageMemberDTO.userId,
         updateLanguageMemberDTO.level,

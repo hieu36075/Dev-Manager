@@ -61,9 +61,10 @@ export class CreateUserDTO{
     @ApiProperty()
     managerId?: string
 
+    @IsOptional()
     @IsArray()
     @IsNotEmpty()
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: 'Array of technical IDs associated with the user',
         example: [
             {
@@ -74,21 +75,22 @@ export class CreateUserDTO{
         ],
         type: [],
     })
-    technical : [];
+    technical?: [];
 
+    @IsOptional()
     @IsArray()
     @IsNotEmpty()
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: 'Array of position IDs associated with the user',
         example: ['position1', 'position2'],
         type: [String],
     })
-    positions : string[];
+    positions?: string[];
 
-    
+    @IsOptional()
     @IsArray()
     @IsNotEmpty()
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: 'Array of language IDs associated with the user',
         example: [
             {
@@ -99,7 +101,7 @@ export class CreateUserDTO{
         ],
         type: [],
     })
-    language : [];
+    language?: [];
 
     @IsOptional()
     @IsString()

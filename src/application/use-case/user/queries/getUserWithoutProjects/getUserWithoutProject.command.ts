@@ -1,7 +1,7 @@
 import { PageOptionsDto } from "@/application/dto/pagination/paginationOptions";
 import {  IQuery } from "@nestjs/cqrs";
 
-export class GetAllTechnicalQuery implements IQuery {
+export class GetUserWithoutProjectQuery implements IQuery {
     constructor(
     ) {}
 }

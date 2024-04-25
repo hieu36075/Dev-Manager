@@ -11,7 +11,7 @@ export class GetAllTechnicalHandler implements IQueryHandler<GetAllTechnicalQuer
     ){
 
     }
-    async execute(query: GetAllTechnicalQuery): Promise<TechnicalM[]> {
+    async execute(query: GetAllTechnicalQuery): Promise<any> {
         const technical = await this.technicalRepository.findAll()
         
         return technical

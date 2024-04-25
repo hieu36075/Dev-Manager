@@ -39,6 +39,27 @@ export class TechnicalProjectRepositoryOrm implements ITechnicalProjectRepositor
             }
         })
     }
+
+    async findMostTechnical():Promise<any>{
+        const technicalProjects = await this.technicalProjectRepository.find({
+          relations: {
+              technical: true
+          }
+      });
+      
+      const technicalCountMap = new Map<string, number>();
+    
+      technicalProjects.forEach(technicalProject => {
+          const technicalName = technicalProject.technical.name;
+          if (technicalCountMap.has(technicalName)) {
+            technicalCountMap.set(technicalName, technicalCountMap.get(technicalName) + 1);
+          } else {
+            technicalCountMap.set(technicalName, 1);
+          }
+      });
+    
+      return technicalCountMap;
+      }
     async create(entity: Partial<TechnicalProjectM>, manager?: any): Promise<TechnicalProjectM> {
         const technicalProject = new TechnicalProject
         technicalProject.project = entity.project;
