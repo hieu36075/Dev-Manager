@@ -1,3 +1,7 @@
+import { Roles } from "@/application/common/decorator/roles.decorator";
+import { Role } from "@/application/common/enums/role.enum";
+import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
+import { RolesGuard } from "@/application/common/guards/role.guard";
 import { CreateLanguageMemberDTO } from "@/application/dto/languageMember/createLanguageMember.dto";
 import { UpdateLanguageMemberDTO } from "@/application/dto/languageMember/updateLanguageMember.dto";
 import { CreateTechnicalDTO } from "@/application/dto/technical/create-technical.dto";
@@ -9,13 +13,16 @@ import { DeleteTechnicalMemberCommand } from "@/application/use-case/technicalMe
 import { UpdateTechnicalMemberCommand } from "@/application/use-case/technicalMember/command/update-technical/update-technical.command";
 import { UpdateLanguageUserCommand } from "@/application/use-case/user/command/updateLanguage/update-language.command";
 import { LanguageMember } from "@/infrastructures/entities/languageMember.entity";
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ApiProperty, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiProperty, ApiTags } from "@nestjs/swagger";
 import { plainToClass } from "class-transformer";
 
 @Controller('technicalMember')
 @ApiTags('TechnicalMember')
+@ApiBearerAuth('JWT-auth')
+@Roles(Role.MANAGER)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class TechnicalMemberController{
     constructor(
         private readonly commandBus: CommandBus,
@@ -24,6 +31,7 @@ export class TechnicalMemberController{
 
     }
 
+    
     @Post()
     create(@Body() createTechnicalDTO : CreateTechnicalDTO): Promise<LanguageMember>{
         return this.commandBus.execute(plainToClass(CreateTechnicalCommand, createTechnicalDTO))
@@ -40,7 +48,7 @@ export class TechnicalMemberController{
         ))
     }
 
-    @Delete('')
+    @Delete(':id')
     delete(@Param('id') id:string):Promise<void>{
         return this.commandBus.execute(new DeleteTechnicalMemberCommand(id))
     }

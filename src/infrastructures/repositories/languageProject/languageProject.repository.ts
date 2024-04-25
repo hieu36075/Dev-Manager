@@ -17,6 +17,27 @@ export class LanguageProjectRepositoryOrm
   findAll(option?: any): Promise<LanguageProjectM[]> {
     throw new Error('Method not implemented.');
   }
+
+  async findMostLanguage():Promise<any>{
+    const languageProjects = await this.languageProjectRepository.find({
+      relations: {
+          language: true
+      }
+  });
+  
+  const languageCountMap = new Map<string, number>();
+
+  languageProjects.forEach(languageProject => {
+      const languageName = languageProject.language.name;
+      if (languageCountMap.has(languageName)) {
+          languageCountMap.set(languageName, languageCountMap.get(languageName) + 1);
+      } else {
+          languageCountMap.set(languageName, 1);
+      }
+  });
+
+  return languageCountMap;
+  }
   async findById(id: string): Promise<LanguageProjectM> {
     return await this.languageProjectRepository.findOne({
         where:{

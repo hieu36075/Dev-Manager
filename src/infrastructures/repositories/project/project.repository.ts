@@ -186,9 +186,27 @@ export class ProjectRepositoryOrm implements IProjectRepository {
     const statusComplete = await this.projectRepository.countBy({
       status: ProjectStatusEnum.Completed
     })
-
-    return { projectInMonth: data, totalProjet: totalProjet, projectStatus:{pending: statusPending, progress: statusProgress, complete: statusComplete} };
+    const projectInYear = await this.getProjectsByYeard(2024)
+    console.log(projectInYear)
+    return { projectInMonth: data, totalProjet: totalProjet, projectStatus:{pending: statusPending, progress: statusProgress, complete: statusComplete},projectInYear };
   }
+
+  async getProjectsByYeard ( year: number): Promise<{ [month: number]: number }> {
+    const projectsByMonth: { [month: number]: number } = {};
+
+    for (let month = 0; month < 12; month++) {
+        const startDate = new Date(year, month, 1);
+        const endDate = new Date(year, month + 1, 0);
+
+        const projectsInMonth = await this.projectRepository.countBy({
+            startDate: MoreThanOrEqual(startDate),
+            endDate: LessThanOrEqual(endDate),
+        });
+        projectsByMonth[month + 1] = projectsInMonth;
+      }
+
+    return projectsByMonth;
+}
   async create(
     createProjectDTO: CreateProjectDTO,
     manager: EntityManager,

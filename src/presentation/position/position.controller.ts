@@ -1,3 +1,7 @@
+import { Roles } from "@/application/common/decorator/roles.decorator";
+import { Role } from "@/application/common/enums/role.enum";
+import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
+import { RolesGuard } from "@/application/common/guards/role.guard";
 import { CreatePositionDTO } from "@/application/dto/position/create-position.dto";
 import { UpdatePostionDTO } from "@/application/dto/position/update-postiion.dto";
 import { CreatePositionCommand } from "@/application/use-case/position/command/create-position/create-position.command";
@@ -5,12 +9,15 @@ import { DeletePositionCommand } from "@/application/use-case/position/command/d
 import { UpdatePositionCommand } from "@/application/use-case/position/command/update-position/update-position.command";
 import { GetAllPostionQuery } from "@/application/use-case/position/queries/get-all-position/get-all-position.command";
 import { PositionM } from "@/domain/model/position.model";
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @Controller('position')
 @ApiTags('Postition')
+@ApiBearerAuth('JWT-auth')
+@Roles(Role.MANAGER)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class PositionController{
     constructor(
         private readonly commandBus: CommandBus,

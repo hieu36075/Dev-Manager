@@ -1,21 +1,23 @@
+import { Roles } from "@/application/common/decorator/roles.decorator";
+import { Role } from "@/application/common/enums/role.enum";
+import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
+import { RolesGuard } from "@/application/common/guards/role.guard";
 import { CreateLanguageMemberDTO } from "@/application/dto/languageMember/createLanguageMember.dto";
 import { UpdateLanguageMemberDTO } from "@/application/dto/languageMember/updateLanguageMember.dto";
-import { CreatePositionDTO } from "@/application/dto/position/create-position.dto";
-import { UpdatePostionDTO } from "@/application/dto/position/update-postiion.dto";
-import { UpdateLanguageCommand } from "@/application/use-case/language/command/update-language/update-language.handler";
 import { CreateLanguageMemberCommand } from "@/application/use-case/languageMember/command/create-languageMember/create-languageMember.command";
 import { DeleteLanguageMemberCommand } from "@/application/use-case/languageMember/command/delete-languageMember/delete-languageMember.command";
-import { CreatePositionCommand } from "@/application/use-case/position/command/create-position/create-position.command";
 import { UpdateLanguageUserCommand } from "@/application/use-case/user/command/updateLanguage/update-language.command";
-import { PositionM } from "@/domain/model/position.model";
 import { LanguageMember } from "@/infrastructures/entities/languageMember.entity";
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { ApiProperty, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiProperty, ApiTags } from "@nestjs/swagger";
 import { plainToClass } from "class-transformer";
 
 @Controller('languageMember')
 @ApiTags('LanguageMember')
+@ApiBearerAuth('JWT-auth')
+@Roles(Role.MANAGER)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class LanguageMemberController{
     constructor(
         private readonly commandBus: CommandBus,
@@ -23,6 +25,8 @@ export class LanguageMemberController{
     ){
 
     }
+
+
 
     @Post()
     create(@Body() createLanguageMemberDTO : CreateLanguageMemberDTO): Promise<LanguageMember>{
@@ -40,7 +44,7 @@ export class LanguageMemberController{
         ))
     }
 
-    @Delete('')
+    @Delete(':id')
     delete(@Param('id') id:string):Promise<void>{
         return this.commandBus.execute(new DeleteLanguageMemberCommand(id))
     }
