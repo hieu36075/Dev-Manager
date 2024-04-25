@@ -30,8 +30,8 @@ export class LanguageController{
     }
 
     @Get()
-    findAll():Promise<LanguageM[]>{
-        return this.queryBus.execute(new GetAllLanguageQuery())
+    findAll(@Query() pageOptionsDto: PageOptionsDto):Promise<LanguageM[]>{
+        return this.queryBus.execute(new GetAllLanguageQuery(pageOptionsDto))
     }
     @Get('getMostLanguage')
     mostLanguage ():Promise<any>{

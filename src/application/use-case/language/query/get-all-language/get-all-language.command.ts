@@ -3,7 +3,7 @@ import { IQuery } from "@nestjs/cqrs";
 
 export class GetAllLanguageQuery implements IQuery {
     constructor(
-        // public readonly pageOptionsDto: PageOptionsDto
+        public readonly pageOptionsDto: PageOptionsDto
     ) {
  
     }

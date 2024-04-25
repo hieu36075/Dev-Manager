@@ -10,8 +10,9 @@ export class GetAllPositionHandler implements IQueryHandler<GetAllPostionQuery>{
     ){
 
     }
-    async execute(query: GetAllPostionQuery): Promise<PositionM[]> {
-        const postion = await this.positionRepository.findAll()
+    async execute(query: GetAllPostionQuery): Promise<any> {
+        const { pageOptionsDto } = query
+        const postion = await this.positionRepository.findAllOptions(pageOptionsDto)
         return postion
     }
 }

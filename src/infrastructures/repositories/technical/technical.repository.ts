@@ -1,10 +1,13 @@
+import { PageMetaDto } from "@/application/dto/pagination/pageMeta.dto";
+import { PageOptionsDto } from "@/application/dto/pagination/paginationOptions";
+import { PageDto } from "@/application/dto/pagination/responsePagination";
 import { PositionM } from "@/domain/model/position.model";
 import { TechnicalM } from "@/domain/model/technical.model";
 import { ITechnicalRepository } from "@/domain/repositories/technical.repository";
 import {  Technical } from "@/infrastructures/entities/technical.entity";
 import { ForbiddenException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { EntityManager, Repository } from "typeorm";
+import { EntityManager, ILike, Repository } from "typeorm";
 
 export class TechnicalRepositoryOrm implements ITechnicalRepository{
     constructor(
@@ -19,6 +22,22 @@ export class TechnicalRepositoryOrm implements ITechnicalRepository{
                 isDelete:false
             }
         })
+    }
+
+    async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<PageDto<Technical>> {
+        const { name, page, take, orderBy } = pageOptionsDto;
+    const takeData = take || 10;
+    const skip = (page - 1) * take;
+    const [result, total] =  await this.technicalRepository.findAndCount({
+            where:{
+                name: name ? ILike(`%${name.toLowerCase()}%`) : ILike(`%%`),
+                isDelete:false
+            },
+            skip: skip,
+            take:takeData
+        })
+        const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
+    return new PageDto<Technical>(result, pageMetaDto, 'Success');
     }
     async findById(id: string): Promise<TechnicalM> {
 

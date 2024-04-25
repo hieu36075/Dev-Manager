@@ -1,9 +1,12 @@
+import { PageMetaDto } from "@/application/dto/pagination/pageMeta.dto";
+import { PageOptionsDto } from "@/application/dto/pagination/paginationOptions";
+import { PageDto } from "@/application/dto/pagination/responsePagination";
 import { PositionM } from "@/domain/model/position.model";
 import { IPositionRepository } from "@/domain/repositories/position.model";
 import { Position } from "@/infrastructures/entities/position.entity";
 import { ForbiddenException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 
 export class PositionRepositoryOrm implements IPositionRepository{
     constructor(
@@ -12,12 +15,27 @@ export class PositionRepositoryOrm implements IPositionRepository{
     ){
 
     }
-    async findAll(): Promise<PositionM[]> {
-        return this.positionRepository.find({
+    async findAll():Promise<PositionM[]>{
+        return await this.positionRepository.find({
             where:{
                 isDelete:false
             }
         })
+    }
+    async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<PageDto<PositionM>> {
+        const { name, page, take, orderBy } = pageOptionsDto;
+    const takeData = take || 10;
+    const skip = (page - 1) * take;
+    const [result, total] =  await this.positionRepository.findAndCount({
+            where:{
+                name: name ? ILike(`%${name.toLowerCase()}%`) : ILike(`%%`),
+                isDelete:false
+            },
+            skip: skip,
+            take:takeData
+        })
+        const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
+    return new PageDto<PositionM>(result, pageMetaDto, 'Success');
     }
     async findById(id: string): Promise<PositionM> {
         if(!id){

@@ -2,6 +2,7 @@ import { Roles } from "@/application/common/decorator/roles.decorator";
 import { Role } from "@/application/common/enums/role.enum";
 import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
 import { RolesGuard } from "@/application/common/guards/role.guard";
+import { PageOptionsDto } from "@/application/dto/pagination/paginationOptions";
 import { CreatePositionDTO } from "@/application/dto/position/create-position.dto";
 import { UpdatePostionDTO } from "@/application/dto/position/update-postiion.dto";
 import { CreateTechnicalDTO } from "@/application/dto/technical/create-technical.dto";
@@ -31,8 +32,8 @@ export class TechnicalController{
     }
 
     @Get()
-    findAll():Promise<TechnicalM[]>{
-        return this.queryBus.execute(new GetAllTechnicalQuery())
+    findAll(@Query() pageOptionsDto: PageOptionsDto):Promise<TechnicalM[]>{
+        return this.queryBus.execute(new GetAllTechnicalQuery(pageOptionsDto))
     }
 
     @Get('getMostTechnical')

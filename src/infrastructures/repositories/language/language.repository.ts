@@ -6,7 +6,7 @@ import { ILanguageRepository } from "@/domain/repositories/language.repository";
 import { Language } from "@/infrastructures/entities/language.entity";
 import { BadRequestException, ForbiddenException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Like, Repository } from "typeorm";
+import { ILike, Like, Repository } from "typeorm";
 
 export class LanguageRepositoryOrm implements ILanguageRepository{
     constructor(
@@ -21,6 +21,22 @@ export class LanguageRepositoryOrm implements ILanguageRepository{
                 isDelete:false
             }
         })
+    }
+
+    async findAllOptions(pageOptionsDto: PageOptionsDto): Promise<PageDto<LanguageM>> {
+        const { name, page, take, orderBy } = pageOptionsDto;
+    const takeData = take || 10;
+    const skip = (page - 1) * take;
+    const [result, total] =  await this.languageRepository.findAndCount({
+            where:{
+                name: name ? ILike(`%${name.toLowerCase()}%`) : ILike(`%%`),
+                isDelete:false
+            },
+            skip: skip,
+            take:takeData
+        })
+        const pageMetaDto = new PageMetaDto(pageOptionsDto, total);
+    return new PageDto<LanguageM>(result, pageMetaDto, 'Success');
     }
     async findAllByFilter(pageOptionsDto: PageOptionsDto): Promise<any> {
         // throw new Error("Method not implemented.");

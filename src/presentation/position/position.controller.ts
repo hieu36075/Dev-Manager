@@ -2,6 +2,7 @@ import { Roles } from "@/application/common/decorator/roles.decorator";
 import { Role } from "@/application/common/enums/role.enum";
 import { JwtAuthGuard } from "@/application/common/guards/jwtAuth.guard";
 import { RolesGuard } from "@/application/common/guards/role.guard";
+import { PageOptionsDto } from "@/application/dto/pagination/paginationOptions";
 import { CreatePositionDTO } from "@/application/dto/position/create-position.dto";
 import { UpdatePostionDTO } from "@/application/dto/position/update-postiion.dto";
 import { CreatePositionCommand } from "@/application/use-case/position/command/create-position/create-position.command";
@@ -27,8 +28,8 @@ export class PositionController{
     }
 
     @Get()
-    findAll():Promise<PositionM[]>{
-        return this.queryBus.execute(new GetAllPostionQuery())
+    findAll(@Query() pageOptionsDto: PageOptionsDto):Promise<PositionM[]>{
+        return this.queryBus.execute(new GetAllPostionQuery(pageOptionsDto))
     }
 
     @Get(':id')

@@ -13,10 +13,10 @@ export class GetAllLanguageQueryHandler implements IQueryHandler<GetAllLanguageQ
         private readonly languageRepository : ILanguageRepository,
     ) {}
 
-    async execute(query: GetAllLanguageQuery): Promise<Language[]> {
-        // const { pageOptionsDto } = query
+    async execute(query: GetAllLanguageQuery): Promise<any> {
+        const { pageOptionsDto } = query
         try {
-            const language = await this.languageRepository.findAll();
+            const language = await this.languageRepository.findAllOptions(pageOptionsDto);
             return language
         } catch (error) {
             throw new ForbiddenException({ message: "Query failed",  })
