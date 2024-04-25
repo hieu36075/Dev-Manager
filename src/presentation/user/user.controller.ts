@@ -89,7 +89,8 @@ export class UserController {
         updateUserDto.isManager,
         updateUserDto.managerId,
         updateUserDto.address,
-        updateUserDto.avatarUrl
+        updateUserDto.avatarUrl,
+        updateUserDto.positions
     ))
 
   }

@@ -18,7 +18,6 @@ export class GenerateCVQueryHandler implements IQueryHandler<GenerateCVQuery> {
         // const { pageOptionsDto } = query
         // try {
             const user = await this.userRepository.findById(query.id)
-            // console.log(usẻ)
             const a = await this.docxtemplateRepository.generateWord(user)
 
             return a

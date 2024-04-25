@@ -1,49 +1,50 @@
 // get-all-users-query.handler.ts
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import {
   ForbiddenException,
-  Inject,
-  NotAcceptableException,
+  Inject
 } from '@nestjs/common';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 // import { UpdateLanguageUserCommand } from './update-language.command';
 import { InjectionToken } from '@/application/common/constants/constants';
 import { ITechnicalMemberRepository } from '@/domain/repositories/technicalMember';
 import { TechnicalRepositoryOrm } from '@/infrastructures/repositories/technical/technical.repository';
-import { CreateTechnicalMemberCommand } from './create-technicalMember.command';
 import { UserRepositoryOrm } from '@/infrastructures/repositories/user/user.repository';
-
-@QueryHandler(CreateTechnicalMemberCommand)
+import { Connection } from 'typeorm';
+import { CreateTechnicalMemberCommand } from './create-technicalMember.command';
+@CommandHandler(CreateTechnicalMemberCommand)
 export class CreateTechnicalMemberHandler
-  implements IQueryHandler<CreateTechnicalMemberCommand>
+  implements ICommandHandler<CreateTechnicalMemberCommand>
 {
   constructor(
     private readonly technicalRepository: TechnicalRepositoryOrm,
     @Inject(InjectionToken.TECHNICALMEMBER_REPOSITORY)
     private readonly technicalMemberRepository: ITechnicalMemberRepository,
-    private readonly userRepository : UserRepositoryOrm
+    private readonly userRepository: UserRepositoryOrm,
+    private readonly connection: Connection,
   ) {}
 
   async execute(command: CreateTechnicalMemberCommand): Promise<any> {
-    const { id } = command;
-    try {
-        const user = await this.userRepository.findById(command.userId)
-      const currentLanguageMember =
-        await this.technicalMemberRepository.findById(id);
-      const technical = await this.technicalRepository.findById(
-        command.technicalId,
-      );
-      if (!currentLanguageMember)
-        throw new NotAcceptableException("Id don't valid");
-      await this.technicalMemberRepository.create({
-        user:user,
-        technical: technical,
-        level: command.level,
-        experience: command.experience,
-      });
-      return 
-    } catch (error) {
-      throw new ForbiddenException();
-    }
+
+        return await this.connection.transaction(async (manager) => {
+
+          try {
+            const user = await this.userRepository.findById(command.userId);
+            // const currentLanguageMember =
+            //   await this.technicalMemberRepository.findById(id);
+            const technical = await this.technicalRepository.findById(command.id);
+            
+             return await this.technicalMemberRepository.create({
+              user: user,
+              technical: technical,
+              level: command.level,
+              experience: command.experience,
+            }, manager);
+           
+          } catch (error) {
+            console.log(error);
+            throw new ForbiddenException();
+          }
     // return new GetAllUserResponse(users);
+        })
   }
 }
